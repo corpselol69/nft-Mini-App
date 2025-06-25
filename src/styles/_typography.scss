@@ -1,0 +1,255 @@
+// AMOUNT SF
+@mixin amount-main-sf {
+  font-family: "SF Pro Rounded";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 48px;
+}
+
+@mixin amount-sub-sf {
+  font-family: "SF Pro Rounded";
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 40px; /* 125% */
+}
+
+// AMOUNT NN
+@mixin amount-main-nn {
+  font-family: "Nunito";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 48px; /* 120% */
+}
+
+@mixin amount-sub-nn {
+  font-family: "Nunito";
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px; /* 125% */
+}
+
+// TITLE SF
+@mixin title-l-sf {
+  font-family: "SF Pro Display";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+@mixin title-m-sf {
+  font-family: "SF Pro Display";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 120% */
+}
+
+@mixin title-s-sf {
+  font-family: "SF Pro Display";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 125% */
+}
+
+// TITLE NN
+@mixin title-l-rt {
+  font-family: "Roboto";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px; /* 116.667% */
+}
+
+@mixin title-m-rt {
+  font-family: "Roboto";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 120% */
+}
+
+@mixin title-s-rt {
+  font-family: "Roboto";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 125% */
+}
+
+// CAPTION SF
+@mixin caption-l-sf {
+  font-family: "SF Pro Display";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 112.5% */
+}
+
+@mixin caption-m-sf {
+  font-family: "SF Pro Display";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; /* 114.286% */
+}
+
+@mixin caption-s-sf {
+  font-family: "SF Pro Display";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 14px; /* 116.667% */
+}
+
+// CAPTION RT
+@mixin caption-l-rt {
+  font-family: "Roboto";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 112.5% */
+}
+
+@mixin caption-m-rt {
+  font-family: "Roboto";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; /* 114.286% */
+}
+
+@mixin caption-s-rt {
+  font-family: "Roboto";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 14px; /* 116.667% */
+}
+
+// BUTTON SF
+@mixin button-l-sf {
+  font-family: "SF Pro Display";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 112.5% */
+}
+
+@mixin button-m-sf {
+  font-family: "SF Pro Display";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; /* 114.286% */
+}
+
+@mixin button-s-sf {
+  font-family: "SF Pro Display";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 14px; /* 116.667% */
+}
+
+// BUTTON RT
+@mixin button-l-rt {
+  font-family: "Roboto";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 112.5% */
+}
+
+@mixin button-m-rt {
+  font-family: "Roboto";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; /* 114.286% */
+}
+
+@mixin button-s-rt {
+  font-family: "Roboto";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 14px; /* 116.667% */
+}
+
+// BODY SF
+@mixin body-l-sf {
+  font-family: "SF Pro Display";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px; /* 137.5% */
+}
+
+@mixin body-m-sf {
+  font-family: "SF Pro Display";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+}
+
+@mixin body-s-sf {
+  font-family: "SF Pro Display";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 133.333% */
+}
+
+// BODY RT
+@mixin body-l-rt {
+  font-family: "Roboto";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px; /* 137.5% */
+}
+
+@mixin body-m-rt {
+  font-family: "Roboto";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+}
+
+@mixin body-s-rt {
+  font-family: "Roboto";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 133.333% */
+}
+
+// Subheadline SF
+@mixin subheadline-sf {
+  font-family: "SF Pro Display";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 14px; /* 116.667% */
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+// Subheadline RT
+@mixin subheadline-rt {
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 14px; /* 116.667% */
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}

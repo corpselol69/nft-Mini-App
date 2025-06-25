@@ -1,0 +1,37 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.tabs {
+  display: flex;
+  padding: 2px;
+  align-items: center;
+  gap: 2px;
+  align-self: stretch;
+  border-radius: 999px;
+  background: $bg-static;
+
+  @include typography.button-m-rt;
+}
+
+.tab {
+  display: flex;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999px;
+  color: $typography-secondary;
+  flex: 1 0 0;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+
+  // backdrop-filter: blur(5px);
+
+  &:hover {
+    background: $bg-state;
+  }
+}
+
+.active {
+  background: $bg-state;
+  color: $typography-primary;
+}

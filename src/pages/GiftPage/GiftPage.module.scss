@@ -1,0 +1,11 @@
+@use "@/styles/variables";
+@use "@/styles/typography";
+
+.android {
+  font-size: 40px;
+  @include typography.amount-main-nn;
+}
+
+.ios {
+  @include typography.amount-main-sf;
+}

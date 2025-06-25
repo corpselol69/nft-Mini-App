@@ -1,0 +1,7 @@
+$ms100: 0.1s ease-out;
+$ms200: 0.2s ease-out;
+$ms300: 0.3s ease-out;
+
+@mixin scale-1 {
+  transform: scale(1.02);
+}

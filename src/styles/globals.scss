@@ -1,0 +1,111 @@
+@use "./_variables.scss" as *;
+@use "./_transitions.scss" as *;
+@use "./_typography.scss" as *;
+
+@font-face {
+  font-family: "SF Pro Rounded";
+  src: local("SF Pro Rounded"), local("SFProRounded-Regular"),
+    url("/assets/fonts/SFProRounded-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SF Pro Rounded";
+  src: local("SF Pro Rounded Bold"), local("SFProRounded-Bold"),
+    url("/assets/fonts/SFProRounded-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src: local("SF Pro Display"), local("SFProDisplay-Regular"),
+    url("/assets/fonts/SFProDisplay-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SF Pro Display";
+  src: local("SF Pro Display Bold"), local("SFProDisplay-Bold"),
+    url("/assets/fonts/SFProDisplay-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* 2) Google Fonts — подключаем CDN-линк в index.html                */
+/*    (Можно удалить, если скачиваешь файлы Nunito/Roboto локально)  */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@700&family=Roboto:wght@400;500&display=swap");
+
+:root {
+  // colors
+  --colors-accent: rgba(39, 143, 255, 1);
+  --colors-green: rgba(52, 199, 89, 1);
+  --colors-red: rgba(255, 59, 48, 1);
+  --colors-orange: rgba(255, 149, 0, 1);
+
+  // BG
+  --bg-main: rgba(19, 20, 22, 1);
+  --bg-modal: rgba(39, 39, 39, 1);
+  --bg-surface: rgba(58, 58, 58, 1);
+  --bg-static: rgba(24, 34, 44, 1);
+  --bg-dynamic: rgba(67, 120, 255, 0.1);
+  --bg-base-component: rgba(33, 33, 33, 1);
+  --bg-state: rgba(255, 255, 255, 0.1);
+  --bg-glass: rgba(65, 63, 64, 0.4);
+
+  // Typography
+  --typography-primary: rgba(255, 255, 255, 1);
+  --typography-secondary: rgba(255, 255, 255, 0.6);
+  --typography-tertriary: rgba(255, 255, 255, 0.4);
+  --typography-white: rgba(255, 255, 255, 1);
+
+  // stroke
+  --stroke-20: rgba(255, 255, 255, 0.2);
+  --stroke-10: rgba(255, 255, 255, 0.1);
+
+  --font-ui: "SF Pro Rounded", "SF Pro Display", "Nunito", "Roboto",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+:root[data-theme="light"] {
+}
+
+* {
+  //font-family: var(--font-ui);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  //font-variation-settings: 'opsz' 10;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
+html,
+body {
+  transition: background 0.3s ease-out;
+  width: 100%;
+  overflow-x: hidden;
+  color: var(--typography-primary);
+  margin: 0 auto;
+  background-color: var(--bg-main);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

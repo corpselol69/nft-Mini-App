@@ -1,0 +1,13 @@
+@use "@/styles/variables";
+@use "@/styles/typography";
+
+.root {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .title {
+    @include typography.title-l-sf;
+  }
+}

@@ -1,0 +1,43 @@
+@use "@/styles/variables";
+@use "@/styles/typography";
+
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.tabbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 6px 0;
+  background: var(--tg-surface-bg, #1f1f23);
+  border-top: 1px solid rgba(#fff, 0.08);
+
+  a {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: var(--tg-theme-text-secondary, #8f98a1);
+    text-decoration: none;
+    font-size: 12px;
+    padding: 4px 0;
+    transition: color 0.2s ease;
+
+    svg {
+      pointer-events: none;
+    }
+
+    &.active {
+      color: var(--tg-theme-button, #2a85ff);
+    }
+  }
+}
