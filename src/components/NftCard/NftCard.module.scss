@@ -1,0 +1,98 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.root {
+  background: $bg-static;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 181px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.pic {
+  aspect-ratio: 163/163;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 4px;
+}
+
+.textBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 2px;
+
+  @include typography.caption-l-sf;
+}
+
+.title {
+  @include typography.caption-l-sf;
+}
+
+.subtitle {
+  color: $typography-secondary;
+  @include typography.caption-s-sf;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  width: 100%;
+  justify-content: center;
+}
+
+.priceBtn {
+  display: flex;
+  align-items: center;
+  background: $colors-accent;
+  border-radius: 8px;
+  height: 32px;
+  min-width: 0;
+  flex: 1 1 0;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 12px;
+}
+
+.price {
+  @include typography.button-m-sf;
+}
+
+.tonIcon {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.cartBtn {
+  background: $bg-dynamic;
+  border-radius: 10px;
+  height: 32px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cartIcon img {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
