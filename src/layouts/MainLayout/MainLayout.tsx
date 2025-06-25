@@ -1,9 +1,7 @@
-import { Outlet, NavLink, useLocation } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 import styles from "./MainLayout.module.scss";
 
 export function MainLayout() {
-  const { pathname } = useLocation();
-
   return (
     <div className={styles.root}>
       <main className={styles.content}>
