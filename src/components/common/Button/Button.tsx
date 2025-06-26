@@ -1,7 +1,7 @@
-import { FC } from "react"
-import clsx from "clsx"
-import type { IButtonProps } from "./Button.d"
-import styles from "./Button.module.scss"
+import { FC } from "react";
+import clsx from "classnames";
+import type { IButtonProps } from "./Button.d";
+import styles from "./Button.module.scss";
 
 export const Button: FC<IButtonProps> = ({
   variant = "primary",
@@ -16,7 +16,6 @@ export const Button: FC<IButtonProps> = ({
   disabled,
   ...rest
 }) => {
-  const isIconOnly = !!iconOnly || !children
   return (
     <button
       className={clsx(
@@ -52,5 +51,5 @@ export const Button: FC<IButtonProps> = ({
         )}
       </>
     </button>
-  )
-}
+  );
+};
