@@ -3,12 +3,14 @@ import type { FC } from "react";
 import { Page } from "@/components/Page.tsx";
 
 import styles from "./MyNftPage.module.scss";
+import { Button } from "@/components/Button/Button";
 
 export const MyNftPage: FC = () => {
   return (
     <Page back={false}>
-      <div className={styles.ios}>Hello dвсiOS</div>
-      <div className={styles.android}>Hello Android</div>
+      <Button type="text" style={{ flex: 1 }} size="medium">
+        <span className={styles.price}>Button</span>
+      </Button>
     </Page>
   );
 };
