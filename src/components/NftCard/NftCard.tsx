@@ -1,12 +1,16 @@
-import React from "react";
-import tonIcon from "../../../assets/icons/icn-S_ton.svg";
-import addIcon from "../../../assets/icons/icn-add_shopping_cart.svg";
-import styles from "./NftCard.module.scss";
-import { Button } from "../Button/Button";
+import React from "react"
+import tonIcon from "../../../assets/icons/icn-S_ton.svg"
+import addIcon from "../../../assets/icons/icn-add_shopping_cart.svg"
+import styles from "./NftCard.module.scss"
+import { Button } from "../Button/Button"
 
-export const NftCard: React.FC = () => {
+type TProps = {
+  onClick: () => void
+}
+
+export const NftCard: React.FC<TProps> = ({ onClick }) => {
   return (
-    <div className={styles.root}>
+    <div className={styles.root} onClick={onClick}>
       <div
         className={styles.pic}
         style={{ backgroundImage: `url('img'), url('img1')` }}
@@ -27,5 +31,5 @@ export const NftCard: React.FC = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
