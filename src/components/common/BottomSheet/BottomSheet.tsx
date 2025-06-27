@@ -2,7 +2,7 @@ import { FC, useRef, useState } from "react"
 import ReactDOM from "react-dom"
 import { IBottomSheetProps } from "./BottomSheet.d"
 import styles from "./BottomSheet.module.scss"
-import clsx from "clsx"
+import clsx from "classnames"
 import { CloseIcon } from "./CloseIcon"
 import { ShareIcon } from "./ShareIcon"
 
