@@ -10,10 +10,11 @@ type TProps = {
 
 export const NftCard: React.FC<TProps> = ({ onClick }) => {
   return (
-    <div className={styles.root} onClick={onClick}>
+    <div className={styles.root}>
       <div
         className={styles.pic}
         style={{ backgroundImage: `url('img'), url('img1')` }}
+        onClick={onClick}
       />
       <div className={styles.content}>
         <div className={styles.textBlock}>

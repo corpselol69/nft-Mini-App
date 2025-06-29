@@ -1,0 +1,25 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.tooltip {
+  background: $bg-glass;
+  padding: 12px;
+  border-radius: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.16s;
+  position: absolute;
+  backdrop-filter: blur(20px);
+  width: 168px;
+}
+
+.tooltip.top::after,
+.tooltip.bottom::after,
+.tooltip.right::after,
+.tooltip.left::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+}

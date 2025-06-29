@@ -1,4 +1,6 @@
+import { Tooltip } from "@/components/common/Tooltip/Tooltip"
 import styles from "./NftDetailsTable.module.scss"
+import { QuestionMarkIcon } from "./QuestionMarkIcon"
 
 type NftDetailsProps = {
   collection: string
@@ -31,9 +33,27 @@ export const NftDetailsTable = ({
         <div className={styles.label}>Цена</div>
         <div className={`${styles.value} ${styles.priceRow}`}>
           <span>{price} TON</span>
-          {/* <button className={styles.iconButton}>
-            <Info size={12} />
-          </button> */}
+          <Tooltip
+            //TODO: переделать на нормальные данные
+            content={
+              <>
+                <div className={styles.tooltipWrapper}>
+                  <div className={styles.tooltipLabel}>Базовая цена</div>
+                  <div className={styles.tooltipValue}>{price} TON</div>
+                </div>
+                <div className={styles.tooltipWrapper}>
+                  <div className={styles.tooltipLabel}>Базовая цена</div>
+                  <div className={styles.tooltipValue}>{price} TON</div>
+                </div>
+                <div className={styles.tooltipWrapper}>
+                  <div className={styles.tooltipLabel}>Базовая цена</div>
+                  <div className={styles.tooltipValue}>{price} TON</div>
+                </div>
+              </>
+            }
+          >
+            <QuestionMarkIcon />
+          </Tooltip>
         </div>
       </div>
     </div>
