@@ -1,6 +1,6 @@
 import React from "react"
-import styles from "./NftGrid.module.scss"
-import { NftCard } from "../NftCard/NftCard"
+import styles from "./GiftsGrid.module.scss"
+import { ItemCard } from "./ItemCard/ItemCard"
 
 // Пример данных для карточек
 const mockNfts = [
@@ -14,14 +14,14 @@ const mockNfts = [
 
 type TProps = {
   //FIXME: добавить нормальные типы
-  onNftClick: (nft: any) => void
+  onElementClick: (nft: any) => void
 }
 
-export const NftGrid: React.FC<TProps> = ({ onNftClick }) => {
+export const Grid: React.FC<TProps> = ({ onElementClick }) => {
   return (
     <div className={styles.grid}>
       {mockNfts.map(nft => (
-        <NftCard key={nft.id} onClick={() => onNftClick(nft)} />
+        <ItemCard onClick={() => onElementClick(nft)} />
       ))}
     </div>
   )

@@ -9,3 +9,16 @@
 .ios {
   @include typography.amount-main-sf;
 }
+
+.filterWrapper {
+  margin-bottom: 8px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+
+  justify-items: center;
+}
