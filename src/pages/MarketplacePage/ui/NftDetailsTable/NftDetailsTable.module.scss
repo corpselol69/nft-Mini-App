@@ -23,6 +23,9 @@
   align-self: center;
   background: $bg-surface;
   padding: 12px 8px 12px 12px;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .value {
@@ -49,6 +52,30 @@
   }
 }
 
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .row:not(:last-child) {
   border-bottom: 1px solid $stroke-20;
+}
+
+.tooltipWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tooltipWrapper:not(:last-child) {
+  margin-bottom: 6px;
+}
+
+.tooltipLabel {
+  @include typography.caption-s-sf;
+  color: $typography-secondary;
+}
+
+.tooltipValue {
+  @include typography.caption-s-sf;
 }
