@@ -1,12 +1,13 @@
-import React from "react"
-import tonIcon from "../../../assets/icons/icn-S_ton.svg"
-import addIcon from "../../../assets/icons/icn-add_shopping_cart.svg"
-import styles from "./NftCard.module.scss"
-import { Button } from "../Button/Button"
+import React from "react";
+import tonIcon from "@/static/icons/icn-S_ton.svg";
+import addIcon from "@/static/icons/shopping_cart.svg";
+import styles from "./NftCard.module.scss";
+import { Button } from "../Button/Button";
+import Icon from "../common/Icon/Icon";
 
 type TProps = {
-  onClick: () => void
-}
+  onClick: () => void;
+};
 
 export const NftCard: React.FC<TProps> = ({ onClick }) => {
   return (
@@ -24,7 +25,7 @@ export const NftCard: React.FC<TProps> = ({ onClick }) => {
         <div className={styles.actions}>
           <Button color="accent" style={{ flex: 1 }}>
             95
-            <img className={styles.tonIcon} src={tonIcon} alt="TON" />
+            <Icon src={tonIcon} className={styles.tonIcon} />
           </Button>
           <Button type="secondary">
             <img src={addIcon} alt="Add to cart" />
@@ -32,5 +33,5 @@ export const NftCard: React.FC<TProps> = ({ onClick }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

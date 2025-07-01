@@ -1,12 +1,12 @@
-import { FC } from "react"
-import { NftBottomSheetProps } from "../../model/types"
-import styles from "./NftBottomSheet.module.scss"
-import { NftDetailsTable } from "../NftDetailsTable/NftDetailsTable"
-import { Button } from "@/components/Button/Button"
-import clsx from "classnames"
-import shoppingCart from "../../../../../assets/icons/shopping_cart.svg"
-import tonIcon from "../../../../../assets/icons/icn-S_ton.svg"
-import monkeyImg from "../../../../../assets/monkey.png"
+import { FC } from "react";
+import { NftBottomSheetProps } from "../../model/types";
+import styles from "./NftBottomSheet.module.scss";
+import { NftDetailsTable } from "../NftDetailsTable/NftDetailsTable";
+import { Button } from "@/components/Button/Button";
+import clsx from "classnames";
+import shoppingCart from "@/static/icons/shopping_cart.svg";
+import tonIcon from "@/static/icons/icn-S_ton.svg";
+import monkeyImg from "../../../../../assets/monkey.png";
 
 export const NftBottomSheet: FC<NftBottomSheetProps> = ({
   //availableBalance,
@@ -17,10 +17,10 @@ export const NftBottomSheet: FC<NftBottomSheetProps> = ({
   price,
 }) => {
   //TODO: добавить логику проверки на наличие в корзине
-  const isInCart = true
+  const isInCart = true;
   //TODO: вынести текстовки в i18n
   const getCartButtonText = () =>
-    isInCart ? "Удалить из корзины" : "Добавить в корзину"
+    isInCart ? "Удалить из корзины" : "Добавить в корзину";
   return (
     <div className={styles.contentWrapper}>
       <div className={styles.imageWrapper}>
@@ -78,5 +78,5 @@ export const NftBottomSheet: FC<NftBottomSheetProps> = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
