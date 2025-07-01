@@ -7,6 +7,11 @@
   flex-direction: column;
   gap: 16px;
   color: $typography-primary;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
   .title {
     @include typography.title-l-sf;
   }
@@ -22,4 +27,16 @@
       gap: 8px;
     }
   }
+}
+
+.buttonWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button_content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

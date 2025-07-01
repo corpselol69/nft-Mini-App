@@ -5,11 +5,30 @@ import styles from "./MarketplacePage.module.scss";
 import { t } from "i18next";
 
 import { Outlet } from "react-router-dom";
+import { Button } from "@/components/Button/Button";
+import Icon from "@/components/common/Icon/Icon";
+import tonIcon from "@/static/icons/icn-S_ton.svg";
+import shoppingCart from "@/static/icons/shopping_cart.svg";
 
 export const MarketplacePage: FC = () => {
   return (
     <div className={styles.root}>
-      <p className={styles.title}>{t("market")}</p>
+      <div className={styles.header}>
+        <p className={styles.title}>{t("market")}</p>
+        <div className={styles.buttonWrapper}>
+          <Button type="secondary" size="medium">
+            <div className={styles.button_content}>
+              95.4
+              <Icon src={tonIcon} color="active" />
+            </div>
+          </Button>
+          <Button type="secondary" size="medium">
+            <div className={styles.button_content}>
+              <Icon src={shoppingCart} color="active" /> 3
+            </div>
+          </Button>
+        </div>
+      </div>
       <Tabs>
         <Tab to="/market/stickers">{t("stickers")}</Tab>
         <Tab to="/market/gifts">{t("gifts")}</Tab>
