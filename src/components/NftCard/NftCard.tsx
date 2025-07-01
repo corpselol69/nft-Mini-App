@@ -1,6 +1,7 @@
 import React from "react";
 import tonIcon from "@/static/icons/icn-S_ton.svg";
 import addIcon from "@/static/icons/shopping_cart.svg";
+import monkey from "../../../assets/monkey.png";
 import styles from "./NftCard.module.scss";
 import { Button } from "../Button/Button";
 import Icon from "../common/Icon/Icon";
@@ -14,7 +15,7 @@ export const NftCard: React.FC<TProps> = ({ onClick }) => {
     <div className={styles.root}>
       <div
         className={styles.pic}
-        style={{ backgroundImage: `url('img'), url('img1')` }}
+        style={{ backgroundImage: `url(${monkey})` }}
         onClick={onClick}
       />
       <div className={styles.content}>
