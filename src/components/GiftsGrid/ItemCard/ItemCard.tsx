@@ -1,12 +1,12 @@
-import React from "react"
-import styles from "./ItemCard.module.scss"
-import { Button } from "../../Button/Button"
-import { TonIcon } from "./TonIcon"
-import snowImg from "../../../../assets/snow.png"
+import React from "react";
+import styles from "./ItemCard.module.scss";
+import { Button } from "../../Button/Button";
+import { TonIcon } from "./TonIcon";
+import snowImg from "../../../../assets/monkey.png";
 
 type TProps = {
-  onClick: () => void
-}
+  onClick: () => void;
+};
 
 export const ItemCard: React.FC<TProps> = ({ onClick }) => {
   return (
@@ -28,5 +28,5 @@ export const ItemCard: React.FC<TProps> = ({ onClick }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
