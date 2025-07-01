@@ -9,7 +9,7 @@ import { EnvUnsupported } from "@/components/EnvUnsupported.tsx";
 import { init } from "@/init.ts";
 import { initI18n } from "@/i18n";
 
-import { retrieveLaunchParams } from "@telegram-apps/sdk-react";
+import { retrieveLaunchParams, viewport } from "@telegram-apps/sdk";
 import "./mockEnv.ts";
 
 try {
@@ -28,6 +28,10 @@ try {
     }),
     initI18n(), // ждём локализацию
   ]);
+
+  // if (viewport) {
+  //   viewport.requestFullscreen();
+  // }
 
   const root = ReactDOM.createRoot(document.getElementById("root")!);
 

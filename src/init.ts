@@ -12,7 +12,8 @@ import {
   retrieveLaunchParams,
   emitEvent,
   miniApp,
-} from "@telegram-apps/sdk-react";
+  viewport,
+} from "@telegram-apps/sdk";
 
 /**
  * Initializes the application and configures its dependencies.
