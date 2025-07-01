@@ -1,4 +1,4 @@
-@use "@/styles/variables";
+@use "@/styles/variables" as *;
 @use "@/styles/typography";
 
 .root {
@@ -9,17 +9,17 @@
 
 .content {
   flex: 1;
-  padding-top: 100px;
   overflow-y: auto;
 }
 
 .tabbar {
   display: flex;
+  width: 402px;
+  padding: 4px 16px 25px 16px;
+  justify-content: center;
   align-items: center;
-  justify-content: space-around;
-  padding: 6px 0;
-  background: var(--tg-surface-bg, #1f1f23);
-  border-top: 1px solid rgba(#fff, 0.08);
+  gap: 8px;
+  border-radius: 16px 16px 0px 0px;
 
   a {
     flex: 1;
@@ -33,12 +33,18 @@
     padding: 4px 0;
     transition: color 0.2s ease;
 
+    font-family: "SF Pro Display";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%; /* 14.4px */
+
     svg {
       pointer-events: none;
     }
 
     &.active {
-      color: var(--tg-theme-button, #2a85ff);
+      color: $colors-accent;
     }
   }
 }
