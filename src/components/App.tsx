@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { RouterProvider } from "react-router-dom";
 import { retrieveLaunchParams, isMiniAppDark } from "@telegram-apps/sdk";
 import { signal } from "@telegram-apps/signals";

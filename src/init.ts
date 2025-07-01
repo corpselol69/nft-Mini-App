@@ -12,7 +12,6 @@ import {
   retrieveLaunchParams,
   emitEvent,
   miniApp,
-  viewport,
 } from "@telegram-apps/sdk";
 
 /**

@@ -9,7 +9,7 @@ import { EnvUnsupported } from "@/components/EnvUnsupported.tsx";
 import { init } from "@/init.ts";
 import { initI18n } from "@/i18n";
 
-import { retrieveLaunchParams, viewport } from "@telegram-apps/sdk";
+import { retrieveLaunchParams } from "@telegram-apps/sdk";
 import "./mockEnv.ts";
 
 try {
