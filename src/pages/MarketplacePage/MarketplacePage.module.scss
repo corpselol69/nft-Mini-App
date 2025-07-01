@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-
+  color: $typography-primary;
   .title {
     @include typography.title-l-sf;
   }
