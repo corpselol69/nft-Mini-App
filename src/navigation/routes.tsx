@@ -1,4 +1,3 @@
-// app/router.tsx
 import { createHashRouter, Navigate } from "react-router-dom";
 import { MarketplacePage } from "@/pages/MarketplacePage/MarketplacePage";
 import { MyNftPage } from "@/pages/MyNftPage/MyNftPage";
@@ -17,7 +16,7 @@ export const router = createHashRouter([
         path: "market",
         element: <MarketplacePage />,
         children: [
-          { index: true, element: <StickersGrid /> },
+          { index: true, element: <Navigate to="stickers" replace /> },
           { path: "stickers", element: <StickersGrid /> },
           { path: "gifts", element: <GiftsGrid /> },
 
