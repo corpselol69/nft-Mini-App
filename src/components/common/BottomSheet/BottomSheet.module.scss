@@ -20,6 +20,9 @@
 
 .sheet {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   width: 100%;
   max-width: 600px;
   min-height: 120px;
@@ -71,11 +74,9 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  margin-bottom: 12px;
 }
 
 .iconRow {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 12px;
 }
