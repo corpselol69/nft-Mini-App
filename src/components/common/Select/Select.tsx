@@ -3,6 +3,8 @@ import { ISelectProps } from "./Select.d";
 import clsx from "classnames";
 import styles from "./Select.module.scss";
 import { ExpandIcon } from "./ExpandIcon";
+import unionIcon from "@/static/icons/union.svg";
+import Icon from "../Icon/Icon";
 
 export const Select: FC<ISelectProps> = ({
   options,
@@ -73,7 +75,7 @@ export const Select: FC<ISelectProps> = ({
               key={opt.value}
               className={clsx(
                 styles.option,
-                value === opt.value && styles.optionSelected
+                internalValue === opt.value && styles.optionSelected
               )}
               onClick={(e) => {
                 e.stopPropagation();
@@ -81,6 +83,7 @@ export const Select: FC<ISelectProps> = ({
               }}
             >
               {opt.label}
+              {internalValue === opt.value && <Icon src={unionIcon}></Icon>}
             </div>
           ))}
         </div>
