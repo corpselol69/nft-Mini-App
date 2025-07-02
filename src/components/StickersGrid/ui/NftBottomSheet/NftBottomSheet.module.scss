@@ -4,6 +4,7 @@
 .contentWrapper {
   display: flex;
   flex-direction: column;
+  padding-bottom: 37px;
 }
 
 .imageWrapper {
@@ -51,17 +52,7 @@
     display: flex;
     gap: 8px;
     .mainCartButton {
-      width: 320px;
-      min-width: 0;
-      padding: 0;
-      flex-shrink: 0;
-    }
-
-    .priceButton {
-      flex-grow: 1;
-      width: auto;
-      min-width: 0;
-      padding: 0; // настройте по вкусу
+      flex: 1;
     }
 
     .inCartText {
