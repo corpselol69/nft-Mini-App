@@ -5,12 +5,12 @@ import styles from "./BottomSheet.module.scss";
 import clsx from "classnames";
 import { CloseIcon } from "./CloseIcon";
 import { ShareIcon } from "./ShareIcon";
-import { Button } from "@/components/Button/Button";
 
 export const BottomSheet: FC<IBottomSheetProps> = ({
   onClose,
   open,
   children,
+  renderLeftHeader,
 }) => {
   const [dragY, setDragY] = useState(0);
   const [closing, setClosing] = useState(false);
@@ -74,11 +74,13 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         />
-        <div className={styles.iconsRow}>
-          <Button type="icon">
-            <ShareIcon />
-          </Button>
-
+        <div
+          className={clsx(
+            renderLeftHeader?.() && styles.iconsRow,
+            !renderLeftHeader?.() && styles.iconRow
+          )}
+        >
+          {renderLeftHeader?.()}
           <CloseIcon onClick={doClose} />
         </div>
         <div>{children}</div>

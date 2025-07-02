@@ -5,7 +5,6 @@
   position: fixed;
   z-index: 100;
   inset: 0 0 0 0;
-  //   background: rgba(0, 0, 0, 0.35);
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -55,5 +54,11 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
+  margin-bottom: 12px;
+}
+
+.iconRow {
+  display: flex;
+  justify-content: flex-end;
   margin-bottom: 12px;
 }

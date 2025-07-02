@@ -10,6 +10,7 @@ import { SELECT_DATA } from "@/components/StickersGrid/model/const"
 import { BottomSheet } from "../common/BottomSheet/BottomSheet"
 import { SearchIcon } from "../common/icons/SearchIcon"
 import { NftGrid } from "../NftGrid/NftGrid"
+import { ShareIcon } from "../common/BottomSheet/ShareIcon"
 
 export const StickersGrid: FC = () => {
   const [value, setValue] = useState("")
@@ -34,6 +35,7 @@ export const StickersGrid: FC = () => {
         <BottomSheet
           open={!!selectedNftCard}
           onClose={() => setSelectedNftCard(undefined)}
+          renderLeftHeader={() => <ShareIcon />}
         >
           <NftBottomSheet
             availableBalance="12,4"
