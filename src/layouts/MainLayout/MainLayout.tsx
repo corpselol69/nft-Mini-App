@@ -11,6 +11,7 @@ import Icon from "@/components/common/Icon/Icon";
 
 export function MainLayout() {
   const [paddingTop, setPaddingTop] = useState(0);
+  const [paddingBottom, setPaddingBottom] = useState(0);
   const [activeTab, setActiveTab] = useState<"market" | "my-nft" | "profile">(
     "market"
   );
@@ -20,6 +21,7 @@ export function MainLayout() {
       const safeArea = viewport.safeAreaInsets();
       const totalPadding = safeArea.top + safeArea.bottom;
       setPaddingTop(totalPadding);
+      setPaddingBottom(safeArea.bottom);
     }
 
     swipeBehavior.mount.ifAvailable();
@@ -34,7 +36,11 @@ export function MainLayout() {
         <Outlet />
       </main>
 
-      <nav className={styles.tabbar} aria-label="Bottom navigation">
+      <nav
+        className={styles.tabbar}
+        style={{ paddingBottom }}
+        aria-label="Bottom navigation"
+      >
         <NavLink
           to="/market"
           className={({ isActive }) => (isActive ? styles.active : undefined)}
