@@ -1,9 +1,108 @@
-.detailGiftSheetImageWrapper {
-  position: relative;
-  width: 210px;
-  height: 210px;
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
 
-  .detailGiftSheetImageText {
-    position: absolute;
+.detailGiftSheet {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .detailGiftSheetImageWrapper {
+    position: relative;
+    width: 210px;
+    height: 210px;
+    margin: 0 auto;
+    img {
+      border-radius: 24px;
+    }
+    .detailGiftSheetImageText {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+
+      .detailGiftSheetName {
+        color: $typography-primary;
+        @include typography.title-m-sf;
+      }
+
+      .detailGiftSheetSubName {
+        text-align: center;
+        color: $typography-secondary;
+        @include typography.caption-s-sf;
+      }
+    }
   }
+  .detailGiftSheetActions {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    justify-content: space-between;
+    .flexItem {
+      flex: 1 1 0%;
+      min-width: 0;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      color: $colors-accent;
+      @include typography.button-s-sf;
+    }
+  }
+
+  .availableBalanceWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    @include typography.caption-l-sf;
+    margin-bottom: 8px;
+    .availableBalanceValue {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+  }
+  .detailTableValueWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    .detailTableValueText {
+      color: $colors-accent;
+      @include typography.caption-l-sf;
+    }
+  }
+
+  .priceRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    @include typography.caption-l-sf;
+  }
+  .actionButtonsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.tooltipWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tooltipWrapper:not(:last-child) {
+  margin-bottom: 6px;
+}
+.tooltipLabel {
+  @include typography.caption-s-sf;
+  color: $typography-secondary;
+}
+
+.tooltipValue {
+  @include typography.caption-s-sf;
 }

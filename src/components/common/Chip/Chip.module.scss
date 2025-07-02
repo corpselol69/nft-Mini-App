@@ -1,0 +1,10 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.chipWrapper {
+  background: $bg-dynamic;
+  padding: 0 5px;
+  @include typography.caption-s-sf;
+  color: $colors-accent;
+  border-radius: 20px;
+}
