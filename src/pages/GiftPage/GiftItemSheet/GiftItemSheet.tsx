@@ -2,7 +2,7 @@ import React, { ReactNode, useMemo } from "react";
 import { t } from "i18next";
 // import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { IGiftItem } from "@/components/GiftsGrid/types";
-import bdayImg from "../../../../assets/bday.png";
+import bdayImg from "@/static/placeholders/bday.png";
 import styles from "./GiftItemSheet.module.scss";
 import { GIFT_ACTIONS } from "../model/const";
 import { ActionButton } from "../ui/ActionButton/ActionButton";
