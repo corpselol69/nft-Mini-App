@@ -4,7 +4,7 @@ import storeIcon from "@/static/icons/store.svg";
 import cardsIcon from "@/static/icons/cards_star.svg";
 
 import { t } from "i18next";
-import { miniApp, viewport } from "@telegram-apps/sdk";
+import { miniApp, swipeBehavior, viewport } from "@telegram-apps/sdk";
 
 import styles from "./MainLayout.module.scss";
 import Icon from "@/components/common/Icon/Icon";
@@ -20,6 +20,11 @@ export function MainLayout() {
       const safeArea = viewport.safeAreaInsets();
       const totalPadding = safeArea.top + safeArea.bottom;
       setPaddingTop(totalPadding);
+    }
+
+    swipeBehavior.mount.ifAvailable();
+    if (swipeBehavior.isMounted()) {
+      swipeBehavior.disableVertical();
     }
   }, []);
 
