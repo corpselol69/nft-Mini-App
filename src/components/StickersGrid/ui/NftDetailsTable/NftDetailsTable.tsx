@@ -1,6 +1,8 @@
 import { Tooltip } from "@/components/common/Tooltip/Tooltip"
 import styles from "./NftDetailsTable.module.scss"
 import { QuestionMarkIcon } from "./QuestionMarkIcon"
+import { useMemo } from "react"
+import { DetailsTable } from "@/components/common/DetailsTable/DetailsTable"
 
 type NftDetailsProps = {
   collection: string
@@ -15,47 +17,39 @@ export const NftDetailsTable = ({
   issued,
   price,
 }: NftDetailsProps) => {
-  return (
-    <div className={styles.table}>
-      <div className={styles.row}>
-        <div className={styles.label}>Коллекция</div>
-        <div className={styles.value}>{collection}</div>
-      </div>
-      <div className={styles.row}>
-        <div className={styles.label}>Номер</div>
-        <div className={styles.value}>{number}</div>
-      </div>
-      <div className={styles.row}>
-        <div className={styles.label}>Выпущено</div>
-        <div className={styles.value}>{issued}</div>
-      </div>
-      <div className={styles.row}>
-        <div className={styles.label}>Цена</div>
-        <div className={`${styles.value} ${styles.priceRow}`}>
-          <span>{price} TON</span>
-          <Tooltip
-            //TODO: переделать на нормальные данные
-            content={
-              <>
-                <div className={styles.tooltipWrapper}>
-                  <div className={styles.tooltipLabel}>Базовая цена</div>
-                  <div className={styles.tooltipValue}>{price} TON</div>
-                </div>
-                <div className={styles.tooltipWrapper}>
-                  <div className={styles.tooltipLabel}>Базовая цена</div>
-                  <div className={styles.tooltipValue}>{price} TON</div>
-                </div>
-                <div className={styles.tooltipWrapper}>
-                  <div className={styles.tooltipLabel}>Базовая цена</div>
-                  <div className={styles.tooltipValue}>{price} TON</div>
-                </div>
-              </>
-            }
-          >
-            <QuestionMarkIcon />
-          </Tooltip>
-        </div>
-      </div>
-    </div>
+  const priceContent = (
+    <span className={styles.priceRow}>
+      <span>{price} TON</span>
+      <Tooltip
+        content={
+          <>
+            <div className={styles.tooltipWrapper}>
+              <div className={styles.tooltipLabel}>Базовая цена</div>
+              <div className={styles.tooltipValue}>{price} TON</div>
+            </div>
+            <div className={styles.tooltipWrapper}>
+              <div className={styles.tooltipLabel}>Цена с комиссией</div>
+              <div className={styles.tooltipValue}>{price} TON</div>
+            </div>
+            <div className={styles.tooltipWrapper}>
+              <div className={styles.tooltipLabel}>Цена продажи</div>
+              <div className={styles.tooltipValue}>{price} TON</div>
+            </div>
+          </>
+        }
+      >
+        <QuestionMarkIcon />
+      </Tooltip>
+    </span>
   )
+
+  const rows = useMemo(() => {
+    return [
+      { label: "Коллекция", value: collection },
+      { label: "Номер", value: number },
+      { label: "Выпущено", value: issued },
+      { label: "Цена", value: priceContent },
+    ]
+  }, [])
+  return <DetailsTable rows={rows} />
 }
