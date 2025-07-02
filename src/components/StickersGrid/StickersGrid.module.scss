@@ -1,4 +1,4 @@
-@use "@/styles/variables";
+@use "@/styles/variables" as *;
 @use "@/styles/typography";
 
 .filterWrapper {
@@ -15,4 +15,9 @@
       @include typography.caption-s-sf;
     }
   }
+}
+
+.shareButton {
+  background-color: $bg-glass;
+  border-radius: 32px;
 }

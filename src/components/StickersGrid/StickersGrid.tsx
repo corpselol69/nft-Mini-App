@@ -1,20 +1,23 @@
-import { useState, type FC } from "react"
+import { useState, type FC } from "react";
 
-import { Page } from "@/components/Page.tsx"
+import { Page } from "@/components/Page.tsx";
 
-import styles from "./StickersGrid.module.scss"
-import { Select } from "../common/Select/Select"
-import { Input } from "../common/Input/Input"
-import { NftBottomSheet } from "@/components/StickersGrid/ui/NftBottomSheet/NftBottomSheet"
-import { SELECT_DATA } from "@/components/StickersGrid/model/const"
-import { BottomSheet } from "../common/BottomSheet/BottomSheet"
-import { SearchIcon } from "../common/icons/SearchIcon"
-import { NftGrid } from "../NftGrid/NftGrid"
-import { ShareIcon } from "../common/BottomSheet/ShareIcon"
+import styles from "./StickersGrid.module.scss";
+import { Select } from "../common/Select/Select";
+import { Input } from "../common/Input/Input";
+import { NftBottomSheet } from "@/components/StickersGrid/ui/NftBottomSheet/NftBottomSheet";
+import { SELECT_DATA } from "@/components/StickersGrid/model/const";
+import { BottomSheet } from "../common/BottomSheet/BottomSheet";
+import { SearchIcon } from "../common/icons/SearchIcon";
+import { NftGrid } from "../NftGrid/NftGrid";
+import shareIcon from "@/static/icons/shareIcon.svg";
+import { shareURL } from "@telegram-apps/sdk";
+import Icon from "../common/Icon/Icon";
+import { Button } from "@/components/Button/Button";
 
 export const StickersGrid: FC = () => {
-  const [value, setValue] = useState("")
-  const [selectedNftCard, setSelectedNftCard] = useState()
+  const [value, setValue] = useState("");
+  const [selectedNftCard, setSelectedNftCard] = useState();
 
   return (
     <Page back={false}>
@@ -35,7 +38,22 @@ export const StickersGrid: FC = () => {
         <BottomSheet
           open={!!selectedNftCard}
           onClose={() => setSelectedNftCard(undefined)}
-          renderLeftHeader={() => <ShareIcon />}
+          renderLeftHeader={() => (
+            <Button
+              type="icon"
+              className={styles.shareButton}
+              onClick={() => {
+                if (shareURL.isAvailable()) {
+                  shareURL(
+                    "https://t.me/d33sf0me",
+                    "Check out this cool sticker!"
+                  );
+                }
+              }}
+            >
+              <Icon src={shareIcon} />
+            </Button>
+          )}
         >
           <NftBottomSheet
             availableBalance="12,4"
@@ -48,5 +66,5 @@ export const StickersGrid: FC = () => {
         </BottomSheet>
       </div>
     </Page>
-  )
-}
+  );
+};
