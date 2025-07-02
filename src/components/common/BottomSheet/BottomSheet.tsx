@@ -29,7 +29,7 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
       setDragY(0);
       setClosing(false);
       onClose();
-    }, 650);
+    }, 350);
   };
 
   const onTouchStart = (e: React.TouchEvent<HTMLElement>) => {
@@ -67,7 +67,9 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
     >
       <div
         className={clsx(styles.sheet, closing && styles.closing)}
-        style={{ transform: dragY > 0 ? `translateY(${dragY}px)` : undefined }}
+        style={{
+          transform: dragY > 0 ? `translateY(${dragY * 3}px)` : undefined,
+        }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
