@@ -4,7 +4,6 @@ import { IBottomSheetProps } from "./BottomSheet.d";
 import styles from "./BottomSheet.module.scss";
 import clsx from "classnames";
 import { CloseIcon } from "./CloseIcon";
-import { ShareIcon } from "./ShareIcon";
 
 export const BottomSheet: FC<IBottomSheetProps> = ({
   onClose,
@@ -30,7 +29,7 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
       setDragY(0);
       setClosing(false);
       onClose();
-    }, 180);
+    }, 650);
   };
 
   const onTouchStart = (e: React.TouchEvent<HTMLElement>) => {
@@ -62,18 +61,19 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
   //   }
 
   const content = (
-    <div className={styles.overlay} onClick={doClose}>
+    <div
+      className={clsx(styles.overlay, closing && styles.hidden)}
+      onClick={doClose}
+    >
       <div
-        className={clsx(styles.sheet, closing && styles.sheetClosing)}
+        className={clsx(styles.sheet, closing && styles.closing)}
         style={{ transform: dragY > 0 ? `translateY(${dragY}px)` : undefined }}
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
       >
-        <div
-          className={styles.dragHandle}
-          onTouchStart={onTouchStart}
-          onTouchMove={onTouchMove}
-          onTouchEnd={onTouchEnd}
-        />
+        <div className={styles.dragHandle} />
         <div
           className={clsx(
             renderLeftHeader?.() && styles.iconsRow,
