@@ -54,7 +54,11 @@ export const NftBottomSheet: FC<NftBottomSheetProps> = ({
           })}
         >
           {/*TODO: поправить паддинги у кнопок*/}
-          <Button type="secondary" className={styles.mainCartButton}>
+          <Button
+            type="secondary"
+            size="large"
+            className={styles.mainCartButton}
+          >
             <span
               className={clsx({
                 [styles.inCartText]: isInCart,
@@ -65,13 +69,13 @@ export const NftBottomSheet: FC<NftBottomSheetProps> = ({
             </span>
           </Button>
           {isInCart && (
-            <Button type="secondary" className={styles.priceButton}>
+            <Button type="secondary" size="large">
               <img src={shoppingCart} alt="Add to cart" />
             </Button>
           )}
         </div>
         <div className={styles.buyButtonWrapper}>
-          <Button type="primary">
+          <Button type="primary" size="large">
             Купить за {price}
             <img src={tonIcon} />
           </Button>
