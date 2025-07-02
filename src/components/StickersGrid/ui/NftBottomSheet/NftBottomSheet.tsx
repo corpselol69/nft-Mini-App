@@ -6,7 +6,7 @@ import { Button } from "@/components/Button/Button";
 import clsx from "classnames";
 import shoppingCart from "@/static/icons/shopping_cart.svg";
 import tonIcon from "@/static/icons/icn-S_ton.svg";
-import monkeyImg from "../../../../../assets/monkey.png";
+import monkeyImg from "@/static/placeholders/monkey.png";
 
 export const NftBottomSheet: FC<NftBottomSheetProps> = ({
   //availableBalance,

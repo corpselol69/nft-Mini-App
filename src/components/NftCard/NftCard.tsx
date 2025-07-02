@@ -1,14 +1,14 @@
-import React from "react"
-import tonIcon from "@/static/icons/icn-S_ton.svg"
-import addIcon from "@/static/icons/shopping_cart.svg"
-import monkey from "../../../assets/monkey.png"
-import styles from "./NftCard.module.scss"
-import { Button } from "../Button/Button"
-import Icon from "../common/Icon/Icon"
+import React from "react";
+import tonIcon from "@/static/icons/icn-S_ton.svg";
+import addIcon from "@/static/icons/shopping_cart.svg";
+import monkey from "@/static/placeholders/monkey.png";
+import styles from "./NftCard.module.scss";
+import { Button } from "../Button/Button";
+import Icon from "../common/Icon/Icon";
 
 type TProps = {
-  onClick: () => void
-}
+  onClick: () => void;
+};
 
 //TODO: добавить нормальны пропы и вынести компонент в shared слой
 export const NftCard: React.FC<TProps> = ({ onClick }) => {
@@ -35,5 +35,5 @@ export const NftCard: React.FC<TProps> = ({ onClick }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
