@@ -1,14 +1,16 @@
-import React from "react";
-import styles from "./ItemCard.module.scss";
-import { Button } from "../../Button/Button";
-import { TonIcon } from "./TonIcon";
-import snowImg from "../../../../assets/monkey.png";
+import React from "react"
+import styles from "./ItemCard.module.scss"
+import { Button } from "../../Button/Button"
+import { TonIcon } from "./TonIcon"
+import snowImg from "../../../../assets/monkey.png"
+import { IGiftCard } from "../types"
 
 type TProps = {
-  onClick: () => void;
-};
+  onClick: () => void
+  item: IGiftCard
+}
 
-export const ItemCard: React.FC<TProps> = ({ onClick }) => {
+export const ItemCard: React.FC<TProps> = ({ onClick, item }) => {
   return (
     <div className={styles.root}>
       <div
@@ -18,15 +20,15 @@ export const ItemCard: React.FC<TProps> = ({ onClick }) => {
       />
       <div className={styles.content}>
         <div className={styles.textBlock}>
-          <div className={styles.title}>Bored Stickers</div>
+          <div className={styles.title}>{item.name}</div>
         </div>
         <div className={styles.actions}>
           <Button type="secondary">
-            от 95
+            от {item.price}
             <TonIcon />
           </Button>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

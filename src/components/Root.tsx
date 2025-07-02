@@ -1,11 +1,12 @@
-import { TonConnectUIProvider } from "@tonconnect/ui-react";
+import { TonConnectUIProvider } from "@tonconnect/ui-react"
 
-import { App } from "@/components/App.tsx";
-import { ErrorBoundary } from "@/components/ErrorBoundary.tsx";
-import { publicUrl } from "@/helpers/publicUrl.ts";
+import { App } from "@/components/App.tsx"
+import { ErrorBoundary } from "@/components/ErrorBoundary.tsx"
+import { publicUrl } from "@/helpers/publicUrl.ts"
 
-import { I18nextProvider } from "react-i18next";
-import i18n from "@/i18n";
+import { I18nextProvider } from "react-i18next"
+import i18n from "@/i18n"
+import { BottomSheetProvider } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 
 function ErrorBoundaryError({ error }: { error: unknown }) {
   return (
@@ -21,7 +22,7 @@ function ErrorBoundaryError({ error }: { error: unknown }) {
         </code>
       </blockquote>
     </div>
-  );
+  )
 }
 
 export function Root() {
@@ -31,9 +32,11 @@ export function Root() {
         <TonConnectUIProvider
           manifestUrl={publicUrl("tonconnect-manifest.json")}
         >
-          <App />
+          <BottomSheetProvider>
+            <App />
+          </BottomSheetProvider>
         </TonConnectUIProvider>
       </I18nextProvider>
     </ErrorBoundary>
-  );
+  )
 }

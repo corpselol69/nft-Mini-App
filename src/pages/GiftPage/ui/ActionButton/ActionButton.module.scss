@@ -1,0 +1,7 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.actionButtonWrapper {
+  padding: 12px;
+  background: $bg-dynamic;
+}

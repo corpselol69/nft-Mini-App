@@ -4,12 +4,12 @@ import { IBottomSheetProps } from "./BottomSheet.d"
 import styles from "./BottomSheet.module.scss"
 import clsx from "classnames"
 import { CloseIcon } from "./CloseIcon"
-import { ShareIcon } from "./ShareIcon"
 
 export const BottomSheet: FC<IBottomSheetProps> = ({
   onClose,
   open,
   children,
+  renderLeftHeader,
 }) => {
   const [dragY, setDragY] = useState(0)
   const [closing, setClosing] = useState(false)
@@ -54,12 +54,6 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
     touchStartRef.current = null
   }
 
-  //TODO: допилить функционал вызова виджета отправки сообщения
-  //   const shareWithContacts = async () => {
-  //     if (navigator.canShare()) {
-  //     }
-  //   }
-
   const content = (
     <div className={styles.overlay} onClick={doClose}>
       <div
@@ -73,8 +67,13 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         />
-        <div className={styles.iconsRow}>
-          <ShareIcon />
+        <div
+          className={clsx(
+            renderLeftHeader?.() && styles.iconsRow,
+            !renderLeftHeader?.() && styles.iconRow
+          )}
+        >
+          {renderLeftHeader?.()}
           <CloseIcon onClick={doClose} />
         </div>
         <div>{children}</div>
