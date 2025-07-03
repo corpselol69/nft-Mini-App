@@ -6,17 +6,9 @@ import styles from "./GiftsGrid.module.scss";
 import searchIcon from "@/static/icons/searchIcon.svg";
 import { Input } from "../common/Input/Input";
 import { Grid } from "./Grid";
-import { useNavigate } from "react-router-dom";
 import Icon from "../common/Icon/Icon";
 
 export const GiftsGrid: FC = () => {
-  const navigate = useNavigate();
-
-  const handleCategoryClick = useCallback(
-    (id: string) => navigate(`/gifts/${id}`),
-    []
-  );
-
   return (
     <Page back={false}>
       <div>
@@ -27,7 +19,7 @@ export const GiftsGrid: FC = () => {
           />
         </div>
 
-        <Grid onGiftCategoryClick={({ id }) => handleCategoryClick(id)} />
+        <Grid />
       </div>
     </Page>
   );

@@ -1,22 +1,25 @@
 import React from "react";
 import styles from "./ItemCard.module.scss";
 import { Button } from "@/components/common/Button/Button";
-import { TonIcon } from "./TonIcon";
+import tonIcon from "@/static/icons/icn-S_ton.svg";
 import snowImg from "@/static/placeholders/snow.png";
 import { IGiftCard } from "../types";
+import Icon from "@/components/common/Icon/Icon";
+import { NavLink } from "react-router-dom";
 
 type TProps = {
-  onClick: () => void;
   item: IGiftCard;
 };
 
-export const ItemCard: React.FC<TProps> = ({ onClick, item }) => {
+export const ItemCard: React.FC<TProps> = ({ item }) => {
   return (
-    <div className={styles.root}>
+    <NavLink to={`/market/gifts/${item.id}`} className={styles.root}>
       <div
         className={styles.pic}
-        style={{ backgroundImage: `url(${snowImg})`, backgroundSize: "165px" }}
-        onClick={onClick}
+        style={{
+          backgroundImage: `url(${snowImg})`,
+          backgroundSize: "165px",
+        }}
       />
       <div className={styles.content}>
         <div className={styles.textBlock}>
@@ -25,10 +28,10 @@ export const ItemCard: React.FC<TProps> = ({ onClick, item }) => {
         <div className={styles.actions}>
           <Button type="secondary">
             от {item.price}
-            <TonIcon />
+            <Icon src={tonIcon} color="active" style={{ width: "16px" }} />
           </Button>
         </div>
       </div>
-    </div>
+    </NavLink>
   );
 };
