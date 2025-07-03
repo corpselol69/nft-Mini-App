@@ -1,7 +1,7 @@
 import Icon from "@/components/common/Icon/Icon"
 import telegramIcon from "@/static/icons/telegramIcon.svg"
 import statusIcon from "@/static/icons/statusIcon.svg"
-import searchIcon from "@/static/icons/searchIcon.svg"
+import shareIcon from "@/static/icons/shareIcon.svg"
 
 export const GIFT_ACTIONS = [
   {
@@ -19,7 +19,7 @@ export const GIFT_ACTIONS = [
     },
   },
   {
-    icon: <Icon src={searchIcon} />,
+    icon: <Icon src={shareIcon} />,
     label: "Поделиться",
     onClick: () => {
       alert("Поделиться")
