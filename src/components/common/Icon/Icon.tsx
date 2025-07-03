@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IIconProps } from "./Icon.d";
 import styles from "./Icon.module.scss";
 
-const Icon: React.FC<IIconProps> = ({
-  src,
-  color = "default",
-
-  ...rest
-}) => {
+const Icon: React.FC<IIconProps> = ({ src, color = "default", ...rest }) => {
   const [svgContent, setSvgContent] = useState<string | null>(null);
 
   useEffect(() => {
