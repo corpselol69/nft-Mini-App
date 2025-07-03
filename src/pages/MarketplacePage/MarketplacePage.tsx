@@ -1,4 +1,4 @@
-import { Tabs, Tab } from "@/components/Tabs/Tabs";
+import { Tabs, Tab } from "@/components/common/Tabs/Tabs";
 import { type FC } from "react";
 import styles from "./MarketplacePage.module.scss";
 
