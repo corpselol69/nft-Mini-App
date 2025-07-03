@@ -65,7 +65,8 @@
   background: $bg-dynamic;
   color: $colors-accent;
   padding: 12px;
-  height: fit-content;
+  height: 100%;
+  @include typography.button-s-sf;
 
   &:active {
     background: linear-gradient(0deg, $bg-state 0%, $bg-state 100%), $bg-dynamic;
@@ -115,4 +116,8 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
+
+  &.column {
+    flex-direction: column;
+  }
 }
