@@ -1,0 +1,19 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.tooltipWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tooltipWrapper:not(:last-child) {
+  margin-bottom: 6px;
+}
+.tooltipLabel {
+  @include typography.caption-s-sf;
+  color: $typography-secondary;
+}
+
+.tooltipValue {
+  @include typography.caption-s-sf;
+}

@@ -1,11 +1,25 @@
 @use "@/styles/variables";
 @use "@/styles/typography";
 
-.android {
-  font-size: 40px;
-  @include typography.amount-main-nn;
-}
+.root {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
-.ios {
-  @include typography.amount-main-sf;
+  .title {
+    @include typography.title-l-sf;
+  }
+
+  .filterWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .selectWrapper {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+    }
+  }
 }

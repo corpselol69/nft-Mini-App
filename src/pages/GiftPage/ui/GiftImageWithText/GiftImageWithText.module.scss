@@ -1,0 +1,32 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.detailGiftSheetImageWrapper {
+  position: relative;
+  width: 210px;
+  height: 210px;
+  margin: 0 auto;
+  img {
+    border-radius: 24px;
+  }
+  .detailGiftSheetImageText {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+
+    .detailGiftSheetName {
+      color: $typography-primary;
+      @include typography.title-m-sf;
+    }
+
+    .detailGiftSheetSubName {
+      text-align: center;
+      color: $typography-secondary;
+      @include typography.caption-s-sf;
+    }
+  }
+}

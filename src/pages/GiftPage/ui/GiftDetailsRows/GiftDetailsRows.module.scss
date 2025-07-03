@@ -1,0 +1,12 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.detailTableValueWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  .detailTableValueText {
+    color: $colors-accent;
+    @include typography.caption-l-sf;
+  }
+}

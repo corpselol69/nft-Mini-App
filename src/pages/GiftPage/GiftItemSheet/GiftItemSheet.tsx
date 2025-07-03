@@ -1,121 +1,67 @@
-import React, { ReactNode, useMemo } from "react";
-import { t } from "i18next";
-// import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
-import { IGiftItem } from "@/components/GiftsGrid/types";
-import bdayImg from "@/static/placeholders/bday.png";
-import styles from "./GiftItemSheet.module.scss";
-import { GIFT_ACTIONS } from "../model/const";
-import { ActionButton } from "../ui/ActionButton/ActionButton";
-import { DetailsTable } from "@/components/common/DetailsTable/DetailsTable";
-import { QuestionMarkIcon } from "@/components/StickersGrid/ui/NftDetailsTable/QuestionMarkIcon";
-import { Tooltip } from "@/components/common/Tooltip/Tooltip";
-import { Chip } from "@/components/common/Chip/Chip";
-import { Button } from "@/components/common/Button/Button";
-import tonIcon from "@/static/icons/icn-S_ton.svg";
+import React, { useMemo } from "react"
+import { t } from "i18next"
+import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
+import { IGiftItem } from "@/components/GiftsGrid/types"
+import bdayImg from "../../../../assets/bday.png"
+import styles from "./GiftItemSheet.module.scss"
+import { GIFT_ACTIONS } from "../model/const"
+import { ActionButton } from "../ui/ActionButton/ActionButton"
+import tonIcon from "@/static/icons/icn-S_ton.svg"
+import { Tooltip } from "@/components/common/Tooltip/Tooltip"
+import { QuestionMarkIcon } from "@/components/StickersGrid/ui/NftDetailsTable/QuestionMarkIcon"
+import { GiftPriceTooltipContent } from "../ui/GiftPriceTooltipContent/GiftPriceTooltipContent"
+import { GiftImageWithText } from "../ui/GiftImageWithText/GiftImageWithText"
+import { GiftDetailsRows } from "../ui/GiftDetailsRows/GiftDetailsRows"
+import { Button } from "@/components/common/Button/Button"
+import { BuyNftBottomSheet } from "@/components/BuyNftBottomSheet/BuyNftBottomSheet"
 
 type Props = {
-  gift: IGiftItem;
-};
+  gift: IGiftItem
+}
 
 export const GiftItemSheet: React.FC<Props> = ({ gift }) => {
-  // const { openSheet, closeSheet } = useBottomSheet()
+  const { openSheet, closeAll } = useBottomSheet()
 
-  const priceContent = (
-    <span className={styles.priceRow}>
-      <span>{gift.price} TON</span>
-      <Tooltip
-        content={
-          <>
-            <div className={styles.tooltipWrapper}>
-              <div className={styles.tooltipLabel}>Базовая цена</div>
-              <div className={styles.tooltipValue}>{gift.price} TON</div>
-            </div>
-            <div className={styles.tooltipWrapper}>
-              <div className={styles.tooltipLabel}>Цена с комиссией</div>
-              <div className={styles.tooltipValue}>{gift.price} TON</div>
-            </div>
-            <div className={styles.tooltipWrapper}>
-              <div className={styles.tooltipLabel}>Цена продажи</div>
-              <div className={styles.tooltipValue}>{gift.price} TON</div>
-            </div>
-          </>
-        }
-      >
-        <QuestionMarkIcon />
-      </Tooltip>
-    </span>
-  );
-
-  const rows: { label: string; value: ReactNode }[] = useMemo(
-    () => [
-      {
-        label: "Модель",
-        value: (
-          <div className={styles.detailTableValueWrapper}>
-            <span className={styles.detailTableValueText}>{gift.model}</span>{" "}
-            <Chip>1,2%</Chip>
-          </div>
-        ),
-      },
-      {
-        label: "Символ",
-        value: (
-          <div className={styles.detailTableValueWrapper}>
-            <span className={styles.detailTableValueText}>{gift.symbol}</span>{" "}
-            <Chip>0,2%</Chip>
-          </div>
-        ),
-      },
-      {
-        label: "Фон",
-        value: (
-          <div className={styles.detailTableValueWrapper}>
-            <span className={styles.detailTableValueText}>
-              {gift.background}
-            </span>{" "}
-            <Chip>1,5%</Chip>
-          </div>
-        ),
-      },
-      {
-        label: "Нижняя цена",
-        value: <span>{gift.lowestPrice} TON</span>,
-      },
-      {
-        label: "Цена продажи",
-        value: priceContent,
-      },
-    ],
-    []
-  );
+  const priceContent = useMemo(
+    () => (
+      <span className={styles.priceRow}>
+        <span>{gift.price} TON</span>
+        <Tooltip content={<GiftPriceTooltipContent price={gift.price} />}>
+          <QuestionMarkIcon />
+        </Tooltip>
+      </span>
+    ),
+    [gift.price]
+  )
 
   return (
     <div className={styles.detailGiftSheet}>
-      <div className={styles.detailGiftSheetImageWrapper}>
-        <img src={bdayImg} width={210} height={210} />
-        <div className={styles.detailGiftSheetImageText}>
-          <span className={styles.detailGiftSheetName}>{gift.name}</span>
-          <span className={styles.detailGiftSheetSubName}>#{gift.id}</span>
-        </div>
-      </div>
+      <GiftImageWithText imgSrc={bdayImg} name={gift.name} id={gift.id} />
+
       <div className={styles.detailGiftSheetActions}>
-        {GIFT_ACTIONS.map((el) => (
-          <ActionButton onClick={el.onClick} icon={el.icon}>
+        {GIFT_ACTIONS.map(el => (
+          <ActionButton
+            key={el.label}
+            onClick={el.onClick}
+            icon={el.icon}
+            className={styles.flexItem}
+          >
             {el.label}
           </ActionButton>
         ))}
       </div>
-      <div>
-        <DetailsTable rows={rows} />
-      </div>
+
+      <GiftDetailsRows gift={gift} priceContent={priceContent} />
+
       <div className={styles.availableBalanceWrapper}>
         <div className={styles.availableBalanceText}>
           <span>{t("available_balance")}</span>
         </div>
         <div className={styles.availableBalanceValue}>
-          12,4 <img src={tonIcon} />
+          12,4 <img src={tonIcon} alt="TON" />
         </div>
       </div>
+
       <div className={styles.actionButtonsWrapper}>
         <div>
           <Button
@@ -127,12 +73,34 @@ export const GiftItemSheet: React.FC<Props> = ({ gift }) => {
           </Button>
         </div>
         <div className={styles.buyButtonWrapper}>
-          <Button type="primary" size="large">
+          <Button
+            type="primary"
+            size="large"
+            onClick={() =>
+              openSheet(
+                <BuyNftBottomSheet
+                  nftPrice={gift.price}
+                  onBuy={() => {}}
+                  onCancel={closeAll}
+                  quantity="1"
+                />,
+                {
+                  renderLeftHeader() {
+                    return (
+                      <span className={styles.bottomSheetTitle}>
+                        Покупка NFT
+                      </span>
+                    )
+                  },
+                }
+              )
+            }
+          >
             Купить за {gift.price}
-            <img src={tonIcon} />
+            <img src={tonIcon} alt="TON" />
           </Button>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

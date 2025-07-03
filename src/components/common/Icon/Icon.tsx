@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { IIconProps } from "./Icon.d";
-import styles from "./Icon.module.scss";
+import React, { useEffect, useState } from "react"
+import { IIconProps } from "./Icon.d"
+import styles from "./Icon.module.scss"
 
 const Icon: React.FC<IIconProps> = ({ src, color = "default", ...rest }) => {
-  const [svgContent, setSvgContent] = useState<string | null>(null);
+  const [svgContent, setSvgContent] = useState<string | null>(null)
 
   useEffect(() => {
-    let isMounted = true;
+    let isMounted = true
     fetch(src)
-      .then((response) => {
+      .then(response => {
         if (!response.ok)
-          throw new Error(`Failed to load SVG: ${response.status}`);
-        return response.text();
+          throw new Error(`Failed to load SVG: ${response.status}`)
+        return response.text()
       })
-      .then((text) => {
-        if (isMounted) setSvgContent(text);
+      .then(text => {
+        if (isMounted) setSvgContent(text)
       })
-      .catch((err) => console.error(err));
+      .catch(err => console.error(err))
 
     return () => {
-      isMounted = false;
-    };
-  }, [src]);
+      isMounted = false
+    }
+  }, [src])
 
   return svgContent ? (
     <span
@@ -29,7 +29,7 @@ const Icon: React.FC<IIconProps> = ({ src, color = "default", ...rest }) => {
       {...rest}
       dangerouslySetInnerHTML={{ __html: svgContent }}
     />
-  ) : null;
-};
+  ) : null
+}
 
-export default Icon;
+export default Icon
