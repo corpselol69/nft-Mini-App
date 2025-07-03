@@ -1,6 +1,7 @@
-import React from "react";
-import styles from "./Button.module.scss";
-import { ButtonProps } from "./Button.d";
+import React from "react"
+import styles from "./Button.module.scss"
+import { ButtonProps } from "./Button.d"
+import cs from "classnames"
 
 export const Button: React.FC<ButtonProps> = ({
   leftIcon,
@@ -24,8 +25,14 @@ export const Button: React.FC<ButtonProps> = ({
       {...props}
     >
       {leftIcon && <span className={styles.leftIcon}>{leftIcon}</span>}
-      {children && <span className={styles.content}>{children}</span>}
+      {children && (
+        <span
+          className={cs(styles.content, type === "vertical" && styles.column)}
+        >
+          {children}
+        </span>
+      )}
       {rightIcon && <span className={styles.rightIcon}>{rightIcon}</span>}
     </button>
-  );
-};
+  )
+}
