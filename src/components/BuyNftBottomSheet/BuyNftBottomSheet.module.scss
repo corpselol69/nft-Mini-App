@@ -13,6 +13,16 @@
   justify-content: center;
   align-items: center;
 
+  .buyBottomSheetImage {
+    background-color: $colors-orange;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .buyBottomSheetTextWrapper {
     .buyBottomSheetTextTitle {
       text-align: center;
