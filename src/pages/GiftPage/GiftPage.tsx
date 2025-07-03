@@ -7,15 +7,18 @@ import { Select } from "@/components/common/Select/Select"
 import { Input } from "@/components/common/Input/Input"
 import searchIcon from "@/static/icons/searchIcon.svg"
 import { SELECT_DATA } from "@/components/StickersGrid/model/const"
-import { mockGiftItemsArr } from "@/components/GiftsGrid/const"
-import { NftCard } from "@/components/NftCard/NftCard"
-import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
-import { GiftItemSheet } from "./GiftItemSheet/GiftItemSheet"
+
 import Icon from "@/components/common/Icon/Icon"
+import { Outlet, useNavigate } from "react-router-dom"
+import { NftGrid } from "@/components/NftGrid/NftGrid"
 
 export const GiftPage: FC = () => {
   const [priceFilter, setPriceFilter] = useState("")
-  const { openSheet } = useBottomSheet()
+  const navigate = useNavigate()
+
+  const onCardClick = (cardId: string) => {
+    navigate(`${cardId}`)
+  }
   return (
     <Page back={false}>
       <div>
@@ -52,15 +55,9 @@ export const GiftPage: FC = () => {
             placeholder="Поиск по названию или ID"
           />
         </div>
-        <div className={styles.grid}>
-          {mockGiftItemsArr.map(el => (
-            <NftCard
-              onClick={() => {
-                openSheet(<GiftItemSheet gift={el} />)
-              }}
-            />
-          ))}
-        </div>
+        <NftGrid onNftClick={onCardClick} />
+
+        <Outlet />
       </div>
     </Page>
   )

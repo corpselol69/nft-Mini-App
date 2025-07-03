@@ -4,7 +4,6 @@ import { BottomSheet } from "../common/BottomSheet/BottomSheet"
 
 import { Button } from "@/components/common/Button/Button"
 import { useNavigate, useParams } from "react-router-dom"
-import { IGiftItem } from "../GiftsGrid/types"
 import { GiftPriceTooltipContent } from "@/pages/GiftPage/ui/GiftPriceTooltipContent/GiftPriceTooltipContent"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { Tooltip } from "@/components/common/Tooltip/Tooltip"
@@ -12,19 +11,31 @@ import { QuestionMarkIcon } from "../StickersGrid/ui/NftDetailsTable/QuestionMar
 import bdayImg from "@/static/placeholders/bday.png"
 import tonIcon from "@/static/icons/icn-S_ton.svg"
 
-import styles from "./GiftModal.module.scss"
-import { GIFT_ACTIONS } from "@/pages/GiftPage/model/const"
-import { ActionButton } from "@/pages/GiftPage/ui/ActionButton/ActionButton"
 import { GiftDetailsRows } from "@/pages/GiftPage/ui/GiftDetailsRows/GiftDetailsRows"
 import { GiftImageWithText } from "@/pages/GiftPage/ui/GiftImageWithText/GiftImageWithText"
 import { t } from "i18next"
 import { BuyNftBottomSheet } from "../BuyNftBottomSheet/BuyNftBottomSheet"
+import Icon from "../common/Icon/Icon"
+import telegramIcon from "@/static/icons/telegramIcon.svg"
+import statusIcon from "@/static/icons/statusIcon.svg"
+import shareIcon from "@/static/icons/shareIcon.svg"
+import { setEmojiStatus } from "@telegram-apps/sdk"
 
-type Props = {
-  gift: IGiftItem
+import styles from "./GiftModal.module.scss"
+
+const gift = {
+  id: "gift1",
+  name: "Bored Monkey",
+  imgLink: "/assets/gifts/monkey.png",
+  price: "150",
+  model: "2024A",
+  symbol: "🙈",
+  background: "#ffe480",
+  lowestPrice: "120",
+  sellPrice: "160",
 }
 
-export const GiftModal: FC<Props> = ({ gift }) => {
+export const GiftModal: FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
 
@@ -42,22 +53,30 @@ export const GiftModal: FC<Props> = ({ gift }) => {
     [gift.price]
   )
 
+  const setEmodjiStatus = async () => {
+    if (setEmojiStatus.isAvailable()) {
+      await setEmojiStatus("5361800828313167608") //сюда айди эмоджи
+    }
+  }
+
   return (
     <BottomSheet open={true} onClose={() => navigate(-1)}>
       <div className={styles.detailGiftSheet}>
         <GiftImageWithText imgSrc={bdayImg} name={gift.name} id={gift.id} />
 
         <div className={styles.detailGiftSheetActions}>
-          {GIFT_ACTIONS.map(el => (
-            <ActionButton
-              key={el.label}
-              onClick={el.onClick}
-              icon={el.icon}
-              className={styles.flexItem}
-            >
-              {el.label}
-            </ActionButton>
-          ))}
+          <Button type="vertical" size="large">
+            <Icon src={telegramIcon} className={styles.actionIcon} />
+            Посмотреть
+          </Button>
+          <Button type="vertical" size="large" onClick={setEmodjiStatus}>
+            <Icon src={statusIcon} className={styles.actionIcon} />
+            Статус
+          </Button>
+          <Button type="vertical" size="large">
+            <Icon src={shareIcon} className={styles.actionIcon} />
+            Поделиться
+          </Button>
         </div>
 
         <GiftDetailsRows gift={gift} priceContent={priceContent} />

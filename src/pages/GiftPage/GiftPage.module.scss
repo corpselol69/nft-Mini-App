@@ -19,12 +19,3 @@
     }
   }
 }
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  width: 100%;
-
-  justify-items: center;
-}

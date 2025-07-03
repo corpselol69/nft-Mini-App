@@ -1,23 +1,61 @@
 @use "@/styles/variables" as *;
 @use "@/styles/typography";
 
-.filterWrapper {
+.detailGiftSheet {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 16px;
+}
 
-  .selectWrapper {
+.detailGiftSheetActions {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.detailGiftSheetActions > * {
+  flex: 1;
+  min-width: 0;
+}
+
+.actionIcon {
+  display: flex;
+  padding: 4px;
+  align-items: center;
+
+  background: $colors-accent;
+  border-radius: 999px;
+}
+
+.availableBalanceWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  @include typography.caption-l-sf;
+  margin-bottom: 8px;
+  .availableBalanceValue {
     display: flex;
-    flex-direction: row;
-    gap: 8px;
-    div {
-      @include typography.caption-s-sf;
-    }
+    gap: 4px;
+    align-items: center;
   }
 }
 
-.shareButton {
-  background-color: $bg-glass;
-  border-radius: 32px;
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  @include typography.caption-l-sf;
+}
+.actionButtonsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  button {
+    width: 100%;
+  }
+}
+
+.bottomSheetTitle {
+  @include typography.title-l-sf;
+  color: $typography-primary;
 }
