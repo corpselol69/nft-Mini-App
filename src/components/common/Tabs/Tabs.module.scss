@@ -9,6 +9,7 @@
   align-self: stretch;
   border-radius: 999px;
   background: $bg-static;
+  margin-bottom: 8px;
 
   @include typography.button-m-rt;
 }
