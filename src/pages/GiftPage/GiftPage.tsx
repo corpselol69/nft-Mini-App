@@ -1,20 +1,21 @@
-import { useState, type FC } from "react"
+import { useState, type FC } from "react";
 
-import { Page } from "@/components/Page.tsx"
+import { Page } from "@/components/Page.tsx";
 
-import styles from "./GiftPage.module.scss"
-import { Select } from "@/components/common/Select/Select"
-import { Input } from "@/components/common/Input/Input"
-import { SearchIcon } from "@/components/common/icons/SearchIcon"
-import { SELECT_DATA } from "@/components/StickersGrid/model/const"
-import { mockGiftItemsArr } from "@/components/GiftsGrid/const"
-import { NftCard } from "@/components/NftCard/NftCard"
-import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
-import { GiftItemSheet } from "./GiftItemSheet/GiftItemSheet"
+import styles from "./GiftPage.module.scss";
+import { Select } from "@/components/common/Select/Select";
+import { Input } from "@/components/common/Input/Input";
+import searchIcon from "@/static/icons/searchIcon.svg";
+import { SELECT_DATA } from "@/components/StickersGrid/model/const";
+import { mockGiftItemsArr } from "@/components/GiftsGrid/const";
+import { NftCard } from "@/components/NftCard/NftCard";
+import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider";
+import { GiftItemSheet } from "./GiftItemSheet/GiftItemSheet";
+import Icon from "@/components/common/Icon/Icon";
 
 export const GiftPage: FC = () => {
-  const [priceFilter, setPriceFilter] = useState("")
-  const { openSheet } = useBottomSheet()
+  const [priceFilter, setPriceFilter] = useState("");
+  const { openSheet } = useBottomSheet();
   return (
     <Page back={false}>
       <div>
@@ -46,18 +47,21 @@ export const GiftPage: FC = () => {
               className={styles.flexItem}
             />
           </div>
-          <Input icon={<SearchIcon />} placeholder="Поиск по названию или ID" />
+          <Input
+            icon={<Icon src={searchIcon} />}
+            placeholder="Поиск по названию или ID"
+          />
         </div>
         <div className={styles.grid}>
-          {mockGiftItemsArr.map(el => (
+          {mockGiftItemsArr.map((el) => (
             <NftCard
               onClick={() => {
-                openSheet(<GiftItemSheet gift={el} />)
+                openSheet(<GiftItemSheet gift={el} />);
               }}
             />
           ))}
         </div>
       </div>
     </Page>
-  )
-}
+  );
+};

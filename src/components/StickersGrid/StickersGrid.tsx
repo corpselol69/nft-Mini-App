@@ -8,7 +8,7 @@ import { Input } from "../common/Input/Input";
 import { NftBottomSheet } from "@/components/StickersGrid/ui/NftBottomSheet/NftBottomSheet";
 import { SELECT_DATA } from "@/components/StickersGrid/model/const";
 import { BottomSheet } from "../common/BottomSheet/BottomSheet";
-import { SearchIcon } from "../common/icons/SearchIcon";
+import searchIcon from "@/static/icons/searchIcon.svg";
 import { NftGrid } from "../NftGrid/NftGrid";
 import shareIcon from "@/static/icons/shareIcon.svg";
 import { shareURL } from "@telegram-apps/sdk";
@@ -32,7 +32,10 @@ export const StickersGrid: FC = () => {
             />
             <Select options={[]} onChange={() => {}} placeholder="Модель" />
           </div>
-          <Input icon={<SearchIcon />} placeholder="Поиск по названию или ID" />
+          <Input
+            icon={<Icon src={searchIcon} />}
+            placeholder="Поиск по названию или ID"
+          />
         </div>
         <NftGrid onNftClick={setSelectedNftCard} />
         <BottomSheet

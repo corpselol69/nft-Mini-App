@@ -6,7 +6,7 @@ import clsx from "classnames";
 export const Input: FC<IInputProps> = ({ icon, className, ...props }) => {
   return (
     <div className={clsx(styles.wrapper, className)}>
-      {icon && <span className={styles.icon}>{icon}</span>}
+      {icon && icon}
       <input className={styles.input} {...props} />
     </div>
   );
