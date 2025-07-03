@@ -54,7 +54,7 @@
   padding: 2px;
   align-items: center;
   border-radius: 999px;
-  background: var(--iOS-Glass, rgba(65, 63, 64, 0.4));
+  background: $bg-glass;
 
   &.active {
     border: 1px solid $colors-accent;
