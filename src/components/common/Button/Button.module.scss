@@ -1,20 +1,116 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
 .button {
-  position: relative;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
   border: none;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: inherit;
-  white-space: nowrap;
-  user-select: none;
-  overflow: hidden;
+  border-radius: 10px;
+  height: 32px;
+  padding: 8px;
+  gap: 8px;
 
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+  cursor: pointer;
+  background: transparent;
+  color: $typography-primary;
+  transition: background 0.15s;
+  @include typography.button-m-sf;
+}
+
+.small {
+  height: 20px;
+  padding: 4px 6px;
+  @include typography.button-s-sf;
+}
+
+.large {
+  height: 42px;
+  padding: 12px;
+  @include typography.button-l-sf;
+}
+
+.primary {
+  background: $colors-accent;
+  color: $typography-white;
+
+  &:active {
+    background: linear-gradient(0deg, $bg-state 0%, $bg-state 100%),
+      $colors-accent;
   }
+}
+
+.secondary {
+  background: $bg-dynamic;
+  color: $colors-accent;
+
+  &:active {
+    background: linear-gradient(0deg, $bg-state 0%, $bg-state 100%), $bg-dynamic;
+  }
+}
+
+.card-price {
+  background: $bg-dynamic;
+  height: 30px;
+  padding: 4px 8px;
+
+  &:active {
+    background: linear-gradient(0deg, $bg-state 0%, $bg-state 100%), $bg-dynamic;
+  }
+}
+
+.vertical {
+  background: $bg-dynamic;
+  color: $colors-accent;
+  padding: 12px;
+  height: fit-content;
+
+  &:active {
+    background: linear-gradient(0deg, $bg-state 0%, $bg-state 100%), $bg-dynamic;
+  }
+}
+
+.text {
+  background: transparent;
+  color: $colors-accent;
+  padding: 4px;
+  gap: 4px;
+  height: fit-content;
+
+  &:active {
+    background: $bg-state;
+  }
+}
+
+.icon {
+  background: transparent;
+  color: $colors-accent;
+  padding: 4px;
+  height: fit-content;
+
+  &:active {
+    background: $bg-state;
+  }
+}
+
+.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.leftIcon,
+.rightIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 16px;
+  min-width: 16px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }

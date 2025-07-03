@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./ItemCard.module.scss";
-import { Button } from "../../Button/Button";
+import { Button } from "@/components/common/Button/Button";
 import { TonIcon } from "./TonIcon";
 import snowImg from "@/static/placeholders/snow.png";
 import { IGiftCard } from "../types";

@@ -10,7 +10,7 @@ import { DetailsTable } from "@/components/common/DetailsTable/DetailsTable";
 import { QuestionMarkIcon } from "@/components/StickersGrid/ui/NftDetailsTable/QuestionMarkIcon";
 import { Tooltip } from "@/components/common/Tooltip/Tooltip";
 import { Chip } from "@/components/common/Chip/Chip";
-import { Button } from "@/components/Button/Button";
+import { Button } from "@/components/common/Button/Button";
 import tonIcon from "@/static/icons/icn-S_ton.svg";
 
 type Props = {

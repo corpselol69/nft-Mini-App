@@ -13,7 +13,7 @@ import { NftGrid } from "../NftGrid/NftGrid";
 import shareIcon from "@/static/icons/shareIcon.svg";
 import { shareURL } from "@telegram-apps/sdk";
 import Icon from "../common/Icon/Icon";
-import { Button } from "@/components/Button/Button";
+import { Button } from "@/components/common/Button/Button";
 
 export const StickersGrid: FC = () => {
   const [value, setValue] = useState("");

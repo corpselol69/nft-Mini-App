@@ -1,55 +1,31 @@
-import { FC } from "react";
-import clsx from "classnames";
-import type { IButtonProps } from "./Button.d";
+import React from "react";
 import styles from "./Button.module.scss";
+import { ButtonProps } from "./Button.d";
 
-export const Button: FC<IButtonProps> = ({
-  variant = "primary",
-  size = "medium",
-  fullWidth = false,
-  iconLeft,
-  iconRight,
-  iconOnly,
-  loading = false,
-  className,
+export const Button: React.FC<ButtonProps> = ({
+  leftIcon,
+  rightIcon,
   children,
-  disabled,
-  ...rest
+  type = "primary",
+  className = "",
+  size = "medium",
+  isDisabled = false,
+  ...props
 }) => {
   return (
     <button
-      className={clsx(
+      className={[
         styles.button,
-        styles[variant],
+        styles[type],
+        className,
         styles[size],
-        {
-          [styles.fullWidth]: fullWidth,
-          [styles.iconOnly]: iconOnly,
-          [styles.loading]: loading,
-        },
-        className
-      )}
-      disabled={disabled || loading}
-      {...rest}
+        isDisabled ? styles.disabled : "",
+      ].join(" ")}
+      {...props}
     >
-      {loading && (
-        <span className={styles.loader}>
-          <span className={styles.loaderDot} />
-          <span className={styles.loaderDot} />
-          <span className={styles.loaderDot} />
-        </span>
-      )}
-      <>
-        {iconOnly ? (
-          <span className={styles.icon}>{iconOnly}</span>
-        ) : (
-          <>
-            {iconLeft && <span className={styles.iconLeft}>{iconLeft}</span>}
-            {children && <span className={styles.content}>{children}</span>}
-            {iconRight && <span className={styles.iconRight}>{iconRight}</span>}
-          </>
-        )}
-      </>
+      {leftIcon && <span className={styles.leftIcon}>{leftIcon}</span>}
+      {children && <span className={styles.content}>{children}</span>}
+      {rightIcon && <span className={styles.rightIcon}>{rightIcon}</span>}
     </button>
   );
 };

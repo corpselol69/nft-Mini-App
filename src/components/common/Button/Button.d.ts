@@ -1,12 +1,11 @@
-import { ReactNode } from 'react';
-import { ButtonHTMLAttributes } from 'react';
+import React from "react";
 
-export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-	variant: 'primary' | 'secondary'
-	size: 'large' | 'medium' | 'small'
-	fullWidth?: boolean
-	iconLeft?: ReactNode
-	iconRight?: ReactNode
-	iconOnly?: ReactNode
-	loading?: boolean
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  children?: React.ReactNode;
+  type?: "primary" | "secondary" | "card-price" | "vertical" | "text" | "icon";
+  isDisabled?: boolean;
+  size?: "small" | "medium" | "large";
 }

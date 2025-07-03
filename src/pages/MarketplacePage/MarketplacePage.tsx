@@ -5,7 +5,7 @@ import styles from "./MarketplacePage.module.scss";
 import { t } from "i18next";
 
 import { Outlet } from "react-router-dom";
-import { Button } from "@/components/Button/Button";
+import { Button } from "@/components/common/Button/Button";
 import Icon from "@/components/common/Icon/Icon";
 import tonIcon from "@/static/icons/icn-S_ton.svg";
 import shoppingCart from "@/static/icons/shopping_cart.svg";

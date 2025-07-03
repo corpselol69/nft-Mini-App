@@ -2,7 +2,7 @@ import { FC } from "react";
 import { NftBottomSheetProps } from "../../model/types";
 import styles from "./NftBottomSheet.module.scss";
 import { NftDetailsTable } from "../NftDetailsTable/NftDetailsTable";
-import { Button } from "@/components/Button/Button";
+import { Button } from "@/components/common/Button/Button";
 import clsx from "classnames";
 import shoppingCart from "@/static/icons/shopping_cart.svg";
 import tonIcon from "@/static/icons/icn-S_ton.svg";
