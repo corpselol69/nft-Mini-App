@@ -1,11 +1,155 @@
-@use "@/styles/variables";
+@use "@/styles/variables" as *;
 @use "@/styles/typography";
 
-.android {
-  font-size: 40px;
-  @include typography.amount-main-nn;
+.profilePage {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
 }
 
-.ios {
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  background: $bg-static;
+  border-radius: 999px;
+  padding: 2px 8px 2px 2px;
+  width: 100%;
+}
+
+.avatar {
+  display: flex;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: $bg-glass;
+}
+
+.userInfo {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex: 1 0 0;
+}
+
+.username {
+  @include typography.caption-m-sf;
+  color: $typography-secondary;
+}
+
+.balanceBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+}
+
+.balanceLabel {
+  @include typography.caption-m-sf;
+  color: $typography-secondary;
+}
+
+.balanceValue {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.balanceAmount {
+  color: $typography-primary;
   @include typography.amount-main-sf;
+}
+
+.balanceCurrency {
+  @include typography.amount-sub-sf;
+  color: $typography-secondary;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex: content;
+  width: 100%;
+  max-width: 370px;
+}
+
+.actions > * {
+  flex: 1;
+}
+
+.actionIcon {
+  display: flex;
+  padding: 4px;
+  align-items: center;
+
+  background: $colors-accent;
+  border-radius: 999px;
+}
+
+.referralBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.referralLabel {
+  margin-left: 8px;
+  color: $typography-secondary;
+  @include typography.subheadline-sf;
+}
+
+.referralCard {
+  background: $bg-static;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  color: $typography-primary;
+  @include typography.button-l-sf;
+}
+
+.chevron {
+  margin-left: auto;
+  display: flex;
+}
+
+.historyBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.historyLabel {
+  margin-left: 8px;
+  color: $typography-secondary;
+  @include typography.subheadline-sf;
+}
+
+.historyCard {
+  background: $bg-static;
+  display: flex;
+  height: 128px;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  border-radius: 12px;
+
+  @include typography.button-l-sf;
+}
+
+.historyCard span {
+  text-align: center;
+  color: $typography-secondary;
+  @include typography.title-s-sf;
 }
