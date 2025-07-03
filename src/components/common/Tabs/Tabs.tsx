@@ -11,7 +11,6 @@ export function Tab({ to, children }: TabProps) {
     <NavLink
       to={to}
       className={({ isActive }) => cs(styles.tab, isActive && styles.active)}
-      end
     >
       {children}
     </NavLink>
