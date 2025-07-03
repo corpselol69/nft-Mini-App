@@ -11,9 +11,6 @@
     display: flex;
     flex-direction: row;
     gap: 8px;
-    div {
-      @include typography.caption-s-sf;
-    }
   }
 }
 
