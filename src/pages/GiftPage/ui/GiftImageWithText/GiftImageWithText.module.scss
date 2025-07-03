@@ -6,9 +6,9 @@
   width: 210px;
   height: 210px;
   margin: 0 auto;
-  img {
-    border-radius: 24px;
-  }
+  background-color: cadetblue;
+  border-radius: 24px;
+
   .detailGiftSheetImageText {
     position: absolute;
     display: flex;
@@ -20,6 +20,7 @@
 
     .detailGiftSheetName {
       color: $typography-primary;
+      text-wrap: nowrap;
       @include typography.title-m-sf;
     }
 
