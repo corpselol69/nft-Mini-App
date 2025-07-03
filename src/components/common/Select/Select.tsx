@@ -1,10 +1,10 @@
-import { FC, useEffect, useRef, useState } from "react";
-import { ISelectProps } from "./Select.d";
-import clsx from "classnames";
-import styles from "./Select.module.scss";
-import { ExpandIcon } from "./ExpandIcon";
-import unionIcon from "@/static/icons/union.svg";
-import Icon from "../Icon/Icon";
+import { FC, useEffect, useRef, useState } from "react"
+import { ISelectProps } from "./Select.d"
+import clsx from "classnames"
+import styles from "./Select.module.scss"
+import { ExpandIcon } from "./ExpandIcon"
+import unionIcon from "@/static/icons/union.svg"
+import Icon from "../Icon/Icon"
 
 export const Select: FC<ISelectProps> = ({
   options,
@@ -14,39 +14,39 @@ export const Select: FC<ISelectProps> = ({
   onChange,
   defaultValue,
 }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   const [internalValue, setInternalValue] = useState(
     value || defaultValue || ""
-  );
-  const selectRef = useRef<HTMLDivElement>(null);
-  const selectedOption = options.find((opt) => opt.value === internalValue);
+  )
+  const selectRef = useRef<HTMLDivElement>(null)
+  const selectedOption = options.find(opt => opt.value === internalValue)
 
   const handleSelect = (selected: string) => {
-    setInternalValue(selected);
-    onChange(selected);
-    setOpen(false);
-  };
+    setInternalValue(selected)
+    onChange(selected)
+    setOpen(false)
+  }
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (selectRef.current && !selectRef.current.contains(e.target as Node)) {
-        setOpen(false);
+        setOpen(false)
       }
-    };
+    }
 
-    window.addEventListener("mousedown", handler);
-    return () => window.removeEventListener("mousedown", handler);
-  }, []);
+    window.addEventListener("mousedown", handler)
+    return () => window.removeEventListener("mousedown", handler)
+  }, [])
 
   useEffect(() => {
-    setInternalValue(value || defaultValue || "");
-  }, [value, defaultValue]);
+    setInternalValue(value || defaultValue || "")
+  }, [value, defaultValue])
 
   return (
     <div
       ref={selectRef}
       className={clsx(styles.wrapper, className)}
-      onClick={() => setOpen((o) => !o)}
+      onClick={() => setOpen(o => !o)}
       onBlur={() => setOpen(false)}
     >
       <div
@@ -70,24 +70,26 @@ export const Select: FC<ISelectProps> = ({
           {options.length === 0 && (
             <div className={styles.noOptions}>Нет опций</div>
           )}
-          {options.map((opt) => (
+          {options.map(opt => (
             <div
               key={opt.value}
               className={clsx(
                 styles.option,
                 internalValue === opt.value && styles.optionSelected
               )}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleSelect(opt.value);
+              onClick={e => {
+                e.stopPropagation()
+                handleSelect(opt.value)
               }}
             >
               {opt.label}
-              {internalValue === opt.value && <Icon src={unionIcon}></Icon>}
+              {internalValue === opt.value && (
+                <Icon src={unionIcon} className={styles.unionIcon}></Icon>
+              )}
             </div>
           ))}
         </div>
       )}
     </div>
-  );
-};
+  )
+}
