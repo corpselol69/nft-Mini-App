@@ -5,6 +5,7 @@ import styles from "./BottomSheet.module.scss"
 import clsx from "classnames"
 import { CloseIcon } from "./CloseIcon"
 
+//FIXME: При монтировании компонента, почему-то рядом с ним монтируется еще один пустой див без классов, без контента. Надо понять почему и убрать
 export const BottomSheet: FC<IBottomSheetProps> = ({
   onClose,
   open,
