@@ -2,7 +2,7 @@ import { FC, useCallback } from "react"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import styles from "./BuyNftBottomSheet.module.scss"
 
-import questionMarkImg from "../../../assets/questionmark.png"
+import questionMarkImg from "@/static/icons/question_mark.svg"
 import { Button } from "../common/Button/Button"
 
 type Props = {
