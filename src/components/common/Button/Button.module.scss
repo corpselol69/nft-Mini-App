@@ -33,6 +33,7 @@
 .primary {
   background: $colors-accent;
   color: $typography-white;
+  @include typography.button-l-sf;
 
   &:active {
     background: linear-gradient(0deg, $bg-state 0%, $bg-state 100%),
@@ -43,6 +44,7 @@
 .secondary {
   background: $bg-dynamic;
   color: $colors-accent;
+  @include typography.button-l-sf;
 
   &:active {
     background: linear-gradient(0deg, $bg-state 0%, $bg-state 100%), $bg-dynamic;
