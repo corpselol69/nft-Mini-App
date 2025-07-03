@@ -1,9 +1,9 @@
-import { FC, useRef, useState } from "react";
-import ReactDOM from "react-dom";
-import { IBottomSheetProps } from "./BottomSheet.d";
-import styles from "./BottomSheet.module.scss";
-import clsx from "classnames";
-import { CloseIcon } from "./CloseIcon";
+import { FC, useRef, useState } from "react"
+import ReactDOM from "react-dom"
+import { IBottomSheetProps } from "./BottomSheet.d"
+import styles from "./BottomSheet.module.scss"
+import clsx from "classnames"
+import { CloseIcon } from "./CloseIcon"
 
 export const BottomSheet: FC<IBottomSheetProps> = ({
   onClose,
@@ -11,54 +11,43 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
   children,
   renderLeftHeader,
 }) => {
-  const [dragY, setDragY] = useState(0);
-  const [closing, setClosing] = useState(false);
-  const [el] = useState(() => {
-    const d = document.createElement("div");
-    d.id = "bottom-sheet-portal";
-    document.body.appendChild(d);
-    return d;
-  });
-  const touchStartRef = useRef<number | null>(null);
+  const [dragY, setDragY] = useState(0)
+  const [closing, setClosing] = useState(false)
 
-  if (!open && !closing) return null;
+  const touchStartRef = useRef<number | null>(null)
+
+  if (!open && !closing) return null
 
   const doClose = () => {
-    setClosing(true);
+    setClosing(true)
     setTimeout(() => {
-      setDragY(0);
-      setClosing(false);
-      onClose();
-    }, 350);
-  };
+      setDragY(0)
+      setClosing(false)
+      onClose()
+    }, 350)
+  }
 
   const onTouchStart = (e: React.TouchEvent<HTMLElement>) => {
-    touchStartRef.current = e.touches[0].clientY;
-  };
+    touchStartRef.current = e.touches[0].clientY
+  }
 
   const onTouchMove = (e: React.TouchEvent<HTMLElement>) => {
     if (touchStartRef.current) {
-      const delta = e.touches[0].clientY - touchStartRef.current;
+      const delta = e.touches[0].clientY - touchStartRef.current
       if (delta > 0) {
-        setDragY(delta);
+        setDragY(delta)
       }
     }
-  };
+  }
 
   const onTouchEnd = () => {
     if (dragY > 70) {
-      doClose();
+      doClose()
     } else {
-      setDragY(0);
+      setDragY(0)
     }
-    touchStartRef.current = null;
-  };
-
-  //TODO: допилить функционал вызова виджета отправки сообщения
-  //   const shareWithContacts = async () => {
-  //     if (navigator.canShare()) {
-  //     }
-  //   }
+    touchStartRef.current = null
+  }
 
   const content = (
     <div
@@ -70,7 +59,7 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
         style={{
           transform: dragY > 0 ? `translateY(${dragY * 3}px)` : undefined,
         }}
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
@@ -88,7 +77,7 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
         <div>{children}</div>
       </div>
     </div>
-  );
+  )
 
-  return ReactDOM.createPortal(content, el);
-};
+  return ReactDOM.createPortal(content, document.body)
+}
