@@ -6,35 +6,6 @@
   flex-direction: column;
   gap: 16px;
 
-  .detailGiftSheetImageWrapper {
-    position: relative;
-    width: 210px;
-    height: 210px;
-    margin: 0 auto;
-    img {
-      border-radius: 24px;
-    }
-    .detailGiftSheetImageText {
-      position: absolute;
-      display: flex;
-      flex-direction: column;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-
-      .detailGiftSheetName {
-        color: $typography-primary;
-        @include typography.title-m-sf;
-      }
-
-      .detailGiftSheetSubName {
-        text-align: center;
-        color: $typography-secondary;
-        @include typography.caption-s-sf;
-      }
-    }
-  }
   .detailGiftSheetActions {
     display: flex;
     flex-direction: row;
@@ -64,15 +35,6 @@
       align-items: center;
     }
   }
-  .detailTableValueWrapper {
-    display: flex;
-    flex-direction: row;
-    gap: 4px;
-    .detailTableValueText {
-      color: $colors-accent;
-      @include typography.caption-l-sf;
-    }
-  }
 
   .priceRow {
     display: flex;
@@ -90,19 +52,7 @@
   }
 }
 
-.tooltipWrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
-.tooltipWrapper:not(:last-child) {
-  margin-bottom: 6px;
-}
-.tooltipLabel {
-  @include typography.caption-s-sf;
-  color: $typography-secondary;
-}
-
-.tooltipValue {
-  @include typography.caption-s-sf;
+.bottomSheetTitle {
+  @include typography.title-l-sf;
+  color: $typography-primary;
 }

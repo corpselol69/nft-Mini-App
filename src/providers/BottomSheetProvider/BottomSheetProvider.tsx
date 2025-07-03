@@ -56,7 +56,7 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         <BottomSheet
           key={sheet.key}
           open={idx === stack.length - 1}
-          onClose={closeSheet}
+          onClose={closeAll}
           renderLeftHeader={sheet.renderLeftHeader}
         >
           {sheet.content}
