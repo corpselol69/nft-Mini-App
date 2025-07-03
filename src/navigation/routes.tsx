@@ -3,10 +3,11 @@ import { MarketplacePage } from "@/pages/MarketplacePage/MarketplacePage";
 import { MyNftPage } from "@/pages/MyNftPage/MyNftPage";
 import { ProfilePage } from "@/pages/ProfilePage/ProfilePage";
 import { MainLayout } from "@/layouts/MainLayout/MainLayout";
-import { StickerPage } from "@/pages/StickerPage/StickerPage";
+import { StickersPage } from "@/pages/StickersPage/StickersPage";
 import { GiftPage } from "@/pages/GiftPage/GiftPage";
-import { StickersGrid } from "@/components/StickersGrid/StickersGrid";
 import { GiftsGrid } from "@/components/GiftsGrid/GiftsGrid";
+import { StickerModal } from "@/components/StickerModal/StickerModal";
+import { GiftModal } from "@/components/GiftModal/GiftModal";
 
 export const router = createHashRouter([
   {
@@ -17,11 +18,17 @@ export const router = createHashRouter([
         element: <MarketplacePage />,
         children: [
           { index: true, element: <Navigate to="stickers" replace /> },
-          { path: "stickers", element: <StickersGrid /> },
+          {
+            path: "stickers",
+            element: <StickersPage />,
+            children: [{ path: ":id", element: <StickerModal /> }],
+          },
           { path: "gifts", element: <GiftsGrid /> },
-
-          { path: "stickers/:id", element: <StickerPage /> },
-          { path: "gifts/:id", element: <GiftPage /> },
+          {
+            path: "gifts/:key",
+            element: <GiftPage />,
+            children: [{ path: ":id", element: <GiftModal /> }],
+          },
         ],
       },
 
