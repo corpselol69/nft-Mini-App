@@ -1,25 +1,36 @@
-import { useEffect, useState, type FC } from "react";
+import { useEffect, useState, type FC } from "react"
 
-import { Page } from "@/components/Page.tsx";
+import { Page } from "@/components/Page.tsx"
 
-import styles from "./StickersPage.module.scss";
-import { Select } from "@/components/common/Select/Select";
-import { Input } from "@/components/common/Input/Input";
-import { SELECT_DATA } from "@/components/StickersGrid/model/const";
-import searchIcon from "@/static/icons/searchIcon.svg";
-import { NftGrid } from "@/components/NftGrid/NftGrid";
+import styles from "./StickersPage.module.scss"
+import { Select } from "@/components/common/Select/Select"
+import { Input } from "@/components/common/Input/Input"
+import { SELECT_DATA } from "@/components/StickersGrid/model/const"
+import searchIcon from "@/static/icons/searchIcon.svg"
+import { NftGrid } from "@/components/NftGrid/NftGrid"
+import monkey from "@/static/placeholders/monkey.png"
 
-import Icon from "@/components/common/Icon/Icon";
-import { IStickersPageProps } from "./StickersPage.d";
-import { Outlet, useNavigate } from "react-router-dom";
+import Icon from "@/components/common/Icon/Icon"
+import { IStickersPageProps } from "./StickersPage.d"
+import { Outlet, useNavigate } from "react-router-dom"
+
+// Пример данных для карточек
+const mockNfts = [
+  { id: 1, title: "Bored Stickers", price: 90, url: monkey },
+  { id: 2, title: "Bored Stickers", price: 90, url: monkey },
+  { id: 3, title: "Bored Stickers", price: 90, url: monkey },
+  { id: 4, title: "Bored Stickers", price: 90, url: monkey },
+  { id: 5, title: "Bored Stickers", price: 90, url: monkey },
+  { id: 6, title: "Bored Stickers", price: 90, url: monkey },
+]
 
 export const StickersPage: FC<IStickersPageProps> = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const onCardClick = (cardId: string) => {
-    navigate(`/market/stickers/${cardId}`);
-  };
-  const [value, setValue] = useState("");
+    navigate(`/market/stickers/${cardId}`)
+  }
+  const [value, setValue] = useState("")
 
   return (
     <Page back={false}>
@@ -39,9 +50,9 @@ export const StickersPage: FC<IStickersPageProps> = () => {
             placeholder="Поиск по названию или ID"
           />
         </div>
-        <NftGrid onNftClick={onCardClick} />
+        <NftGrid mockNfts={mockNfts} onNftClick={onCardClick} />
         <Outlet />
       </div>
     </Page>
-  );
-};
+  )
+}

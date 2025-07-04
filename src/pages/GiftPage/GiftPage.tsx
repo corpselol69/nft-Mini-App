@@ -11,6 +11,17 @@ import { SELECT_DATA } from "@/components/StickersGrid/model/const"
 import Icon from "@/components/common/Icon/Icon"
 import { Outlet, useNavigate } from "react-router-dom"
 import { NftGrid } from "@/components/NftGrid/NftGrid"
+import bdayImg from "@/static/placeholders/bday.png"
+
+// Пример данных для карточек
+const mockNfts = [
+  { id: 1, title: "Snow ball", price: 90, url: bdayImg },
+  { id: 2, title: "Snow ball", price: 90, url: bdayImg },
+  { id: 3, title: "Snow ball", price: 90, url: bdayImg },
+  { id: 4, title: "Snow ball", price: 90, url: bdayImg },
+  { id: 5, title: "Snow ball", price: 90, url: bdayImg },
+  { id: 6, title: "Snow ball", price: 90, url: bdayImg },
+]
 
 export const GiftPage: FC = () => {
   const [priceFilter, setPriceFilter] = useState("")
@@ -55,7 +66,7 @@ export const GiftPage: FC = () => {
             placeholder="Поиск по названию или ID"
           />
         </div>
-        <NftGrid onNftClick={onCardClick} />
+        <NftGrid mockNfts={mockNfts} onNftClick={onCardClick} />
 
         <Outlet />
       </div>
