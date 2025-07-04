@@ -5,8 +5,9 @@ import { Page } from "@/components/Page.tsx"
 import styles from "./GiftsGrid.module.scss"
 import searchIcon from "@/static/icons/searchIcon.svg"
 import { Input } from "../common/Input/Input"
-import { Grid } from "./Grid"
 import Icon from "../common/Icon/Icon"
+import { mockGiftCards } from "./const"
+import { ItemCard } from "./ItemCard/ItemCard"
 
 export const GiftsGrid: FC = () => {
   return (
@@ -19,7 +20,11 @@ export const GiftsGrid: FC = () => {
           />
         </div>
 
-        <Grid />
+        <div className={styles.grid}>
+          {mockGiftCards.map(nft => (
+            <ItemCard key={nft.id} item={nft} />
+          ))}
+        </div>
       </div>
     </Page>
   )
