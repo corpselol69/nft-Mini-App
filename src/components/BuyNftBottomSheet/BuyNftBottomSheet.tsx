@@ -4,6 +4,7 @@ import styles from "./BuyNftBottomSheet.module.scss"
 
 import questionMarkImg from "@/static/icons/question_mark.svg"
 import { Button } from "../common/Button/Button"
+import { SuccessfulBuyNftBottomSheet } from "../SuccessfulBuyAttemptNftBottomSheet/SuccessfulBuyAttemptNftBottomSheet"
 
 type Props = {
   nftPrice: string
@@ -18,11 +19,11 @@ export const BuyNftBottomSheet: FC<Props> = ({
   onCancel,
   quantity = 1,
 }) => {
-  const { openSheet } = useBottomSheet()
+  const { openSheet, closeAll } = useBottomSheet()
 
   const handleOnBuyClick = useCallback(() => {
     onBuy()
-    openSheet(<></>, {
+    openSheet(<SuccessfulBuyNftBottomSheet onConfirm={closeAll} />, {
       renderLeftHeader() {
         return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
       },
