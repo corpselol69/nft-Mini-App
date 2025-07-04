@@ -6,11 +6,18 @@ import tonSrc from "@/static/icons/icn-S_ton.svg"
 import styles from "./BalanceTopUpBottomSheet.module.scss"
 import { BalanceUpInput } from "./Input/BalanceUpInput"
 import { Button } from "@/components/common/Button/Button"
+import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
+import { LoadingTopUpBalanceBottomSheet } from "../LoadingTopUpBalanceBottomSheet/LoadingTopUpBalanceBottomSheet"
+import { SuccessBuyNftBottomSheet } from "../SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
 
 type Props = {
   purchasePrice: string
   availableBalance: string
   onClose: () => void
+}
+
+async function doTopUp() {
+  return new Promise(r => setTimeout(r, 2000))
 }
 
 export const BalanceTopUpBottomSheet: FC<Props> = ({
@@ -19,6 +26,29 @@ export const BalanceTopUpBottomSheet: FC<Props> = ({
   availableBalance,
 }) => {
   const [topUpPriceValue, setTopUpPriceValue] = useState("")
+
+  const { openSheet, closeAll } = useBottomSheet()
+
+  const handleTopUp = async () => {
+    openSheet(<LoadingTopUpBalanceBottomSheet />, {
+      renderLeftHeader() {
+        return (
+          <span className={styles.bottomSheetTitle}>Пополнение баланса</span>
+        )
+      },
+    })
+
+    try {
+      await doTopUp()
+      openSheet(<SuccessBuyNftBottomSheet onConfirm={closeAll} />, {
+        renderLeftHeader() {
+          return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
+        },
+      })
+    } catch (error) {
+      //openSheet(ERRORBOTTOMSHEET)
+    }
+  }
 
   const missingAmount = useMemo(() => {
     return (Number(purchasePrice) - Number(availableBalance)).toString()
@@ -75,8 +105,8 @@ export const BalanceTopUpBottomSheet: FC<Props> = ({
         <Button type="secondary" onClick={onClose} size="large">
           Отмена
         </Button>
-        <Button type="primary" onClick={onClose} size="large">
-          Пополнить на 15
+        <Button type="primary" onClick={handleTopUp} size="large">
+          Пополнить на {missingAmount}
           <Icon src={tonSrc} />
         </Button>
       </div>
