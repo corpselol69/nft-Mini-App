@@ -1,7 +1,8 @@
 import React, { ReactNode } from "react"
 import styles from "./PriceTooltip.module.scss"
-import { QuestionMarkIcon } from "@/components/StickersGrid/ui/NftDetailsTable/QuestionMarkIcon"
 import { Tooltip } from "@/components/common/Tooltip/Tooltip"
+import questionMarkIcon from "@/static/icons/question_mark.svg"
+import Icon from "../Icon/Icon"
 
 type PriceTooltipProps = {
   price: ReactNode
@@ -26,6 +27,6 @@ export const PriceTooltip: React.FC<PriceTooltipProps> = ({ price }) => (
       </>
     }
   >
-    <QuestionMarkIcon />
+    <Icon src={questionMarkIcon} className={styles.questionMarkIcon} />
   </Tooltip>
 )

@@ -17,3 +17,11 @@
 .tooltipValue {
   @include typography.caption-s-sf;
 }
+
+.questionMarkIcon {
+  display: flex;
+  padding: 4px;
+  align-items: center;
+  border-radius: 32px;
+  background: $bg-glass;
+}
