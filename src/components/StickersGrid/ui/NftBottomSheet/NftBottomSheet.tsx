@@ -1,12 +1,13 @@
-import { FC } from "react";
-import { NftBottomSheetProps } from "../../model/types";
-import styles from "./NftBottomSheet.module.scss";
-import { NftDetailsTable } from "../NftDetailsTable/NftDetailsTable";
-import { Button } from "@/components/common/Button/Button";
-import clsx from "classnames";
-import shoppingCart from "@/static/icons/shopping_cart.svg";
-import tonIcon from "@/static/icons/icn-S_ton.svg";
-import monkeyImg from "@/static/placeholders/monkey.png";
+import { FC } from "react"
+import { NftBottomSheetProps } from "../../model/types"
+import styles from "./NftBottomSheet.module.scss"
+import { NftDetailsTable } from "../NftDetailsTable/NftDetailsTable"
+import { Button } from "@/components/common/Button/Button"
+import clsx from "classnames"
+import shoppingCart from "@/static/icons/shopping_cart.svg"
+import tonIcon from "@/static/icons/icn-S_ton.svg"
+import monkeyImg from "@/static/placeholders/monkey.png"
+import Icon from "@/components/common/Icon/Icon"
 
 export const NftBottomSheet: FC<NftBottomSheetProps> = ({
   //availableBalance,
@@ -17,10 +18,10 @@ export const NftBottomSheet: FC<NftBottomSheetProps> = ({
   price,
 }) => {
   //TODO: добавить логику проверки на наличие в корзине
-  const isInCart = true;
+  const isInCart = true
   //TODO: вынести текстовки в i18n
   const getCartButtonText = () =>
-    isInCart ? "Удалить из корзины" : "Добавить в корзину";
+    isInCart ? "Удалить из корзины" : "Добавить в корзину"
   return (
     <div className={styles.contentWrapper}>
       <div className={styles.imageWrapper}>
@@ -40,10 +41,12 @@ export const NftBottomSheet: FC<NftBottomSheetProps> = ({
           price={price}
         />
       </div>
+
+      {/*TODO: все что ниже вынести в отдельный компонент в common*/}
       <div className={styles.availableBalanceWrapper}>
         <span className={styles.availableBalanceText}>Доступный баланс</span>
         <div className={styles.availableBalanceValue}>
-          12,4 <img src={tonIcon} />
+          12,4 <Icon src={tonIcon} className={styles.tonBalanceIcon} />
         </div>
       </div>
       <div className={styles.actionButtonsWrapper}>
@@ -70,17 +73,16 @@ export const NftBottomSheet: FC<NftBottomSheetProps> = ({
           </Button>
           {isInCart && (
             <Button type="secondary" size="large">
-              <img src={shoppingCart} alt="Add to cart" />
+              <Icon src={shoppingCart} />
             </Button>
           )}
         </div>
-        <div className={styles.buyButtonWrapper}>
-          <Button type="primary" size="large">
-            Купить за {price}
-            <img src={tonIcon} />
-          </Button>
-        </div>
+
+        <Button type="primary" size="large" className={styles.buyButton}>
+          Купить за {price}
+          <Icon src={tonIcon} />
+        </Button>
       </div>
     </div>
-  );
-};
+  )
+}

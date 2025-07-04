@@ -59,11 +59,19 @@
       @include typography.caption-l-sf;
     }
   }
+}
 
-  .buyButtonWrapper {
-    display: flex;
-    button {
-      flex: 1;
+.tonBalanceIcon {
+  width: 16px;
+  height: 16px;
+
+  svg {
+    path {
+      fill: $typography-secondary;
     }
   }
+}
+
+.buyButton {
+  flex: 1;
 }
