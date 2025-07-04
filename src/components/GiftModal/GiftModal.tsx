@@ -1,4 +1,4 @@
-import { useMemo, type FC } from "react"
+import { useCallback, useMemo, useState, type FC } from "react"
 
 import { BottomSheet } from "../common/BottomSheet/BottomSheet"
 
@@ -39,6 +39,8 @@ export const GiftModal: FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
 
+  const [open, setOpen] = useState(true)
+
   const { openSheet, closeAll } = useBottomSheet()
 
   const priceContent = useMemo(
@@ -68,8 +70,13 @@ export const GiftModal: FC = () => {
     shareURL.ifAvailable(url, `Смотри этот гифт #${id}`)
   }
 
+  const handleCloseGiftModal = useCallback(() => {
+    navigate(-1)
+    setOpen(false)
+  }, [])
+
   return (
-    <BottomSheet open={true} onClose={() => navigate(-1)}>
+    <BottomSheet open={open} onClose={handleCloseGiftModal}>
       <div className={styles.detailGiftSheet}>
         <GiftImageWithText imgSrc={bdayImg} name={gift.name} id={gift.id} />
 
@@ -113,7 +120,7 @@ export const GiftModal: FC = () => {
             <Button
               type="primary"
               size="large"
-              onClick={() =>
+              onClick={() => {
                 openSheet(
                   <BuyNftBottomSheet
                     nftPrice={gift.price}
@@ -131,7 +138,8 @@ export const GiftModal: FC = () => {
                     },
                   }
                 )
-              }
+                handleCloseGiftModal()
+              }}
             >
               Купить за {gift.price}
               <img src={tonIcon} alt="TON" />
