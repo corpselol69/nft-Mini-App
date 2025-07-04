@@ -29,7 +29,7 @@ const gift = {
   imgLink: "/assets/gifts/monkey.png",
   price: "150",
   model: "2024A",
-  symbol: "🙈",
+  symbol: "Royal Crown",
   background: "#ffe480",
   lowestPrice: "120",
   sellPrice: "160",
@@ -104,7 +104,10 @@ export const GiftModal: FC = () => {
           </div>
         ),
       },
-      { label: "Нижняя цена", value: `${gift.lowestPrice} TON` },
+      {
+        label: "Нижняя цена",
+        value: <span className={styles.priceRow}>{gift.lowestPrice} TON</span>,
+      },
       { label: "Цена", value: priceContent },
     ]
   }, [])
