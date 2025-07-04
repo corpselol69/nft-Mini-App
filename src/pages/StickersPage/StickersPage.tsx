@@ -1,4 +1,4 @@
-import { useCallback, useState, type FC } from "react"
+import { useState, type FC } from "react"
 
 import { Page } from "@/components/Page.tsx"
 
@@ -14,7 +14,6 @@ import Icon from "@/components/common/Icon/Icon"
 import { IStickersPageProps } from "./StickersPage.d"
 import { Outlet, useNavigate } from "react-router-dom"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
-import { AddToCartBottomSheet } from "@/components/Modals/AddToCartBottomSheet/AddToCartBottomSheet"
 
 // Пример данных для карточек
 const mockNfts = [
