@@ -2,7 +2,7 @@ import { FC } from "react"
 import styles from "./SuccessfulBuyAttemptNftBottomSheet.module.scss"
 
 import checkSmallImg from "@/static/icons/check_small.svg"
-import { Button } from "../common/Button/Button"
+import { Button } from "@/components/common/Button/Button"
 
 type Props = {
   onConfirm: () => void

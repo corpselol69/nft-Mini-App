@@ -12,7 +12,7 @@ import tonIcon from "@/static/icons/icn-S_ton.svg"
 
 import { GiftImageWithText } from "@/pages/GiftPage/ui/GiftImageWithText/GiftImageWithText"
 import { t } from "i18next"
-import { BuyNftBottomSheet } from "../BuyNftBottomSheet/BuyNftBottomSheet"
+import { BuyNftBottomSheet } from "@/components/Modals/BuyNftBottomSheet/BuyNftBottomSheet"
 import Icon from "../common/Icon/Icon"
 import telegramIcon from "@/static/icons/telegramIcon.svg"
 import statusIcon from "@/static/icons/statusIcon.svg"

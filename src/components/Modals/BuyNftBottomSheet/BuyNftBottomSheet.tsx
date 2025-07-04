@@ -3,7 +3,7 @@ import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvi
 import styles from "./BuyNftBottomSheet.module.scss"
 
 import questionMarkImg from "@/static/icons/question_mark.svg"
-import { Button } from "../common/Button/Button"
+import { Button } from "@/components/common/Button/Button"
 import { SuccessfulBuyNftBottomSheet } from "../SuccessfulBuyAttemptNftBottomSheet/SuccessfulBuyAttemptNftBottomSheet"
 
 type Props = {
