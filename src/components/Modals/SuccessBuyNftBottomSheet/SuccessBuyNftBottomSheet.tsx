@@ -1,5 +1,5 @@
 import { FC } from "react"
-import styles from "./SuccessfulBuyAttemptNftBottomSheet.module.scss"
+import styles from "./SuccessBuyNftBottomSheet.module.scss"
 
 import checkSmallImg from "@/static/icons/check_small.svg"
 import { Button } from "@/components/common/Button/Button"
@@ -8,7 +8,7 @@ type Props = {
   onConfirm: () => void
 }
 
-export const SuccessfulBuyNftBottomSheet: FC<Props> = ({ onConfirm }) => {
+export const SuccessBuyNftBottomSheet: FC<Props> = ({ onConfirm }) => {
   return (
     <div className={styles.buyBottomSheetWrapper}>
       <div className={styles.buyBottomSheetImage}>
