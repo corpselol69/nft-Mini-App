@@ -1,4 +1,4 @@
-@use "@/styles/variables";
+@use "@/styles/variables" as *;
 @use "@/styles/typography";
 
 .filterWrapper {
@@ -18,4 +18,9 @@
       @include typography.caption-s-sf;
     }
   }
+}
+
+.bottomSheetTitle {
+  @include typography.title-l-sf;
+  color: $typography-primary;
 }

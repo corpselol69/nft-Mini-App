@@ -12,10 +12,12 @@ import Icon from "@/components/common/Icon/Icon"
 import { Outlet, useNavigate } from "react-router-dom"
 import { NftGrid } from "@/components/NftGrid/NftGrid"
 import bdayImg from "@/static/placeholders/bday.png"
+import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
+import { AddToCartBottomSheet } from "@/components/Modals/AddToCartBottomSheet/AddToCartBottomSheet"
 
 // Пример данных для карточек
 const mockNfts = [
-  { id: 1, title: "Snow ball", price: 90, url: bdayImg },
+  { id: 1, title: "Snow ball", price: 96, url: bdayImg },
   { id: 2, title: "Snow ball", price: 90, url: bdayImg },
   { id: 3, title: "Snow ball", price: 90, url: bdayImg },
   { id: 4, title: "Snow ball", price: 90, url: bdayImg },
@@ -26,10 +28,25 @@ const mockNfts = [
 export const GiftPage: FC = () => {
   const [priceFilter, setPriceFilter] = useState("")
   const navigate = useNavigate()
+  const { openSheet } = useBottomSheet()
 
   const onCardClick = (cardId: string) => {
     navigate(`${cardId}`)
   }
+
+  const onAddToCart = (nft: {
+    imgLink: string
+    title: string
+    id: string
+    price: string
+  }) => {
+    openSheet(<AddToCartBottomSheet {...nft} availableBalance="95" />, {
+      renderLeftHeader() {
+        return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
+      },
+    })
+  }
+
   return (
     <Page back={false}>
       <div>
@@ -66,7 +83,11 @@ export const GiftPage: FC = () => {
             placeholder="Поиск по названию или ID"
           />
         </div>
-        <NftGrid mockNfts={mockNfts} onNftClick={onCardClick} />
+        <NftGrid
+          mockNfts={mockNfts}
+          onNftClick={onCardClick}
+          onAddToCart={onAddToCart}
+        />
 
         <Outlet />
       </div>
