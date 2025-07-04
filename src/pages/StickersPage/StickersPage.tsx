@@ -13,7 +13,6 @@ import monkey from "@/static/placeholders/monkey.png"
 import Icon from "@/components/common/Icon/Icon"
 import { IStickersPageProps } from "./StickersPage.d"
 import { Outlet, useNavigate } from "react-router-dom"
-import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 
 // Пример данных для карточек
 const mockNfts = [
@@ -32,8 +31,6 @@ export const StickersPage: FC<IStickersPageProps> = () => {
     navigate(`/market/stickers/${cardId}`)
   }
   const [value, setValue] = useState("")
-
-  const { openSheet } = useBottomSheet()
 
   return (
     <Page back={false}>
