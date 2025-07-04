@@ -7,4 +7,9 @@
   @include typography.caption-s-sf;
   color: $colors-accent;
   border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  min-width: 20px;
 }
