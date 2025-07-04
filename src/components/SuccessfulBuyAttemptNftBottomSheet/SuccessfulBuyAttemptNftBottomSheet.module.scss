@@ -1,0 +1,49 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.bottomSheetTitle {
+  @include typography.title-l-sf;
+  color: $typography-primary;
+}
+
+.buyBottomSheetWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+
+  .buyBottomSheetImage {
+    background-color: $colors-green;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .buyBottomSheetTextWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    .buyBottomSheetTextTitle {
+      text-align: center;
+      @include typography.title-m-sf;
+    }
+    .buyBottomSheetSubText {
+      @include typography.body-l-sf;
+      color: $typography-secondary;
+    }
+  }
+  .actionButtonsWrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+    button {
+      flex: 1;
+    }
+  }
+}
