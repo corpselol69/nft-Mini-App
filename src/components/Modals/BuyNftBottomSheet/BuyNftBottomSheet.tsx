@@ -5,6 +5,7 @@ import styles from "./BuyNftBottomSheet.module.scss"
 import questionMarkImg from "@/static/icons/question_mark.svg"
 import { Button } from "@/components/common/Button/Button"
 import { SuccessBuyNftBottomSheet } from "../SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
+import Icon from "@/components/common/Icon/Icon"
 
 type Props = {
   nftPrice: string
@@ -32,9 +33,8 @@ export const BuyNftBottomSheet: FC<Props> = ({
 
   return (
     <div className={styles.buyBottomSheetWrapper}>
-      <div className={styles.buyBottomSheetImage}>
-        <img src={questionMarkImg} />
-      </div>
+      <Icon src={questionMarkImg} className={styles.buyBottomSheetImage} />
+
       <div className={styles.buyBottomSheetTextWrapper}>
         <div className={styles.buyBottomSheetTextTitle}>
           <span>Подтвердите покупку</span>
