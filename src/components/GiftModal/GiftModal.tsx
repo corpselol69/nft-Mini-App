@@ -19,7 +19,7 @@ import Icon from "../common/Icon/Icon"
 import telegramIcon from "@/static/icons/telegramIcon.svg"
 import statusIcon from "@/static/icons/statusIcon.svg"
 import shareIcon from "@/static/icons/shareIcon.svg"
-import { setEmojiStatus } from "@telegram-apps/sdk"
+import { openTelegramLink, setEmojiStatus, shareURL } from "@telegram-apps/sdk"
 
 import styles from "./GiftModal.module.scss"
 
@@ -53,10 +53,19 @@ export const GiftModal: FC = () => {
     [gift.price]
   )
 
+  const showEmodjiStatus = async () => {
+    openTelegramLink.ifAvailable("https://t.me/nft/HypnoLollipop-18289") //сюда айди эмоджи
+  }
+
   const setEmodjiStatus = async () => {
     if (setEmojiStatus.isAvailable()) {
       await setEmojiStatus("5361800828313167608") //сюда айди эмоджи
     }
+  }
+
+  const shareEmodjiStatus = async () => {
+    const url = `https://t.me/d33sf0mebot/mytest/#/market/stickers/${id}` //заменить url из .env
+    shareURL.ifAvailable(url, `Смотри этот гифт #${id}`)
   }
 
   return (
@@ -65,7 +74,7 @@ export const GiftModal: FC = () => {
         <GiftImageWithText imgSrc={bdayImg} name={gift.name} id={gift.id} />
 
         <div className={styles.detailGiftSheetActions}>
-          <Button type="vertical" size="large">
+          <Button type="vertical" size="large" onClick={showEmodjiStatus}>
             <Icon src={telegramIcon} className={styles.actionIcon} />
             Посмотреть
           </Button>
@@ -73,7 +82,7 @@ export const GiftModal: FC = () => {
             <Icon src={statusIcon} className={styles.actionIcon} />
             Статус
           </Button>
-          <Button type="vertical" size="large">
+          <Button type="vertical" size="large" onClick={shareEmodjiStatus}>
             <Icon src={shareIcon} className={styles.actionIcon} />
             Поделиться
           </Button>
