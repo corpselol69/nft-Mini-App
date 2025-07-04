@@ -3,6 +3,9 @@ import styles from "./NftDetailsTable.module.scss"
 import { QuestionMarkIcon } from "./QuestionMarkIcon"
 import { useMemo } from "react"
 import { DetailsTable } from "@/components/common/DetailsTable/DetailsTable"
+import questionMarkIcon from "@/static/icons/question_mark.svg"
+import Icon from "@/components/common/Icon/Icon"
+import { PriceTooltip } from "@/components/common/PriceTooltip/PriceTooltip"
 
 type NftDetailsProps = {
   collection: string
@@ -20,26 +23,7 @@ export const NftDetailsTable = ({
   const priceContent = (
     <span className={styles.priceRow}>
       <span>{price} TON</span>
-      <Tooltip
-        content={
-          <>
-            <div className={styles.tooltipWrapper}>
-              <div className={styles.tooltipLabel}>Базовая цена</div>
-              <div className={styles.tooltipValue}>{price} TON</div>
-            </div>
-            <div className={styles.tooltipWrapper}>
-              <div className={styles.tooltipLabel}>Цена с комиссией</div>
-              <div className={styles.tooltipValue}>{price} TON</div>
-            </div>
-            <div className={styles.tooltipWrapper}>
-              <div className={styles.tooltipLabel}>Цена продажи</div>
-              <div className={styles.tooltipValue}>{price} TON</div>
-            </div>
-          </>
-        }
-      >
-        <QuestionMarkIcon />
-      </Tooltip>
+      <PriceTooltip price={price} />
     </span>
   )
 

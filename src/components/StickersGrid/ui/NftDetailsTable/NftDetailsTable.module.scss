@@ -52,6 +52,14 @@
   }
 }
 
+.icon {
+  display: flex;
+  padding: 4px;
+  align-items: center;
+  border-radius: 32px;
+  background: $bg-glass;
+}
+
 .priceRow {
   display: flex;
   align-items: center;

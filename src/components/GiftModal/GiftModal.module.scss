@@ -59,3 +59,13 @@
   @include typography.title-l-sf;
   color: $typography-primary;
 }
+
+.detailTableValueWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  .detailTableValueText {
+    color: $colors-accent;
+    @include typography.caption-l-sf;
+  }
+}

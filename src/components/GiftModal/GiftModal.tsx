@@ -4,14 +4,12 @@ import { BottomSheet } from "../common/BottomSheet/BottomSheet"
 
 import { Button } from "@/components/common/Button/Button"
 import { useNavigate, useParams } from "react-router-dom"
-import { GiftPriceTooltipContent } from "@/pages/GiftPage/ui/GiftPriceTooltipContent/GiftPriceTooltipContent"
+import { PriceTooltip } from "@/components/common/PriceTooltip/PriceTooltip"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
-import { Tooltip } from "@/components/common/Tooltip/Tooltip"
-import { QuestionMarkIcon } from "../StickersGrid/ui/NftDetailsTable/QuestionMarkIcon"
+
 import bdayImg from "@/static/placeholders/bday.png"
 import tonIcon from "@/static/icons/icn-S_ton.svg"
 
-import { GiftDetailsRows } from "@/pages/GiftPage/ui/GiftDetailsRows/GiftDetailsRows"
 import { GiftImageWithText } from "@/pages/GiftPage/ui/GiftImageWithText/GiftImageWithText"
 import { t } from "i18next"
 import { BuyNftBottomSheet } from "../BuyNftBottomSheet/BuyNftBottomSheet"
@@ -22,6 +20,8 @@ import shareIcon from "@/static/icons/shareIcon.svg"
 import { openTelegramLink, setEmojiStatus, shareURL } from "@telegram-apps/sdk"
 
 import styles from "./GiftModal.module.scss"
+import { Chip } from "@/components/common/Chip/Chip"
+import { DetailsTable } from "../common/DetailsTable/DetailsTable"
 
 const gift = {
   id: "gift1",
@@ -45,9 +45,7 @@ export const GiftModal: FC = () => {
     () => (
       <span className={styles.priceRow}>
         <span>{gift.price} TON</span>
-        <Tooltip content={<GiftPriceTooltipContent price={gift.price} />}>
-          <QuestionMarkIcon />
-        </Tooltip>
+        <PriceTooltip price={gift.price} />
       </span>
     ),
     [gift.price]
@@ -67,6 +65,42 @@ export const GiftModal: FC = () => {
     const url = `https://t.me/d33sf0mebot/mytest/#/market/stickers/${id}` //заменить url из .env
     shareURL.ifAvailable(url, `Смотри этот гифт #${id}`)
   }
+
+  const rows = useMemo(() => {
+    return [
+      {
+        label: "Модель",
+        value: (
+          <div className={styles.detailTableValueWrapper}>
+            <span className={styles.detailTableValueText}>{gift.model}</span>{" "}
+            <Chip>1,2%</Chip>
+          </div>
+        ),
+      },
+      {
+        label: "Символ",
+        value: (
+          <div className={styles.detailTableValueWrapper}>
+            <span className={styles.detailTableValueText}>{gift.symbol}</span>{" "}
+            <Chip>0,2%</Chip>
+          </div>
+        ),
+      },
+      {
+        label: "Фон",
+        value: (
+          <div className={styles.detailTableValueWrapper}>
+            <span className={styles.detailTableValueText}>
+              {gift.background}
+            </span>{" "}
+            <Chip>1,5%</Chip>
+          </div>
+        ),
+      },
+      { label: "Нижняя цена", value: `${gift.lowestPrice} TON` },
+      { label: "Цена", value: priceContent },
+    ]
+  }, [])
 
   return (
     <BottomSheet open={true} onClose={() => navigate(-1)}>
@@ -88,7 +122,7 @@ export const GiftModal: FC = () => {
           </Button>
         </div>
 
-        <GiftDetailsRows gift={gift} priceContent={priceContent} />
+        <DetailsTable rows={rows} />
 
         <div className={styles.availableBalanceWrapper}>
           <div className={styles.availableBalanceText}>
