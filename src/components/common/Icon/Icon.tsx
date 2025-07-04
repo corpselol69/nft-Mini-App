@@ -6,6 +6,7 @@ const Icon: React.FC<IIconProps> = ({
   src,
   color = "default",
   opacity,
+  pathColor,
   ...rest
 }) => {
   const [svgContent, setSvgContent] = useState<string | null>(null)
@@ -22,6 +23,23 @@ const Icon: React.FC<IIconProps> = ({
         if (!isMounted) return
 
         let modifiedText = text
+
+        if (pathColor) {
+          modifiedText = modifiedText.replace(
+            /<path([^>]*)\/?>/gi,
+            (_, attrs) => {
+              if (/fill=/.test(attrs)) {
+                const newAttrs = attrs.replace(
+                  /fill=('|")[^"']*\1/i,
+                  `fill="${pathColor}"`
+                )
+                return `<path${newAttrs}/>`
+              } else {
+                return `<path${attrs} fill="${pathColor}"/>`
+              }
+            }
+          )
+        }
 
         if (opacity) {
           modifiedText = modifiedText.replace(

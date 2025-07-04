@@ -1,0 +1,32 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  justify-content: center;
+}
+
+.inputBlock {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  background: none;
+  border: none;
+  outline: none;
+  @include typography.amount-main-sf;
+  width: 100px;
+  text-align: right;
+  padding: 0 5px 0 0;
+  caret-color: $typography-white;
+  color: $typography-primary;
+}
+
+.unit {
+  color: $typography-secondary;
+  @include typography.amount-sub-sf;
+}

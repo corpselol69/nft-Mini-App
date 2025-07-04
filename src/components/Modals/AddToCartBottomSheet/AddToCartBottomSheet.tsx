@@ -5,6 +5,7 @@ import { getIsBalanceEnough } from "@/helpers/getIsBalanceEnough"
 import tonSrc from "@/static/icons/icn-S_ton.svg"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import styles from "./AddToCartBottomSheet.module.scss"
+import { BalanceTopUpBottomSheet } from "../BalanceTopUpBottomSheet"
 
 type Props = {
   imgLink: string
@@ -21,7 +22,7 @@ export const AddToCartBottomSheet: FC<Props> = ({
   price,
   title,
 }) => {
-  const { openSheet } = useBottomSheet()
+  const { openSheet, closeAll } = useBottomSheet()
   const isBalanceEnough = getIsBalanceEnough(availableBalance, price)
 
   const buttonToShow = isBalanceEnough ? (
@@ -29,7 +30,28 @@ export const AddToCartBottomSheet: FC<Props> = ({
       Купить за {price} <Icon src={tonSrc} />
     </Button>
   ) : (
-    <Button type="primary" onClick={() => openSheet(<></>, {})} size="large">
+    <Button
+      type="primary"
+      onClick={() =>
+        openSheet(
+          <BalanceTopUpBottomSheet
+            availableBalance="70"
+            onClose={closeAll}
+            purchasePrice={price}
+          />,
+          {
+            renderLeftHeader() {
+              return (
+                <span className={styles.bottomSheetTitle}>
+                  Пополнение баланса
+                </span>
+              )
+            },
+          }
+        )
+      }
+      size="large"
+    >
       Пополнить баланс и купить
     </Button>
   )

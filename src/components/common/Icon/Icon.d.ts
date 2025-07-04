@@ -7,4 +7,5 @@ export interface IIconProps extends HTMLAttributes<HTMLSpanElement> {
   height?: number | string;
   className?: string;
   opacity?: string
+  pathColor?: string
 }

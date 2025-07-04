@@ -78,3 +78,8 @@
     }
   }
 }
+
+.bottomSheetTitle {
+  @include typography.title-l-sf;
+  color: $typography-primary;
+}
