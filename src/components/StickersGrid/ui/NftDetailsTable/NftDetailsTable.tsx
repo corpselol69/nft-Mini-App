@@ -1,10 +1,7 @@
-import { Tooltip } from "@/components/common/Tooltip/Tooltip"
 import styles from "./NftDetailsTable.module.scss"
-import { QuestionMarkIcon } from "./QuestionMarkIcon"
 import { useMemo } from "react"
 import { DetailsTable } from "@/components/common/DetailsTable/DetailsTable"
-import questionMarkIcon from "@/static/icons/question_mark.svg"
-import Icon from "@/components/common/Icon/Icon"
+
 import { PriceTooltip } from "@/components/common/PriceTooltip/PriceTooltip"
 
 type NftDetailsProps = {

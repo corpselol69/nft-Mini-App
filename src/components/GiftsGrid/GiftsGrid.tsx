@@ -1,12 +1,12 @@
-import { useCallback, type FC } from "react";
+import { type FC } from "react"
 
-import { Page } from "@/components/Page.tsx";
+import { Page } from "@/components/Page.tsx"
 
-import styles from "./GiftsGrid.module.scss";
-import searchIcon from "@/static/icons/searchIcon.svg";
-import { Input } from "../common/Input/Input";
-import { Grid } from "./Grid";
-import Icon from "../common/Icon/Icon";
+import styles from "./GiftsGrid.module.scss"
+import searchIcon from "@/static/icons/searchIcon.svg"
+import { Input } from "../common/Input/Input"
+import { Grid } from "./Grid"
+import Icon from "../common/Icon/Icon"
 
 export const GiftsGrid: FC = () => {
   return (
@@ -22,5 +22,5 @@ export const GiftsGrid: FC = () => {
         <Grid />
       </div>
     </Page>
-  );
-};
+  )
+}

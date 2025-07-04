@@ -1,7 +1,6 @@
 import React from "react"
 import tonIcon from "@/static/icons/icn-S_ton.svg"
 import addIcon from "@/static/icons/shopping_cart.svg"
-import monkey from "@/static/placeholders/monkey.png"
 import styles from "./NftCard.module.scss"
 import { Button } from "@/components/common/Button/Button"
 import Icon from "../common/Icon/Icon"

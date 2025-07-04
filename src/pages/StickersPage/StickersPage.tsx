@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC } from "react"
+import { useState, type FC } from "react"
 
 import { Page } from "@/components/Page.tsx"
 
