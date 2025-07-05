@@ -1,6 +1,7 @@
 // AMOUNT SF
 @mixin amount-main-sf {
-  font-family: "SF Pro Rounded";
+  font-family: "SF Pro Rounded", "SF Pro Display", "Nunito", "Roboto",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 40px;
   font-style: normal;
   font-weight: 600;
@@ -8,7 +9,8 @@
 }
 
 @mixin amount-sub-sf {
-  font-family: "SF Pro Rounded";
+  font-family: "SF Pro Rounded", "SF Pro Display", "Nunito", "Roboto",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 32px;
   font-style: normal;
   font-weight: 600;
@@ -34,7 +36,8 @@
 
 // TITLE SF
 @mixin title-l-sf {
-  font-family: "SF Pro Display";
+  font-family: "SF Pro Display", "SF Pro Rounded", "Nunito", "Roboto",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 24px;
   font-style: normal;
   font-weight: 500;
@@ -42,7 +45,8 @@
 }
 
 @mixin title-m-sf {
-  font-family: "SF Pro Display";
+  font-family: "SF Pro Display", "SF Pro Rounded", "Roboto", "Nunito",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 500;
@@ -50,7 +54,8 @@
 }
 
 @mixin title-s-sf {
-  font-family: "SF Pro Display";
+  font-family: "SF Pro Display", "SF Pro Rounded", "Roboto", "Nunito",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
@@ -84,7 +89,8 @@
 
 // CAPTION SF
 @mixin caption-l-sf {
-  font-family: "SF Pro Display";
+  font-family: "SF Pro Display", "SF Pro Rounded", "Nunito", "Roboto",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
@@ -92,7 +98,8 @@
 }
 
 @mixin caption-m-sf {
-  font-family: "SF Pro Display";
+  font-family: "SF Pro Display", "SF Pro Rounded", "Nunito", "Roboto",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -100,7 +107,8 @@
 }
 
 @mixin caption-s-sf {
-  font-family: "SF Pro Display";
+  font-family: "SF Pro Display", "SF Pro Rounded", "Nunito", "Roboto",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
@@ -134,7 +142,8 @@
 
 // BUTTON SF
 @mixin button-l-sf {
-  font-family: "SF Pro Display";
+  font-family: "SF Pro Display", "SF Pro Rounded", "Nunito", "Roboto",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
@@ -142,7 +151,8 @@
 }
 
 @mixin button-m-sf {
-  font-family: "SF Pro Display";
+  font-family: "SF Pro Display", "SF Pro Rounded", "Nunito", "Roboto",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -150,7 +160,8 @@
 }
 
 @mixin button-s-sf {
-  font-family: "SF Pro Display";
+  font-family: "SF Pro Display", "SF Pro Rounded", "Nunito", "Roboto",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
@@ -184,7 +195,8 @@
 
 // BODY SF
 @mixin body-l-sf {
-  font-family: "SF Pro Display";
+  font-family: "SF Pro Display", "SF Pro Rounded", "Nunito", "Roboto",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -192,7 +204,8 @@
 }
 
 @mixin body-m-sf {
-  font-family: "SF Pro Display";
+  font-family: "SF Pro Display", "SF Pro Rounded", "Nunito", "Roboto",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -200,7 +213,8 @@
 }
 
 @mixin body-s-sf {
-  font-family: "SF Pro Display";
+  font-family: "SF Pro Display", "SF Pro Rounded", "Nunito", "Roboto",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -234,7 +248,8 @@
 
 // Subheadline SF
 @mixin subheadline-sf {
-  font-family: "SF Pro Display";
+  font-family: "SF Pro Display", "SF Pro Rounded", "Nunito", "Roboto",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
