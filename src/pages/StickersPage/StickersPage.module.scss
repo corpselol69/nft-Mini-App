@@ -18,3 +18,8 @@
   background-color: $bg-glass;
   border-radius: 32px;
 }
+
+.bottomSheetTitle {
+  @include typography.title-l-sf;
+  color: $typography-primary;
+}

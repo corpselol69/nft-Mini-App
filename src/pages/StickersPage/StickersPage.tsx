@@ -1,4 +1,4 @@
-import { useState, type FC } from "react"
+import { useCallback, useState, type FC } from "react"
 
 import { Page } from "@/components/Page.tsx"
 
@@ -13,6 +13,8 @@ import monkey from "@/static/placeholders/monkey.png"
 import Icon from "@/components/common/Icon/Icon"
 import { IStickersPageProps } from "./StickersPage.d"
 import { Outlet, useNavigate } from "react-router-dom"
+import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
+import { AddToCartBottomSheet } from "@/components/Modals/AddToCartBottomSheet/AddToCartBottomSheet"
 
 // Пример данных для карточек
 const mockNfts = [
@@ -31,6 +33,8 @@ export const StickersPage: FC<IStickersPageProps> = () => {
     navigate(`/market/stickers/${cardId}`)
   }
   const [value, setValue] = useState("")
+
+  const { openSheet } = useBottomSheet()
 
   return (
     <Page back={false}>

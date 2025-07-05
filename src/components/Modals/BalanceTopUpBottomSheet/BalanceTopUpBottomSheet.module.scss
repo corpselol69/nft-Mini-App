@@ -1,0 +1,71 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.balanceTopUpWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  .connectedWalletWrapper {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    .connectedWalletText {
+      color: $typography-secondary;
+      @include typography.caption-m-sf;
+    }
+
+    .walletNumberWrapper {
+      display: flex;
+      flex-direction: row;
+      gap: 4px;
+      align-items: center;
+      justify-content: center;
+      .walletNumberValue {
+        color: $typography-primary;
+        @include typography.caption-m-sf;
+      }
+    }
+  }
+  .balanceInfoWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .balanceInfoRow {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      span {
+        @include typography.body-l-sf;
+        color: $typography-primary;
+      }
+      .balanceInfoRowValue {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .balanceInfoRowValueBlue {
+          color: $colors-accent;
+        }
+      }
+    }
+    .breakLine {
+      height: 1px;
+      background: $stroke-10;
+    }
+  }
+  .actionButtonsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    button {
+      flex: 1 1 0%;
+    }
+  }
+}
+
+.bottomSheetTitle {
+  @include typography.title-l-sf;
+  color: $typography-primary;
+}

@@ -11,6 +11,7 @@ type TProps = {
   price: number
   url: string
   onClick: () => void
+  addToCart: () => void
 }
 
 export const NftCard: React.FC<TProps> = ({
@@ -19,6 +20,7 @@ export const NftCard: React.FC<TProps> = ({
   price,
   url,
   onClick,
+  addToCart,
 }) => {
   return (
     <div className={styles.root}>
@@ -37,7 +39,7 @@ export const NftCard: React.FC<TProps> = ({
             {price}
             <Icon src={tonIcon} className={styles.tonIcon} />
           </Button>
-          <Button type="secondary">
+          <Button type="secondary" onClick={addToCart}>
             <img src={addIcon} alt="Add to cart" />
           </Button>
         </div>

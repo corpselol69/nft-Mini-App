@@ -1,0 +1,33 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.loadingTopUpBalanceWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  .buyBottomSheetImage {
+    background-color: $colors-orange;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .textWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+    .title {
+      color: $typography-primary;
+      @include typography.title-m-sf;
+    }
+    .subText {
+      color: $typography-secondary;
+      @include typography.body-l-sf;
+    }
+  }
+}
