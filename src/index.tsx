@@ -8,7 +8,13 @@ import { Root } from "@/components/Root.tsx"
 import { EnvUnsupported } from "@/components/EnvUnsupported.tsx"
 import { init } from "@/init.ts"
 import { initI18n } from "@/i18n"
-import { initDataHash, initDataUser } from "@telegram-apps/sdk"
+// import {
+//   initData,
+//   initDataAuthDate,
+//   initDataHash,
+//   initDataQueryId,
+//   initDataUser,
+// } from "@telegram-apps/sdk"
 import { retrieveLaunchParams } from "@telegram-apps/sdk"
 
 import "./mockEnv.ts"
@@ -34,8 +40,9 @@ try {
   //   viewport.requestFullscreen();
   // }
 
-  console.log(initDataHash())
-  console.log(initDataUser())
+  // console.log(initDataQueryId())
+  // console.log(initDataHash())
+  // console.log(initDataUser())
 
   const root = ReactDOM.createRoot(document.getElementById("root")!)
 
