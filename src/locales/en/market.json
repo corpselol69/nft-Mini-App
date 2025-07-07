@@ -3,5 +3,8 @@
   "gifts": "Gifts",
   "market": "Market",
   "profile": "Profile",
-  "available_balance": "Available balance"
+  "available_balance": "Available balance",
+  "add_to_cart": "Add to cart",
+  "buy": "Buy",
+  "sell_nft": "Sell NFT"
 }

@@ -4,5 +4,11 @@
   "market": "Маркет",
   "profile": "Профиль",
   "my_nft": "Мои NFT",
-  "available_balance": "Доступный баланс"
+  "available_balance": "Доступный баланс",
+  "add_to_cart": "Добавить в корзину",
+  "buy": "Купить",
+  "sell_nft": "Продать NFT",
+  "all": "Все",
+  "not_for_sale": "Не в продаже",
+  "for_sale": "В продаже"
 }
