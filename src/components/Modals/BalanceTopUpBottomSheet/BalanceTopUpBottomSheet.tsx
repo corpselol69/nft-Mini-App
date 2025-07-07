@@ -1,4 +1,4 @@
-import { FC, useCallback, useMemo, useState } from "react"
+import { FC, ReactNode, useCallback, useMemo, useState } from "react"
 import Icon from "@/components/common/Icon/Icon"
 import accountBalanceIcon from "@/static/icons/account_balance_wallet.svg"
 import tonSrc from "@/static/icons/icn-S_ton.svg"
@@ -9,6 +9,7 @@ import { Button } from "@/components/common/Button/Button"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { LoadingTopUpBalanceBottomSheet } from "../LoadingTopUpBalanceBottomSheet/LoadingTopUpBalanceBottomSheet"
 import { SuccessBuyNftBottomSheet } from "../SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
+import { ErrorBottomSheet } from "../ErrorBottomSheet/ErrorBottomSheet"
 
 type Props = {
   purchasePrice: string
@@ -46,7 +47,55 @@ export const BalanceTopUpBottomSheet: FC<Props> = ({
         },
       })
     } catch (error) {
-      //openSheet(ERRORBOTTOMSHEET)
+      const retry = () => {
+        closeAll()
+        handleTopUp()
+      }
+      const actionButtons: ReactNode[] =
+        (error as any)?.type === "topup"
+          ? [
+              <Button
+                type="secondary"
+                size="large"
+                onClick={() => console.log("написать в поддержку")}
+              >
+                Написать в службу поддержки
+              </Button>,
+              <Button type="primary" onClick={retry} size="large">
+                Повторить попытку
+              </Button>,
+            ]
+          : [
+              <Button onClick={closeAll} type="primary" size="large">
+                Закрыть
+              </Button>,
+            ]
+      openSheet(
+        <ErrorBottomSheet
+          errorTitle={
+            (error as any)?.type === "topup"
+              ? "Ошибка пополнения"
+              : "Покупка NFT"
+          }
+          errorText={
+            (error as any)?.type === "topup"
+              ? "Не удалось пополнить баланс. Повторите попытку или обратитесь в службу поддержки."
+              : "Не удалось купить NFT: цена изменилась или она уже была куплена."
+          }
+          actionButtons={actionButtons}
+        />,
+        {
+          renderLeftHeader() {
+            return (
+              <span className={styles.bottomSheetTitle}>
+                {(error as any)?.type === "topup"
+                  ? "Ошибка пополнения"
+                  : "Покупка NFT"}
+              </span>
+            )
+          },
+        }
+      )
     }
   }
 
