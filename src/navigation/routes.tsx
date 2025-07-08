@@ -43,9 +43,8 @@ export const router = createHashRouter([
             element: <StickersPage />,
             children: [{ path: ":id", element: <StickerModal /> }],
           },
-          { path: "gifts", element: <GiftsCollectionGrid /> },
           {
-            path: "gifts/:key",
+            path: "gifts",
             element: <GiftPage />,
             children: [{ path: ":id", element: <GiftModal /> }],
           },

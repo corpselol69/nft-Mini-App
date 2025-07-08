@@ -17,13 +17,19 @@ import { IGiftPageProps } from "./GiftPage.d"
 import { BuyNftBottomSheet } from "@/components/Modals/BuyNftBottomSheet/BuyNftBottomSheet"
 
 // Пример данных для карточек
-const mockNfts = [
-  { id: 1, title: "Snow ball", price: 96, url: bdayImg },
-  { id: 2, title: "Snow ball", price: 90, url: bdayImg },
-  { id: 3, title: "Snow ball", price: 90, url: bdayImg },
-  { id: 4, title: "Snow ball", price: 90, url: bdayImg },
-  { id: 5, title: "Snow ball", price: 90, url: bdayImg },
-  { id: 6, title: "Snow ball", price: 90, url: bdayImg },
+const mockNfts: {
+  id: number
+  title: string
+  price: number
+  url: string
+  status: "sell" | "on sale"
+}[] = [
+  { id: 1, title: "Snow ball", price: 96, url: bdayImg, status: "sell" },
+  { id: 2, title: "Snow ball", price: 90, url: bdayImg, status: "on sale" },
+  { id: 3, title: "Snow ball", price: 90, url: bdayImg, status: "sell" },
+  { id: 4, title: "Snow ball", price: 90, url: bdayImg, status: "sell" },
+  { id: 5, title: "Snow ball", price: 90, url: bdayImg, status: "sell" },
+  { id: 6, title: "Snow ball", price: 90, url: bdayImg, status: "sell" },
 ]
 
 export const GiftPage: FC<IGiftPageProps> = () => {

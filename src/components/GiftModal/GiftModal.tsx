@@ -35,6 +35,7 @@ const gift = {
   background: "#ffe480",
   lowestPrice: "120",
   sellPrice: "160",
+  status: "on sale", // или "sold out"
 }
 const isInCart = false // заменить на реальное состояние
 
