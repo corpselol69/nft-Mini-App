@@ -112,6 +112,27 @@
         align-items: center;
         gap: 4px;
         justify-content: flex-end;
+        .oldPriceValue {
+          text-decoration: line-through;
+          color: $typography-secondary;
+        }
+
+        .upwardWrapper {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          color: $colors-orange;
+          .priceText {
+            color: $colors-orange;
+            margin-right: 4px;
+          }
+          .priceIcon {
+            path {
+              fill: $colors-orange;
+            }
+          }
+        }
 
         .priceText {
           color: $colors-accent;

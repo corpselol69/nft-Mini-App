@@ -9,7 +9,7 @@ import icnLClose from "@/static/icons/icn-L_Close.svg"
 import monkeyPng from "@/static/placeholders/monkey.png"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { BuyNftBottomSheet } from "@/components/Modals/BuyNftBottomSheet/BuyNftBottomSheet"
-import { SuccessBuyNftBottomSheet } from "@/components/Modals/SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
+import upwardIcon from "@/static/icons/arrow_upward_alt.svg"
 
 export const CartPage: FC = () => {
   const [isDeleting, setIsDeleting] = useState(false)
@@ -127,6 +127,32 @@ export const CartPage: FC = () => {
                 </Button>
               </div>
             )}
+          </div>
+          <div className={styles.itemWrapper}>
+            <input type="checkbox" />
+            <div className={styles.imageWrapper}>
+              <img src={monkeyPng} />
+              <Button
+                className={clsx(styles.buttonIconClose, styles.absolute)}
+                size="large"
+              >
+                <Icon src={icnLClose} />
+              </Button>
+            </div>
+            <div className={styles.itemDescription}>
+              <span className={styles.itemDescriptionTitle}>
+                Bored Stickers
+              </span>
+              <span className={styles.itemDescriptionText}>#8697</span>
+            </div>
+            <div className={styles.itemPrice}>
+              <span className={styles.oldPriceValue}>1</span>
+              <div className={styles.upwardWrapper}>
+                <Icon src={upwardIcon} className={styles.upwardIcon} />
+                <span className={styles.priceText}>2</span>
+                <Icon src={tonIcon} className={styles.priceIcon} />
+              </div>
+            </div>
           </div>
         </div>
         <div className={styles.footerWrapper}>
