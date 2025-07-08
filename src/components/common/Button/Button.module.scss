@@ -18,18 +18,6 @@
   @include typography.button-m-sf;
 }
 
-.small {
-  height: 20px;
-  padding: 4px 6px;
-  @include typography.button-s-sf;
-}
-
-.large {
-  height: 42px;
-  padding: 12px;
-  @include typography.button-l-sf;
-}
-
 .primary {
   background: $colors-accent;
   color: $typography-white;
@@ -121,4 +109,16 @@
   &.column {
     flex-direction: column;
   }
+}
+
+.small {
+  height: 20px;
+  padding: 4px 6px;
+  @include typography.button-s-sf;
+}
+
+.large {
+  height: 42px;
+  padding: 12px;
+  @include typography.button-l-sf;
 }
