@@ -27,7 +27,11 @@ export const MarketplacePage: FC = () => {
               <Icon src={tonIcon} color="active" />
             </div>
           </Button>
-          <Button type="secondary" size="medium">
+          <Button
+            type="secondary"
+            size="medium"
+            onClick={() => navigate("/cart")}
+          >
             <div className={styles.button_content}>
               <Icon src={shoppingCart} color="active" /> 3
             </div>
