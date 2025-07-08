@@ -1,5 +1,5 @@
 import { FC, useState } from "react"
-import clsx from "clsx"
+import clsx from "classnames"
 import styles from "./CartPage.module.scss"
 import { Button } from "@/components/common/Button/Button"
 import Icon from "@/components/common/Icon/Icon"
@@ -8,8 +8,8 @@ import { Page } from "@/components/Page.tsx"
 import icnLClose from "@/static/icons/icn-L_Close.svg"
 import monkeyPng from "@/static/placeholders/monkey.png"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
-import { BuyNftBottomSheet } from "@/components/Modals/BuyNftBottomSheet/BuyNftBottomSheet"
 import upwardIcon from "@/static/icons/arrow_upward_alt.svg"
+import { ConfirmBuyNftBottomSheet } from "@/components/Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
 
 export const CartPage: FC = () => {
   const [isDeleting, setIsDeleting] = useState(false)
@@ -24,7 +24,7 @@ export const CartPage: FC = () => {
 
   const handleOnBuyClick = () => {
     openSheet(
-      <BuyNftBottomSheet
+      <ConfirmBuyNftBottomSheet
         nftPrice={92}
         onBuy={handleBuyNft}
         onCancel={closeAll}
