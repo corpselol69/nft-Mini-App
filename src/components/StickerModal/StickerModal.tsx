@@ -27,15 +27,13 @@ const mockNft = {
   issued: "9 999/9 999",
 }
 
-const isInCart = true //  заменить на реальное состояние из контекста или хука
-
 export const StickerModal: FC = () => {
   const navigate = useNavigate()
   const { openSheet, closeAll } = useBottomSheet()
   const { id } = useParams<{ id: string }>()
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
 
-  const [open, setOpen] = useState(true)
+  const [isInCart, setIsInCart] = useState(false) //  заменить на реальное состояние
 
   const handleBuy = () => {
     openSheet(
@@ -58,10 +56,12 @@ export const StickerModal: FC = () => {
 
   const handleAddToCart = () => {
     // логика добавления в корзину
+    setIsInCart(!isInCart)
   }
 
   const handleViewCart = () => {
     // логика открытия корзины
+    navigate("/cart")
   }
 
   const handleWithdraw = () => {
@@ -74,7 +74,6 @@ export const StickerModal: FC = () => {
 
   const handleCloseGiftModal = useCallback(() => {
     navigate(-1)
-    setOpen(false)
   }, [])
 
   const priceContent = (
@@ -132,7 +131,7 @@ export const StickerModal: FC = () => {
         variant={isMarket ? "buy" : "remove from sale"}
         price={90}
         balance={100}
-        isInCart
+        isInCart={isInCart}
         onMainClick={isMarket ? handleBuy : handleWithdraw}
         onSecondaryClick={
           isMarket && isInCart ? handleViewCart : handlePutOnSale

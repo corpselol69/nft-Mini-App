@@ -36,14 +36,12 @@ const gift = {
   sellPrice: "160",
 }
 
-const isInCart = true //  заменить на реальное состояние из контекста или хука
-
 export const GiftModal: FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
 
-  const [open, setOpen] = useState(true)
+  const [isInCart, setIsInCart] = useState(false) //  заменить на реальное состояние
 
   const { openSheet, closeAll } = useBottomSheet()
 
@@ -93,10 +91,12 @@ export const GiftModal: FC = () => {
 
   const handleAddToCart = () => {
     // логика добавления в корзину
+    setIsInCart(!isInCart)
   }
 
   const handleViewCart = () => {
     // логика открытия корзины
+    navigate("/cart")
   }
 
   const handleWithdraw = () => {
@@ -109,7 +109,6 @@ export const GiftModal: FC = () => {
 
   const handleCloseGiftModal = useCallback(() => {
     navigate(-1)
-    setOpen(false)
   }, [])
 
   const rows = useMemo(() => {
@@ -152,7 +151,7 @@ export const GiftModal: FC = () => {
   }, [])
 
   return (
-    <BottomSheet open={open} onClose={handleCloseGiftModal}>
+    <BottomSheet open={true} onClose={handleCloseGiftModal}>
       <GiftImageWithText imgSrc={bdayImg} name={gift.name} id={gift.id} />
 
       <div className={styles.detailGiftSheetActions}>
@@ -176,7 +175,7 @@ export const GiftModal: FC = () => {
         variant={isMarket ? "buy" : "remove from sale"}
         price={90}
         balance={0}
-        isInCart
+        isInCart={isInCart}
         onMainClick={isMarket ? handleBuy : handleWithdraw}
         onSecondaryClick={
           isMarket && isInCart ? handleViewCart : handlePutOnSale
