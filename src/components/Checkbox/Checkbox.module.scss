@@ -1,0 +1,47 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.checkboxLabelWrapper {
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  .checkboxCustom {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    background: transparent;
+    position: relative;
+    transition: border-color 0.2s, background 0.2s;
+    border: 2px solid $bg-modal;
+
+    display: inline-block;
+    vertical-align: middle;
+    box-sizing: border-box;
+
+    &::after {
+      content: "";
+      display: none;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 25px;
+      height: 25px;
+      background: url("../../static/icons/icn_m_check_small.svg") center/contain
+        no-repeat;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  input[type="checkbox"]:checked + .checkboxCustom {
+    background: $colors-accent;
+
+    &::after {
+      display: block;
+    }
+  }
+}

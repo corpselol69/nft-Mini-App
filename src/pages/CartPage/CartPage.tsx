@@ -10,6 +10,7 @@ import monkeyPng from "@/static/placeholders/monkey.png"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import upwardIcon from "@/static/icons/arrow_upward_alt.svg"
 import { ConfirmBuyNftBottomSheet } from "@/components/Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
+import { Checkbox } from "@/components/Checkbox/Checkbox"
 
 export const CartPage: FC = () => {
   const [isDeleting, setIsDeleting] = useState(false)
@@ -53,14 +54,14 @@ export const CartPage: FC = () => {
         </div>
         <div className={styles.contentWrapper}>
           <div className={styles.contentHeader}>
-            <input type="checkbox" />
+            <Checkbox />
             <span className={styles.totalPriceText}>
               <span>147</span>
               <Icon src={tonIcon} pathColor="#278FFF" />
             </span>
           </div>
           <div className={styles.itemWrapper}>
-            <input type="checkbox" />
+            <Checkbox />
             <div className={styles.imageWrapper}>
               <img src={monkeyPng} />
               <Button
@@ -82,10 +83,7 @@ export const CartPage: FC = () => {
             </div>
           </div>
           <div className={styles.itemWrapper}>
-            <input
-              type="checkbox"
-              className={clsx(!isDeleting && styles.disabled)}
-            />
+            <Checkbox />
             <div
               className={clsx(
                 styles.imageWrapper,
@@ -129,7 +127,7 @@ export const CartPage: FC = () => {
             )}
           </div>
           <div className={styles.itemWrapper}>
-            <input type="checkbox" />
+            <Checkbox />
             <div className={styles.imageWrapper}>
               <img src={monkeyPng} />
               <Button

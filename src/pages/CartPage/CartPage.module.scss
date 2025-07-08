@@ -115,6 +115,7 @@
         .oldPriceValue {
           text-decoration: line-through;
           color: $typography-secondary;
+          @include typography.caption-m-sf;
         }
 
         .upwardWrapper {
