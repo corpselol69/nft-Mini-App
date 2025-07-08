@@ -16,10 +16,7 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
 }) => {
   const [dragY, setDragY] = useState(0)
   const [closing, setClosing] = useState(false)
-
   const touchStartRef = useRef<number | null>(null)
-
-  if (!open && !closing) return null
 
   const doClose = () => {
     setClosing(true)
@@ -55,6 +52,8 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
   useEffect(() => {
     doCloseAnimation && doClose()
   }, [doCloseAnimation])
+
+  if (!open && !closing) return null
 
   const content = (
     <div
