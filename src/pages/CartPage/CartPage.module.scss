@@ -1,0 +1,74 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  color: $typography-primary;
+  gap: 27px;
+
+  .cartHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    @include typography.title-l-sf;
+    .headerQty {
+      color: $typography-secondary;
+    }
+    .buttonContent {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .contentWrapper {
+    .contentHeader {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+    }
+    .totalPriceText {
+      @include typography.button-m-sf;
+      color: $typography-secondary;
+      display: flex;
+      align-items: center;
+    }
+
+    .itemWrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      .imageWrapper {
+        position: relative;
+        width: 64px;
+        height: 64px;
+        img {
+          width: 100%;
+          border-radius: 8px;
+        }
+        .buttonIconClose {
+          backdrop-filter: blur(10px);
+          background: $bg-glass;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: absolute;
+          top: -20px;
+          right: -14px;
+          padding: 8px;
+        }
+      }
+      .itemDescription {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+}

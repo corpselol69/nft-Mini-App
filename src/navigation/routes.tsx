@@ -8,6 +8,7 @@ import { GiftPage } from "@/pages/GiftPage/GiftPage"
 import { GiftsCollectionGrid } from "@/components/GiftsCollectionGrid/GiftsCollectionGrid"
 import { StickerModal } from "@/components/StickerModal/StickerModal"
 import { GiftModal } from "@/components/GiftModal/GiftModal"
+import { CartPage } from "@/pages/CartPage/CartPage"
 
 export const router = createHashRouter([
   {
@@ -51,6 +52,7 @@ export const router = createHashRouter([
         ],
       },
       { path: "profile", element: <ProfilePage /> },
+      { path: "cart", element: <CartPage /> },
       { path: "*", element: <Navigate to="market" /> },
     ],
   },
