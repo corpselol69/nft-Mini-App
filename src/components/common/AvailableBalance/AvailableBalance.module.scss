@@ -6,7 +6,6 @@
   flex-direction: row;
   justify-content: space-between;
   @include typography.caption-l-sf;
-  margin-bottom: 24px;
 }
 
 .availableBalanceValue {

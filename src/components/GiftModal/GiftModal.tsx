@@ -23,6 +23,7 @@ import { Chip } from "@/components/common/Chip/Chip"
 import { DetailsTable } from "../common/DetailsTable/DetailsTable"
 import { ModalButtonsWrapper } from "../common/ModalButtonsWrapper/ModalButtonsWrapper"
 import { ConfirmBuyNftBottomSheet } from "../Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
+import { AvailableBalance } from "../common/AvailableBalance/AvailableBalance"
 
 const gift = {
   id: "gift1",
@@ -152,6 +153,19 @@ export const GiftModal: FC = () => {
       open={true}
       doCloseAnimation={isClosing}
       onClose={() => navigate(-1)}
+      buttons={
+        <ModalButtonsWrapper
+          variant={isMarket ? "buy" : "remove from sale"}
+          price={90}
+          balance={100}
+          isInCart={isInCart}
+          onMainClick={isMarket ? handleBuy : handleWithdraw}
+          onSecondaryClick={
+            isMarket && isInCart ? handleViewCart : handlePutOnSale
+          }
+          onCartClick={handleAddToCart}
+        />
+      }
     >
       <GiftImageWithText imgSrc={bdayImg} name={gift.name} id={gift.id} />
 
@@ -172,17 +186,7 @@ export const GiftModal: FC = () => {
 
       <DetailsTable rows={rows} />
 
-      <ModalButtonsWrapper
-        variant={isMarket ? "buy" : "remove from sale"}
-        price={90}
-        balance={0}
-        isInCart={isInCart}
-        onMainClick={isMarket ? handleBuy : handleWithdraw}
-        onSecondaryClick={
-          isMarket && isInCart ? handleViewCart : handlePutOnSale
-        }
-        onCartClick={handleAddToCart}
-      />
+      <AvailableBalance balance={100} />
     </BottomSheet>
   )
 }

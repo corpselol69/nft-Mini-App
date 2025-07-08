@@ -11,6 +11,7 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
   open,
   children,
   renderLeftHeader,
+  buttons,
   doCloseAnimation = false,
 }) => {
   const [dragY, setDragY] = useState(0)
@@ -80,7 +81,8 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
           {renderLeftHeader?.()}
           <CloseIcon onClick={doClose} />
         </div>
-        <div>{children}</div>
+        <div className={styles.children}>{children}</div>
+        {buttons && buttons}
       </div>
     </div>
   )

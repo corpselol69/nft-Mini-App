@@ -4,7 +4,6 @@
 .table {
   width: 100%;
   border-radius: 12px;
-  overflow: hidden;
   border: 1px solid $stroke-10;
   margin-bottom: 24px;
 }
@@ -16,6 +15,14 @@
   @include typography.caption-m-sf;
   &:last-child {
     border-bottom: none;
+  }
+
+  &:first-child .label {
+    border-top-left-radius: 12px;
+  }
+
+  &:last-child .label {
+    border-bottom-left-radius: 12px;
   }
 }
 

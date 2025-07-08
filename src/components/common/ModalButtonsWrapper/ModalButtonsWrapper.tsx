@@ -8,7 +8,6 @@ import tonIcon from "@/static/icons/icn-S_ton.svg"
 import Icon from "@/components/common/Icon/Icon"
 import { t } from "i18next"
 import { Button } from "@/components/common/Button/Button"
-import { AvailableBalance } from "../AvailableBalance/AvailableBalance"
 
 export const ModalButtonsWrapper: React.FC<ModalButtonsWrapperProps> = ({
   variant = "buy",
@@ -26,94 +25,86 @@ export const ModalButtonsWrapper: React.FC<ModalButtonsWrapperProps> = ({
       ? `${t("buttons.delete_from_cart")}`
       : `${t("buttons.add_to_cart")}`
   return (
-    <>
-      {variant === "buy" && <AvailableBalance balance={balance} />}
-
-      <div className={styles.actionButtonsWrapper}>
-        {variant === "buy" && (
-          <>
-            <div
-              className={cs({
-                [styles.cartButtonsWrapper]: isInCart,
-                [styles.notInCartButtonsWrapper]: !isInCart,
-              })}
-            >
-              <Button
-                type="secondary"
-                size="large"
-                className={styles.secondaryCartButton}
-                onClick={onCartClick}
-              >
-                <span
-                  className={cs({
-                    [styles.inCartText]: isInCart,
-                    [styles.notInCartText]: !isInCart,
-                  })}
-                >
-                  {getCartButtonText()}
-                </span>
-              </Button>
-              {isInCart && (
-                <Button
-                  type="secondary"
-                  size="large"
-                  onClick={onSecondaryClick}
-                >
-                  <Icon src={shoppingCart} />
-                </Button>
-              )}
-            </div>
-
-            <Button
-              type="primary"
-              size="large"
-              className={styles.mainCartButton}
-              onClick={onMainClick}
-            >
-              {isBalanceEnough ? (
-                <>
-                  {t("buttons.buy_for")} {price} <Icon src={tonIcon} />
-                </>
-              ) : (
-                `${t("buttons.top_up_and_buy")}`
-              )}
-            </Button>
-          </>
-        )}
-
-        {variant === "sale" && (
-          <>
+    <div className={styles.actionButtonsWrapper}>
+      {variant === "buy" && (
+        <>
+          <div
+            className={cs({
+              [styles.cartButtonsWrapper]: isInCart,
+              [styles.notInCartButtonsWrapper]: !isInCart,
+            })}
+          >
             <Button
               type="secondary"
               size="large"
               className={styles.secondaryCartButton}
-              onClick={onSecondaryClick}
+              onClick={onCartClick}
             >
-              {t("buttons.withdraw")}
+              <span
+                className={cs({
+                  [styles.inCartText]: isInCart,
+                  [styles.notInCartText]: !isInCart,
+                })}
+              >
+                {getCartButtonText()}
+              </span>
             </Button>
+            {isInCart && (
+              <Button type="secondary" size="large" onClick={onSecondaryClick}>
+                <Icon src={shoppingCart} />
+              </Button>
+            )}
+          </div>
 
-            <Button
-              type="primary"
-              size="large"
-              className={styles.mainCartButton}
-              onClick={onMainClick}
-            >
-              {t("buttons.put_on_sale")}
-            </Button>
-          </>
-        )}
-
-        {variant === "remove from sale" && (
           <Button
-            type="secondary"
+            type="primary"
             size="large"
             className={styles.mainCartButton}
             onClick={onMainClick}
           >
-            {t("buttons.remove_from_sale")}
+            {isBalanceEnough ? (
+              <>
+                {t("buttons.buy_for")} {price} <Icon src={tonIcon} />
+              </>
+            ) : (
+              `${t("buttons.top_up_and_buy")}`
+            )}
           </Button>
-        )}
-      </div>
-    </>
+        </>
+      )}
+
+      {variant === "sale" && (
+        <>
+          <Button
+            type="secondary"
+            size="large"
+            className={styles.secondaryCartButton}
+            onClick={onSecondaryClick}
+          >
+            {t("buttons.withdraw")}
+          </Button>
+
+          <Button
+            type="primary"
+            size="large"
+            className={styles.mainCartButton}
+            onClick={onMainClick}
+          >
+            {t("buttons.put_on_sale")}
+          </Button>
+        </>
+      )}
+
+      {variant === "remove from sale" && (
+        <Button
+          type="secondary"
+          size="large"
+          className={styles.mainCartButton}
+          onClick={onMainClick}
+        >
+          {t("buttons.remove_from_sale")}
+        </Button>
+      )}
+    </div>
   )
 }

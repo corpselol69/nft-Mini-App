@@ -15,6 +15,7 @@ import monkeyImg from "@/static/placeholders/monkey.png"
 import { PriceTooltip } from "../common/PriceTooltip/PriceTooltip"
 import { DetailsTable } from "../common/DetailsTable/DetailsTable"
 import { ConfirmBuyNftBottomSheet } from "../Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
+import { AvailableBalance } from "../common/AvailableBalance/AvailableBalance"
 
 // Пример данных для карточек
 const mockNft = {
@@ -113,6 +114,19 @@ export const StickerModal: FC = () => {
             )
           : undefined
       }
+      buttons={
+        <ModalButtonsWrapper
+          variant={isMarket ? "buy" : "remove from sale"}
+          price={90}
+          balance={100}
+          isInCart={isInCart}
+          onMainClick={isMarket ? handleBuy : handleWithdraw}
+          onSecondaryClick={
+            isMarket && isInCart ? handleViewCart : handlePutOnSale
+          }
+          onCartClick={handleAddToCart}
+        />
+      }
     >
       <div className={styles.imageWrapper}>
         <img
@@ -126,17 +140,7 @@ export const StickerModal: FC = () => {
 
       <DetailsTable rows={rows} />
 
-      <ModalButtonsWrapper
-        variant={isMarket ? "buy" : "remove from sale"}
-        price={90}
-        balance={100}
-        isInCart={isInCart}
-        onMainClick={isMarket ? handleBuy : handleWithdraw}
-        onSecondaryClick={
-          isMarket && isInCart ? handleViewCart : handlePutOnSale
-        }
-        onCartClick={handleAddToCart}
-      />
+      <AvailableBalance balance={100} />
     </BottomSheet>
   )
 }
