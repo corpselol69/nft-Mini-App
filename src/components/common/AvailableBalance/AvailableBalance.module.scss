@@ -1,0 +1,27 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.availableBalanceWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  @include typography.caption-l-sf;
+  margin-bottom: 24px;
+}
+
+.availableBalanceValue {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tonBalanceIcon {
+  width: 16px;
+  height: 16px;
+
+  svg {
+    path {
+      fill: $typography-secondary;
+    }
+  }
+}
