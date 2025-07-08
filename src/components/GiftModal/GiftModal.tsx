@@ -153,38 +153,36 @@ export const GiftModal: FC = () => {
 
   return (
     <BottomSheet open={open} onClose={handleCloseGiftModal}>
-      <div className={styles.detailGiftSheet}>
-        <GiftImageWithText imgSrc={bdayImg} name={gift.name} id={gift.id} />
+      <GiftImageWithText imgSrc={bdayImg} name={gift.name} id={gift.id} />
 
-        <div className={styles.detailGiftSheetActions}>
-          <Button type="vertical" size="large" onClick={showEmodjiStatus}>
-            <Icon src={telegramIcon} className={styles.actionIcon} />
-            {t("buttons.view")}
-          </Button>
-          <Button type="vertical" size="large" onClick={setEmodjiStatus}>
-            <Icon src={statusIcon} className={styles.actionIcon} />
-            {t("buttons.status")}
-          </Button>
-          <Button type="vertical" size="large" onClick={shareEmodjiStatus}>
-            <Icon src={shareIcon} className={styles.actionIcon} />
-            {t("buttons.share")}
-          </Button>
-        </div>
-
-        <DetailsTable rows={rows} />
-
-        <ModalButtonsWrapper
-          variant={isMarket ? "buy" : "remove from sale"}
-          price={90}
-          balance={0}
-          isInCart
-          onMainClick={isMarket ? handleBuy : handleWithdraw}
-          onSecondaryClick={
-            isMarket && isInCart ? handleViewCart : handlePutOnSale
-          }
-          onCartClick={handleAddToCart}
-        />
+      <div className={styles.detailGiftSheetActions}>
+        <Button type="vertical" size="large" onClick={showEmodjiStatus}>
+          <Icon src={telegramIcon} className={styles.actionIcon} />
+          {t("buttons.view")}
+        </Button>
+        <Button type="vertical" size="large" onClick={setEmodjiStatus}>
+          <Icon src={statusIcon} className={styles.actionIcon} />
+          {t("buttons.status")}
+        </Button>
+        <Button type="vertical" size="large" onClick={shareEmodjiStatus}>
+          <Icon src={shareIcon} className={styles.actionIcon} />
+          {t("buttons.share")}
+        </Button>
       </div>
+
+      <DetailsTable rows={rows} />
+
+      <ModalButtonsWrapper
+        variant={isMarket ? "buy" : "remove from sale"}
+        price={90}
+        balance={0}
+        isInCart
+        onMainClick={isMarket ? handleBuy : handleWithdraw}
+        onSecondaryClick={
+          isMarket && isInCart ? handleViewCart : handlePutOnSale
+        }
+        onCartClick={handleAddToCart}
+      />
     </BottomSheet>
   )
 }

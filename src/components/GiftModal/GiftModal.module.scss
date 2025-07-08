@@ -1,16 +1,11 @@
 @use "@/styles/variables" as *;
 @use "@/styles/typography";
 
-.detailGiftSheet {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
 .detailGiftSheetActions {
   display: flex;
   flex-direction: row;
   gap: 8px;
+  margin-bottom: 16px;
 }
 
 .detailGiftSheetActions > * {
@@ -25,19 +20,6 @@
 
   background: $colors-accent;
   border-radius: 999px;
-}
-
-.availableBalanceWrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  @include typography.caption-l-sf;
-  margin-bottom: 8px;
-  .availableBalanceValue {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-  }
 }
 
 .priceRow {
