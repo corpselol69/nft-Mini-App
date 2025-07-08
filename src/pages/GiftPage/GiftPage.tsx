@@ -13,8 +13,8 @@ import { Outlet, useNavigate, useOutletContext } from "react-router-dom"
 import { NftGrid } from "@/components/NftGrid/NftGrid"
 import bdayImg from "@/static/placeholders/bday.png"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
-import { AddToCartBottomSheet } from "@/components/Modals/AddToCartBottomSheet/AddToCartBottomSheet"
 import { IGiftPageProps } from "./GiftPage.d"
+import { BuyNftBottomSheet } from "@/components/Modals/BuyNftBottomSheet/BuyNftBottomSheet"
 
 // Пример данных для карточек
 const mockNfts = [
@@ -43,7 +43,7 @@ export const GiftPage: FC<IGiftPageProps> = () => {
     id: string
     price: number
   }) => {
-    openSheet(<AddToCartBottomSheet {...nft} availableBalance={96} />, {
+    openSheet(<BuyNftBottomSheet {...nft} availableBalance={96} />, {
       renderLeftHeader() {
         return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
       },

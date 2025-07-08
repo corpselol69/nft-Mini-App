@@ -1,63 +1,86 @@
-import { FC, useCallback } from "react"
+import { FC } from "react"
+import { Button } from "@/components/common/Button/Button"
+import Icon from "@/components/common/Icon/Icon"
+import tonSrc from "@/static/icons/icn-S_ton.svg"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import styles from "./BuyNftBottomSheet.module.scss"
-
-import questionMarkImg from "@/static/icons/question_mark.svg"
-import { Button } from "@/components/common/Button/Button"
-import { SuccessBuyNftBottomSheet } from "../SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
-import Icon from "@/components/common/Icon/Icon"
-import { t } from "i18next"
+import { BalanceTopUpBottomSheet } from "../BalanceTopUpBottomSheet"
+import { AvailableBalance } from "@/components/common/AvailableBalance/AvailableBalance"
 
 type Props = {
-  nftPrice: number
-  quantity: string
-  onBuy: () => void
-  onCancel: () => void
+  imgLink: string
+  title: string
+  id: string
+  price: number
+  availableBalance: number
+  onClick?: () => void
 }
 
 export const BuyNftBottomSheet: FC<Props> = ({
-  nftPrice,
-  onBuy,
-  onCancel,
-  quantity = 1,
+  availableBalance,
+  id,
+  imgLink,
+  price,
+  title,
+  onClick,
 }) => {
   const { openSheet, closeAll } = useBottomSheet()
+  const isBalanceEnough = availableBalance >= price
 
-  const handleOnBuyClick = useCallback(() => {
-    onBuy()
-    openSheet(<SuccessBuyNftBottomSheet onConfirm={closeAll} />, {
-      renderLeftHeader() {
-        return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
-      },
-    })
-  }, [])
+  const buttonToShow = isBalanceEnough ? (
+    <Button type="primary" onClick={onClick} size="large">
+      Купить за {price} <Icon src={tonSrc} />
+    </Button>
+  ) : (
+    <Button
+      type="primary"
+      onClick={() =>
+        openSheet(
+          <BalanceTopUpBottomSheet
+            availableBalance={availableBalance}
+            onClose={closeAll}
+            purchasePrice={price}
+          />,
+          {
+            renderLeftHeader() {
+              return (
+                <span className={styles.bottomSheetTitle}>
+                  Пополнение баланса
+                </span>
+              )
+            },
+          }
+        )
+      }
+      size="large"
+    >
+      Пополнить баланс и купить
+    </Button>
+  )
 
   return (
-    <div className={styles.buyBottomSheetWrapper}>
-      <Icon src={questionMarkImg} className={styles.buyBottomSheetImage} />
-
-      <div className={styles.buyBottomSheetTextWrapper}>
-        <div className={styles.buyBottomSheetTextTitle}>
-          <span>Подтвердите покупку</span>
+    <div className={styles.addToCartBottomSheetWrapper}>
+      <div className={styles.titleAndPriceWrapper}>
+        <div className={styles.imageAndTitleWrapper}>
+          <div className={styles.imageWrapper}>
+            <img src={imgLink} />
+          </div>
+          <div className={styles.titleAdnIdWrapper}>
+            <span className={styles.titleText}>{title}</span>
+            <span className={styles.idText}>#{id}</span>
+          </div>
         </div>
-        <div className={styles.buyBottomSheetSubText}>
-          <span className={styles.buyBottomSheetSubTextValue}>
-            Вы совершаете покупку{" "}
-            <span className={styles.buyBottomSheetQuantity}>
-              {quantity} NFT
-            </span>{" "}
-            за{" "}
-            <span className={styles.buyBottomSheetPrice}>{nftPrice} TON</span>
-          </span>
+        <div>
+          <span className={styles.priceText}>{price}</span>{" "}
+          <span className={styles.priceValue}>TON</span>
         </div>
       </div>
+      <AvailableBalance balance={availableBalance} />
       <div className={styles.actionButtonsWrapper}>
-        <Button type="secondary" onClick={onCancel} size="large">
-          {t("buttons.cancel")}
+        <Button size="large" type="secondary">
+          Добавить в корзину
         </Button>
-        <Button type="primary" onClick={handleOnBuyClick} size="large">
-          {t("buttons.buy")}
-        </Button>
+        {buttonToShow}
       </div>
     </div>
   )

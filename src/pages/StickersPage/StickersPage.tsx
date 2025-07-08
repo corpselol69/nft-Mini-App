@@ -14,8 +14,8 @@ import Icon from "@/components/common/Icon/Icon"
 import { IStickersPageProps } from "./StickersPage.d"
 import { Outlet, useNavigate } from "react-router-dom"
 import { useOutletContext } from "react-router-dom"
-import { AddToCartBottomSheet } from "@/components/Modals/AddToCartBottomSheet/AddToCartBottomSheet"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
+import { BuyNftBottomSheet } from "@/components/Modals/BuyNftBottomSheet/BuyNftBottomSheet"
 
 // Пример данных для карточек
 const mockNfts = [
@@ -43,7 +43,7 @@ export const StickersPage: FC<IStickersPageProps> = () => {
     id: string
     price: number
   }) => {
-    openSheet(<AddToCartBottomSheet {...nft} availableBalance={95} />, {
+    openSheet(<BuyNftBottomSheet {...nft} availableBalance={95} />, {
       renderLeftHeader() {
         return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
       },

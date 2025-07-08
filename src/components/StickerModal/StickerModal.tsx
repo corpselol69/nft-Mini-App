@@ -14,7 +14,7 @@ import { ModalButtonsWrapper } from "../common/ModalButtonsWrapper/ModalButtonsW
 import monkeyImg from "@/static/placeholders/monkey.png"
 import { PriceTooltip } from "../common/PriceTooltip/PriceTooltip"
 import { DetailsTable } from "../common/DetailsTable/DetailsTable"
-import { BuyNftBottomSheet } from "../Modals/BuyNftBottomSheet/BuyNftBottomSheet"
+import { ConfirmBuyNftBottomSheet } from "../Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
 
 // Пример данных для карточек
 const mockNft = {
@@ -39,7 +39,7 @@ export const StickerModal: FC = () => {
 
   const handleBuy = () => {
     openSheet(
-      <BuyNftBottomSheet
+      <ConfirmBuyNftBottomSheet
         nftPrice={mockNft.price}
         onBuy={() => {
           closeAll()

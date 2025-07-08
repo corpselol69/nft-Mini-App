@@ -12,7 +12,6 @@ import tonIcon from "@/static/icons/icn-S_ton.svg"
 
 import { GiftImageWithText } from "@/pages/GiftPage/ui/GiftImageWithText/GiftImageWithText"
 import { t } from "i18next"
-import { BuyNftBottomSheet } from "@/components/Modals/BuyNftBottomSheet/BuyNftBottomSheet"
 import Icon from "../common/Icon/Icon"
 import telegramIcon from "@/static/icons/telegramIcon.svg"
 import statusIcon from "@/static/icons/statusIcon.svg"
@@ -23,6 +22,7 @@ import styles from "./GiftModal.module.scss"
 import { Chip } from "@/components/common/Chip/Chip"
 import { DetailsTable } from "../common/DetailsTable/DetailsTable"
 import { ModalButtonsWrapper } from "../common/ModalButtonsWrapper/ModalButtonsWrapper"
+import { ConfirmBuyNftBottomSheet } from "../Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
 
 const gift = {
   id: "gift1",
@@ -74,7 +74,7 @@ export const GiftModal: FC = () => {
 
   const handleBuy = () => {
     openSheet(
-      <BuyNftBottomSheet
+      <ConfirmBuyNftBottomSheet
         nftPrice={gift.price}
         onBuy={() => {
           closeAll()
