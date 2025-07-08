@@ -5,18 +5,23 @@ export function CartSelectAll({
   items,
   onSelectAll,
 }: {
-  items: { selected: boolean }[]
+  items: { selected: boolean; inStock: boolean }[]
   onSelectAll: (checked: boolean) => void
 }) {
-  const allSelected = items.length && items.every(i => i.selected)
+  const inStockItems = items.filter(i => i.inStock)
+
+  const allSelected =
+    inStockItems.length > 0 && inStockItems.every(i => i.selected)
   const someSelected = items.some(i => i.selected)
+
+  console.log(!!allSelected)
 
   return (
     <div className={styles.contentHeader}>
       <Checkbox
         checked={!!allSelected}
         onChange={e => onSelectAll(someSelected ? false : e.target.checked)}
-        indeterminate={someSelected}
+        indeterminate={someSelected && !allSelected}
       />
     </div>
   )

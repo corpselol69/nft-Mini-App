@@ -84,7 +84,7 @@ export function CartItem({
             <Icon src={tonIcon} className={styles.priceIcon} />
           </div>
         )}
-        {!item.inStock && (
+        {!item.inStock && !isDeleting && (
           <div className={styles.itemDeleteButtonWrapper}>
             <Button
               className={styles.buttonIconClose}
