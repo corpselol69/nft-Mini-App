@@ -56,7 +56,7 @@ export const StickersPage: FC<IStickersPageProps> = () => {
           />
         </div>
         <NftGrid mockNfts={mockNfts} onNftClick={onCardClick} />
-        <Outlet />
+        <Outlet context={{ isMarket: isMarket }} />
       </div>
     </Page>
   )
