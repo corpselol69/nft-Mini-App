@@ -37,13 +37,13 @@ export const GiftPage: FC<IGiftPageProps> = () => {
     navigate(`${cardId}`)
   }
 
-  const onAddToCart = (nft: {
+  const onBuy = (nft: {
     imgLink: string
     title: string
     id: string
-    price: string
+    price: number
   }) => {
-    openSheet(<AddToCartBottomSheet {...nft} availableBalance="95" />, {
+    openSheet(<AddToCartBottomSheet {...nft} availableBalance={96} />, {
       renderLeftHeader() {
         return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
       },
@@ -86,11 +86,7 @@ export const GiftPage: FC<IGiftPageProps> = () => {
             placeholder="Поиск по названию или ID"
           />
         </div>
-        <NftGrid
-          mockNfts={mockNfts}
-          onNftClick={onCardClick}
-          onAddToCart={onAddToCart}
-        />
+        <NftGrid mockNfts={mockNfts} onNftClick={onCardClick} onBuy={onBuy} />
 
         <Outlet context={{ isMarket: isMarket }} />
       </div>

@@ -12,8 +12,8 @@ import { SuccessBuyNftBottomSheet } from "../SuccessBuyNftBottomSheet/SuccessBuy
 import { ErrorBottomSheet } from "../ErrorBottomSheet/ErrorBottomSheet"
 
 type Props = {
-  purchasePrice: string
-  availableBalance: string
+  purchasePrice: number
+  availableBalance: number
   onClose: () => void
 }
 

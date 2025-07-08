@@ -1,6 +1,6 @@
 import React from "react"
 import tonIcon from "@/static/icons/icn-S_ton.svg"
-import addIcon from "@/static/icons/shopping_cart.svg"
+import addIcon from "@/static/icons/icn-add_shopping_cart.svg"
 import styles from "./NftCard.module.scss"
 import { Button } from "@/components/common/Button/Button"
 import Icon from "../common/Icon/Icon"
@@ -12,6 +12,7 @@ type TProps = {
   url: string
   onClick: () => void
   addToCart: () => void
+  onBuy?: () => void
 }
 
 export const NftCard: React.FC<TProps> = ({
@@ -21,6 +22,7 @@ export const NftCard: React.FC<TProps> = ({
   url,
   onClick,
   addToCart,
+  onBuy,
 }) => {
   return (
     <div className={styles.root}>
@@ -35,7 +37,7 @@ export const NftCard: React.FC<TProps> = ({
           <div className={styles.id}>#{id}</div>
         </div>
         <div className={styles.actions}>
-          <Button color="accent" style={{ flex: 1 }}>
+          <Button color="accent" style={{ flex: 1 }} onClick={onBuy}>
             {price}
             <Icon src={tonIcon} className={styles.tonIcon} />
           </Button>

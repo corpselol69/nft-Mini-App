@@ -9,7 +9,13 @@ type TProps = {
     imgLink: string
     title: string
     id: string
-    price: string
+    price: number
+  }) => void
+  onBuy?: (nft: {
+    imgLink: string
+    title: string
+    id: string
+    price: number
   }) => void
 }
 
@@ -17,6 +23,7 @@ export const NftGrid: React.FC<TProps> = ({
   mockNfts,
   onNftClick,
   onAddToCart,
+  onBuy,
 }) => {
   return (
     <div className={styles.grid}>
@@ -32,7 +39,15 @@ export const NftGrid: React.FC<TProps> = ({
             onAddToCart?.({
               ...nft,
               imgLink: nft.url,
-              price: nft.price.toString(),
+              price: nft.price,
+              id: nft.id.toString(),
+            })
+          }
+          onBuy={() =>
+            onBuy?.({
+              ...nft,
+              imgLink: nft.url,
+              price: nft.price,
               id: nft.id.toString(),
             })
           }

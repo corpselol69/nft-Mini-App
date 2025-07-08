@@ -131,7 +131,7 @@ export const StickerModal: FC = () => {
       <ModalButtonsWrapper
         variant={isMarket ? "buy" : "remove from sale"}
         price={90}
-        balance={0}
+        balance={100}
         isInCart
         onMainClick={isMarket ? handleBuy : handleWithdraw}
         onSecondaryClick={

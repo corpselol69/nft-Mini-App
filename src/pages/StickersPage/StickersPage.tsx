@@ -14,6 +14,8 @@ import Icon from "@/components/common/Icon/Icon"
 import { IStickersPageProps } from "./StickersPage.d"
 import { Outlet, useNavigate } from "react-router-dom"
 import { useOutletContext } from "react-router-dom"
+import { AddToCartBottomSheet } from "@/components/Modals/AddToCartBottomSheet/AddToCartBottomSheet"
+import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 
 // Пример данных для карточек
 const mockNfts = [
@@ -28,12 +30,25 @@ const mockNfts = [
 export const StickersPage: FC<IStickersPageProps> = () => {
   const navigate = useNavigate()
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
+  const { openSheet } = useBottomSheet()
 
   const onCardClick = (cardId: string) => {
     navigate(`${cardId}`)
   }
   const [value, setValue] = useState("")
 
+  const onBuy = (nft: {
+    imgLink: string
+    title: string
+    id: string
+    price: number
+  }) => {
+    openSheet(<AddToCartBottomSheet {...nft} availableBalance={95} />, {
+      renderLeftHeader() {
+        return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
+      },
+    })
+  }
   return (
     <Page back={false}>
       <div>
@@ -55,7 +70,7 @@ export const StickersPage: FC<IStickersPageProps> = () => {
             placeholder="Поиск по названию или ID"
           />
         </div>
-        <NftGrid mockNfts={mockNfts} onNftClick={onCardClick} />
+        <NftGrid mockNfts={mockNfts} onNftClick={onCardClick} onBuy={onBuy} />
         <Outlet context={{ isMarket: isMarket }} />
       </div>
     </Page>
