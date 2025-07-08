@@ -1,0 +1,98 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.itemWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  .buttonIconClose {
+    backdrop-filter: blur(10px);
+    background: $bg-glass;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    padding: 8px;
+  }
+  .absolute {
+    position: absolute;
+    top: -15px;
+    right: -14px;
+  }
+
+  .imageWrapper {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    img {
+      width: 100%;
+      border-radius: 8px;
+    }
+  }
+  .itemDescription {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0.96;
+    min-width: 0;
+    overflow: hidden;
+
+    .itemDescriptionTitle {
+      @include typography.title-s-sf;
+      color: $typography-primary;
+    }
+    .itemDescriptionText {
+      @include typography.caption-s-sf;
+      color: $typography-secondary;
+    }
+    .restoreToCartText {
+      @include typography.button-m-sf;
+      color: $colors-accent;
+    }
+  }
+
+  .itemPrice {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: flex-end;
+    .oldPriceValue {
+      text-decoration: line-through;
+      color: $typography-secondary;
+      @include typography.caption-m-sf;
+    }
+
+    .upwardWrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      color: $colors-orange;
+      .priceText {
+        color: $colors-orange;
+        margin-right: 4px;
+      }
+      .priceIcon {
+        path {
+          fill: $colors-orange;
+        }
+      }
+    }
+
+    .priceText {
+      color: $colors-accent;
+      @include typography.caption-l-sf;
+    }
+    .priceIcon {
+      path {
+        fill: $colors-accent;
+      }
+    }
+  }
+}
+.disabled {
+  opacity: 50%;
+}

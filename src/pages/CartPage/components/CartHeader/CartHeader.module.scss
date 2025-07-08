@@ -1,0 +1,18 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.cartHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  @include typography.title-l-sf;
+  .headerQty {
+    color: $typography-secondary;
+  }
+  .buttonContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

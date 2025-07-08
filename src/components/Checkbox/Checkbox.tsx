@@ -38,7 +38,12 @@ export const Checkbox = forwardRef<HTMLInputElement, Props>(
           ref={internalRef}
           className={clsx(styles.checkbox, className)}
         />
-        <span className={styles.checkboxCustom} />
+        <span
+          className={clsx(
+            styles.checkboxCustom,
+            indeterminate && styles.indeterminate
+          )}
+        />
         {label && <span>{label}</span>}
       </label>
     )

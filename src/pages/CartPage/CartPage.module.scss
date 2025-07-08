@@ -52,6 +52,7 @@
       color: $typography-secondary;
       display: flex;
       align-items: center;
+      gap: 4px;
     }
 
     .itemWrapper {
@@ -175,11 +176,6 @@
         gap: 4px;
         @include typography.caption-l-sf;
       }
-      .iconTonBalance {
-        path {
-          fill: $typography-secondary;
-        }
-      }
     }
     .actionButton {
       flex-grow: 1;
@@ -187,5 +183,10 @@
         width: 100%;
       }
     }
+  }
+}
+.iconTonBalance {
+  path {
+    fill: $typography-secondary;
   }
 }
