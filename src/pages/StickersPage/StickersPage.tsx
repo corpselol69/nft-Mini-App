@@ -18,13 +18,19 @@ import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvi
 import { BuyNftBottomSheet } from "@/components/Modals/BuyNftBottomSheet/BuyNftBottomSheet"
 
 // Пример данных для карточек
-const mockNfts = [
-  { id: 1, title: "Bored Stickers", price: 90, url: monkey },
-  { id: 2, title: "Bored Stickers", price: 90, url: monkey },
-  { id: 3, title: "Bored Stickers", price: 90, url: monkey },
-  { id: 4, title: "Bored Stickers", price: 90, url: monkey },
-  { id: 5, title: "Bored Stickers", price: 90, url: monkey },
-  { id: 6, title: "Bored Stickers", price: 90, url: monkey },
+const mockNfts: {
+  id: number
+  title: string
+  price: number
+  url: string
+  status: "sell" | "on sale"
+}[] = [
+  { id: 1, title: "Bored Stickers", price: 90, url: monkey, status: "sell" },
+  { id: 2, title: "Bored Stickers", price: 90, url: monkey, status: "on sale" },
+  { id: 3, title: "Bored Stickers", price: 90, url: monkey, status: "sell" },
+  { id: 4, title: "Bored Stickers", price: 90, url: monkey, status: "sell" },
+  { id: 5, title: "Bored Stickers", price: 90, url: monkey, status: "sell" },
+  { id: 6, title: "Bored Stickers", price: 90, url: monkey, status: "sell" },
 ]
 
 export const StickersPage: FC<IStickersPageProps> = () => {

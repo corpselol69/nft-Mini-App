@@ -99,3 +99,24 @@
   height: 16px;
   display: block;
 }
+
+.onSale {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  gap: 4px;
+  @include typography.body-s-sf;
+
+  .price {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    @include typography.button-l-sf;
+  }
+  .tonIcon {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+}

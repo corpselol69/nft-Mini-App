@@ -4,12 +4,15 @@ import addIcon from "@/static/icons/icn-add_shopping_cart.svg"
 import styles from "./NftCard.module.scss"
 import { Button } from "@/components/common/Button/Button"
 import Icon from "../common/Icon/Icon"
+import { useOutletContext } from "react-router-dom"
+import { t } from "i18next"
 
 type TProps = {
   title: string
   id: number
   price: number
   url: string
+  status?: "sell" | "on sale"
   onClick: () => void
   addToCart: () => void
   onBuy?: () => void
@@ -20,10 +23,13 @@ export const NftCard: React.FC<TProps> = ({
   id,
   price,
   url,
+  status,
   onClick,
   addToCart,
   onBuy,
 }) => {
+  const { isMarket } = useOutletContext<{ isMarket: boolean }>()
+
   return (
     <div className={styles.root}>
       <div
@@ -37,13 +43,35 @@ export const NftCard: React.FC<TProps> = ({
           <div className={styles.id}>#{id}</div>
         </div>
         <div className={styles.actions}>
-          <Button color="accent" style={{ flex: 1 }} onClick={onBuy}>
-            {price}
-            <Icon src={tonIcon} className={styles.tonIcon} />
-          </Button>
-          <Button type="secondary" onClick={addToCart}>
-            <img src={addIcon} alt="Add to cart" />
-          </Button>
+          {isMarket && (
+            <>
+              <Button color="accent" style={{ flex: 1 }} onClick={onBuy}>
+                {price}
+                <Icon src={tonIcon} className={styles.tonIcon} />
+              </Button>
+              <Button type="secondary" onClick={addToCart}>
+                <img src={addIcon} alt="Add to cart" />
+              </Button>
+            </>
+          )}
+
+          {!isMarket && status === "sell" && (
+            <Button type="card-price" style={{ flex: 1 }} onClick={onClick}>
+              {t("buttons.sell")}
+            </Button>
+          )}
+
+          {!isMarket && status === "on sale" && (
+            <Button type="card-price" style={{ flex: 1 }} onClick={onClick}>
+              <div className={styles.onSale}>
+                {t("for_sale")}
+                <div className={styles.price}>
+                  {price}
+                  <Icon src={tonIcon} className={styles.tonIcon} />
+                </div>
+              </div>
+            </Button>
+          )}
         </div>
       </div>
     </div>

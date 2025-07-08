@@ -3,7 +3,13 @@ import styles from "./NftGrid.module.scss"
 import { NftCard } from "../NftCard/NftCard"
 
 type TProps = {
-  mockNfts: { id: number; title: string; price: number; url: string }[]
+  mockNfts: {
+    id: number
+    title: string
+    price: number
+    url: string
+    status: "sell" | "on sale"
+  }[]
   onNftClick: (nft: any) => void
   onAddToCart?: (nft: {
     imgLink: string
@@ -34,6 +40,7 @@ export const NftGrid: React.FC<TProps> = ({
           id={nft.id}
           price={nft.price}
           url={nft.url}
+          status={nft.status}
           onClick={() => onNftClick(nft.id)}
           addToCart={() =>
             onAddToCart?.({
