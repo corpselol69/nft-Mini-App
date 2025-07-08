@@ -15,7 +15,9 @@ export const CartPage: FC = () => {
   const [items, setItems] = useState(mockCartItems)
 
   const totalCount = items.length
-  const totalValue = items.reduce((a, i) => a + i.price, 0)
+  const totalValue = items
+    .filter(i => i.inStock)
+    .reduce((a, i) => a + i.price, 0)
 
   const setAllSelected = (checked: boolean) =>
     setItems(items.map(i => ({ ...i, selected: i.inStock ? checked : false })))
