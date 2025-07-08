@@ -8,7 +8,7 @@ type NftDetailsProps = {
   collection: string
   number: string
   issued: string
-  price: string
+  price: number
 }
 
 export const NftDetailsTable = ({
