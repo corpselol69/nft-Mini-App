@@ -8,6 +8,8 @@ import { mockCartItems } from "./const/mockData"
 import { CartHeader } from "./components/CartHeader/CartHeader"
 import { CartSelectAll } from "./components/CartSelectAll/CartSelectAll"
 import { CartItem } from "./components/CartItem/CartItem"
+import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
+import { ConfirmBuyNftBottomSheet } from "@/components/Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
 
 export const CartPage: FC = () => {
   const [items, setItems] = useState(mockCartItems)
@@ -20,9 +22,38 @@ export const CartPage: FC = () => {
   const setItemSelected = (id: string, checked: boolean) =>
     setItems(items.map(i => (i.id === id ? { ...i, selected: checked } : i)))
 
+  const selectedItemsLength = items.filter(el => el.selected).length
+  const totalPrice = items
+    .filter(el => el.selected)
+    .reduce((a, b) => a + b.price, 0)
+
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const handleRemove = (id: string) => setDeletingId(id)
   const handleRestore = (id: string) => setDeletingId(null)
+  const { openSheet, closeAll } = useBottomSheet()
+
+  const handleBuyNft = async () => {
+    try {
+      //api.buyNft(id)
+      await new Promise(r => setTimeout(r, 2000))
+    } catch (e) {}
+  }
+
+  const handleOnBuyClick = () => {
+    openSheet(
+      <ConfirmBuyNftBottomSheet
+        nftPrice={totalPrice}
+        onBuy={handleBuyNft}
+        onCancel={closeAll}
+        quantity={selectedItemsLength.toString()}
+      />,
+      {
+        renderLeftHeader() {
+          return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
+        },
+      }
+    )
+  }
 
   return (
     <Page back={true}>
@@ -58,12 +89,14 @@ export const CartPage: FC = () => {
               <Icon src={tonIcon} className={styles.iconTonBalance} />
             </div>
           </div>
-          <div className={styles.actionButton}>
-            <Button type="primary" size="large">
-              Купить за {totalValue}
-              <Icon src={tonIcon} />
-            </Button>
-          </div>
+          {!!selectedItemsLength && (
+            <div className={styles.actionButton}>
+              <Button type="primary" size="large" onClick={handleOnBuyClick}>
+                Купить за {totalPrice}
+                <Icon src={tonIcon} />
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </Page>
