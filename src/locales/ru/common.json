@@ -5,11 +5,24 @@
   "profile": "Профиль",
   "my_nft": "Мои NFT",
   "available_balance": "Доступный баланс",
-  "add_to_cart": "Добавить в корзину",
-  "delete_from_cart": "Удалить из корзины",
-  "buy": "Купить",
-  "sell_nft": "Продать NFT",
   "all": "Все",
   "not_for_sale": "Не в продаже",
-  "for_sale": "В продаже"
+  "for_sale": "В продаже",
+  "buttons": {
+    "cancel": "Отмена",
+    "confirm": "Подтвердить",
+    "close": "Закрыть",
+    "share": "Поделиться",
+    "buy": "Купить",
+    "buy_for": "Купить за",
+    "sell": "Продать",
+    "sell_nft": "Продать NFT",
+    "add_to_cart": "Добавить в корзину",
+    "delete_from_cart": "Удалить из корзины",
+    "remove_from_sale": "Снять с продажи",
+    "status": "Статус",
+    "view": "Посмотреть",
+    "withdraw": "Вывести",
+    "put_on_sale": "Выставить на продажу"
+  }
 }
