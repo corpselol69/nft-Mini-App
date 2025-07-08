@@ -1,13 +1,13 @@
-import { createHashRouter, Navigate } from "react-router-dom";
-import { MarketplacePage } from "@/pages/MarketplacePage/MarketplacePage";
-import { MyNftPage } from "@/pages/MyNftPage/MyNftPage";
-import { ProfilePage } from "@/pages/ProfilePage/ProfilePage";
-import { MainLayout } from "@/layouts/MainLayout/MainLayout";
-import { StickersPage } from "@/pages/StickersPage/StickersPage";
-import { GiftPage } from "@/pages/GiftPage/GiftPage";
-import { GiftsGrid } from "@/components/GiftsGrid/GiftsGrid";
-import { StickerModal } from "@/components/StickerModal/StickerModal";
-import { GiftModal } from "@/components/GiftModal/GiftModal";
+import { createHashRouter, Navigate } from "react-router-dom"
+import { MarketplacePage } from "@/pages/MarketplacePage/MarketplacePage"
+import { MyNftPage } from "@/pages/MyNftPage/MyNftPage"
+import { ProfilePage } from "@/pages/ProfilePage/ProfilePage"
+import { MainLayout } from "@/layouts/MainLayout/MainLayout"
+import { StickersPage } from "@/pages/StickersPage/StickersPage"
+import { GiftPage } from "@/pages/GiftPage/GiftPage"
+import { GiftsGrid } from "@/components/GiftsGrid/GiftsGrid"
+import { StickerModal } from "@/components/StickerModal/StickerModal"
+import { GiftModal } from "@/components/GiftModal/GiftModal"
 
 export const router = createHashRouter([
   {
@@ -32,9 +32,26 @@ export const router = createHashRouter([
         ],
       },
 
-      { path: "my-nft", element: <MyNftPage /> },
+      {
+        path: "my-nft",
+        element: <MyNftPage />,
+        children: [
+          { index: true, element: <Navigate to="stickers" replace /> },
+          {
+            path: "stickers",
+            element: <StickersPage />,
+            children: [{ path: ":id", element: <StickerModal /> }],
+          },
+          { path: "gifts", element: <GiftsGrid /> },
+          {
+            path: "gifts/:key",
+            element: <GiftPage />,
+            children: [{ path: ":id", element: <GiftModal /> }],
+          },
+        ],
+      },
       { path: "profile", element: <ProfilePage /> },
       { path: "*", element: <Navigate to="market" /> },
     ],
   },
-]);
+])
