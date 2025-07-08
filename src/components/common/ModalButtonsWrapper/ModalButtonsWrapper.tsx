@@ -10,53 +10,106 @@ import { t } from "i18next"
 import { Button } from "@/components/common/Button/Button"
 
 export const ModalButtonsWrapper: React.FC<ModalButtonsWrapperProps> = ({
+  variant = "buy",
   price,
   balance,
   isInCart,
+  onMainClick,
+  onSecondaryClick,
+  onCartClick,
 }) => {
   const getCartButtonText = () =>
-    isInCart ? `${t("delete_from_cart")}` : `${t("add_to_cart")}`
+    isInCart
+      ? `${t("buttons.delete_from_cart")}`
+      : `${t("buttons.add_to_cart")}`
   return (
     <>
-      <div className={styles.availableBalanceWrapper}>
-        <span className={styles.availableBalanceText}>Доступный баланс</span>
-        <div className={styles.availableBalanceValue}>
-          {balance} <Icon src={tonIcon} className={styles.tonBalanceIcon} />
+      {variant === "buy" && (
+        <div className={styles.availableBalanceWrapper}>
+          <span className={styles.availableBalanceText}>
+            {t("available_balance")}
+          </span>
+          <div className={styles.availableBalanceValue}>
+            {balance} <Icon src={tonIcon} className={styles.tonBalanceIcon} />
+          </div>
         </div>
-      </div>
+      )}
+
       <div className={styles.actionButtonsWrapper}>
-        <div
-          className={cs({
-            [styles.cartButtonsWrapper]: isInCart,
-            [styles.notInCartButtonsWrapper]: !isInCart,
-          })}
-        >
-          {/*TODO: поправить паддинги у кнопок*/}
+        {variant === "buy" && (
+          <>
+            <div
+              className={cs({
+                [styles.cartButtonsWrapper]: isInCart,
+                [styles.notInCartButtonsWrapper]: !isInCart,
+              })}
+            >
+              <Button
+                type="secondary"
+                size="large"
+                className={styles.secondaryCartButton}
+                onClick={onSecondaryClick}
+              >
+                <span
+                  className={cs({
+                    [styles.inCartText]: isInCart,
+                    [styles.notInCartText]: !isInCart,
+                  })}
+                >
+                  {getCartButtonText()}
+                </span>
+              </Button>
+              {isInCart && (
+                <Button type="secondary" size="large" onClick={onCartClick}>
+                  <Icon src={shoppingCart} />
+                </Button>
+              )}
+            </div>
+
+            <Button
+              type="primary"
+              size="large"
+              className={styles.mainCartButton}
+              onClick={onMainClick}
+            >
+              {t("buttons.buy_for")} {price}
+              <Icon src={tonIcon} />
+            </Button>
+          </>
+        )}
+
+        {variant === "sale" && (
+          <>
+            <Button
+              type="secondary"
+              size="large"
+              className={styles.secondaryCartButton}
+              onClick={onSecondaryClick}
+            >
+              {t("buttons.withdraw")}
+            </Button>
+
+            <Button
+              type="primary"
+              size="large"
+              className={styles.mainCartButton}
+              onClick={onMainClick}
+            >
+              {t("buttons.put_on_sale")}
+            </Button>
+          </>
+        )}
+
+        {variant === "remove from sale" && (
           <Button
             type="secondary"
             size="large"
             className={styles.mainCartButton}
+            onClick={onMainClick}
           >
-            <span
-              className={cs({
-                [styles.inCartText]: isInCart,
-                [styles.notInCartText]: !isInCart,
-              })}
-            >
-              {getCartButtonText()}
-            </span>
+            {t("buttons.remove_from_sale")}
           </Button>
-          {isInCart && (
-            <Button type="secondary" size="large">
-              <Icon src={shoppingCart} />
-            </Button>
-          )}
-        </div>
-
-        <Button type="primary" size="large" className={styles.buyButton}>
-          Купить за {price}
-          <Icon src={tonIcon} />
-        </Button>
+        )}
       </div>
     </>
   )

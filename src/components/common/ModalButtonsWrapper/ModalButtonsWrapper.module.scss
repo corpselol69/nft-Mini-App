@@ -36,7 +36,7 @@
   .cartButtonsWrapper {
     display: flex;
     gap: 8px;
-    .mainCartButton {
+    .secondaryCartButton {
       flex: 1;
     }
 
@@ -58,6 +58,6 @@
   }
 }
 
-.buyButton {
+.mainCartButton {
   flex: 1;
 }
