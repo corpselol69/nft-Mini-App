@@ -22,8 +22,8 @@ type TProps = {
 export const NftGrid: React.FC<TProps> = ({
   mockNfts,
   onNftClick,
-  onAddToCart,
-  onBuy,
+  onAddToCart, //заменить на secondaryClick
+  onBuy, //заменить на mainClick
 }) => {
   return (
     <div className={styles.grid}>

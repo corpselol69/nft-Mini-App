@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from "react"
+import { FC, useEffect, useRef, useState } from "react"
 import ReactDOM from "react-dom"
 import { IBottomSheetProps } from "./BottomSheet.d"
 import styles from "./BottomSheet.module.scss"
@@ -11,6 +11,7 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
   open,
   children,
   renderLeftHeader,
+  doCloseAnimation = false,
 }) => {
   const [dragY, setDragY] = useState(0)
   const [closing, setClosing] = useState(false)
@@ -49,6 +50,10 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
     }
     touchStartRef.current = null
   }
+
+  useEffect(() => {
+    doCloseAnimation && doClose()
+  }, [doCloseAnimation])
 
   const content = (
     <div

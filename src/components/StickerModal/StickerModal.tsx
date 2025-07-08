@@ -27,15 +27,18 @@ const mockNft = {
   issued: "9 999/9 999",
 }
 
+const isInCart = false // заменить на реальное состояние
+
 export const StickerModal: FC = () => {
   const navigate = useNavigate()
   const { openSheet, closeAll } = useBottomSheet()
   const { id } = useParams<{ id: string }>()
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
 
-  const [isInCart, setIsInCart] = useState(false) //  заменить на реальное состояние
+  const [isClosing, setIsClosing] = useState(false)
 
   const handleBuy = () => {
+    setIsClosing(true)
     openSheet(
       <ConfirmBuyNftBottomSheet
         nftPrice={mockNft.price}
@@ -51,12 +54,11 @@ export const StickerModal: FC = () => {
         },
       }
     )
-    handleCloseGiftModal()
   }
 
   const handleAddToCart = () => {
     // логика добавления в корзину
-    setIsInCart(!isInCart)
+    setIsClosing(true)
   }
 
   const handleViewCart = () => {
@@ -71,10 +73,6 @@ export const StickerModal: FC = () => {
   const handlePutOnSale = () => {
     // логика выставления на продажу
   }
-
-  const handleCloseGiftModal = useCallback(() => {
-    navigate(-1)
-  }, [])
 
   const priceContent = (
     <span className={styles.priceRow}>
@@ -95,6 +93,7 @@ export const StickerModal: FC = () => {
   return (
     <BottomSheet
       open={true}
+      doCloseAnimation={isClosing}
       onClose={() => navigate(-1)}
       renderLeftHeader={
         isMarket

@@ -35,13 +35,14 @@ const gift = {
   lowestPrice: "120",
   sellPrice: "160",
 }
+const isInCart = false // заменить на реальное состояние
 
 export const GiftModal: FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
 
-  const [isInCart, setIsInCart] = useState(false) //  заменить на реальное состояние
+  const [isClosing, setIsClosing] = useState(false)
 
   const { openSheet, closeAll } = useBottomSheet()
 
@@ -71,6 +72,7 @@ export const GiftModal: FC = () => {
   }
 
   const handleBuy = () => {
+    setIsClosing(true)
     openSheet(
       <ConfirmBuyNftBottomSheet
         nftPrice={gift.price}
@@ -86,12 +88,11 @@ export const GiftModal: FC = () => {
         },
       }
     )
-    handleCloseGiftModal()
   }
 
   const handleAddToCart = () => {
     // логика добавления в корзину
-    setIsInCart(!isInCart)
+    setIsClosing(true)
   }
 
   const handleViewCart = () => {
@@ -106,10 +107,6 @@ export const GiftModal: FC = () => {
   const handlePutOnSale = () => {
     // логика выставления на продажу
   }
-
-  const handleCloseGiftModal = useCallback(() => {
-    navigate(-1)
-  }, [])
 
   const rows = useMemo(() => {
     return [
@@ -151,7 +148,11 @@ export const GiftModal: FC = () => {
   }, [])
 
   return (
-    <BottomSheet open={true} onClose={handleCloseGiftModal}>
+    <BottomSheet
+      open={true}
+      doCloseAnimation={isClosing}
+      onClose={() => navigate(-1)}
+    >
       <GiftImageWithText imgSrc={bdayImg} name={gift.name} id={gift.id} />
 
       <div className={styles.detailGiftSheetActions}>
