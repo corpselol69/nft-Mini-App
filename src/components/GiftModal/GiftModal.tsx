@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState, type FC } from "react"
 import { BottomSheet } from "../common/BottomSheet/BottomSheet"
 
 import { Button } from "@/components/common/Button/Button"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useOutletContext, useParams } from "react-router-dom"
 import { PriceTooltip } from "@/components/common/PriceTooltip/PriceTooltip"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 
@@ -22,6 +22,7 @@ import { openTelegramLink, setEmojiStatus, shareURL } from "@telegram-apps/sdk"
 import styles from "./GiftModal.module.scss"
 import { Chip } from "@/components/common/Chip/Chip"
 import { DetailsTable } from "../common/DetailsTable/DetailsTable"
+import { ModalButtonsWrapper } from "../common/ModalButtonsWrapper/ModalButtonsWrapper"
 
 const gift = {
   id: "gift1",
@@ -35,9 +36,12 @@ const gift = {
   sellPrice: "160",
 }
 
+const isInCart = true //  заменить на реальное состояние из контекста или хука
+
 export const GiftModal: FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
+  const { isMarket } = useOutletContext<{ isMarket: boolean }>()
 
   const [open, setOpen] = useState(true)
 
@@ -66,6 +70,41 @@ export const GiftModal: FC = () => {
   const shareEmodjiStatus = async () => {
     const url = `https://t.me/d33sf0mebot/mytest/#/market/stickers/${id}` //заменить url из .env
     shareURL.ifAvailable(url, `Смотри этот гифт #${id}`)
+  }
+
+  const handleBuy = () => {
+    openSheet(
+      <BuyNftBottomSheet
+        nftPrice={gift.price}
+        onBuy={() => {
+          closeAll()
+        }}
+        onCancel={closeAll}
+        quantity="1"
+      />,
+      {
+        renderLeftHeader() {
+          return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
+        },
+      }
+    )
+    handleCloseGiftModal()
+  }
+
+  const handleAddToCart = () => {
+    // логика добавления в корзину
+  }
+
+  const handleViewCart = () => {
+    // логика открытия корзины
+  }
+
+  const handleWithdraw = () => {
+    // логика снятия с продажи
+  }
+
+  const handlePutOnSale = () => {
+    // логика выставления на продажу
   }
 
   const handleCloseGiftModal = useCallback(() => {
@@ -134,57 +173,17 @@ export const GiftModal: FC = () => {
 
         <DetailsTable rows={rows} />
 
-        <div className={styles.availableBalanceWrapper}>
-          <div className={styles.availableBalanceText}>
-            <span>{t("available_balance")}</span>
-          </div>
-          <div className={styles.availableBalanceValue}>
-            12,4 <img src={tonIcon} alt="TON" />
-          </div>
-        </div>
-
-        <div className={styles.actionButtonsWrapper}>
-          <div>
-            <Button
-              type="secondary"
-              size="large"
-              className={styles.mainCartButton}
-            >
-              <span className={styles.cartButtonText}>
-                {t("buttons.add_to_cart")}
-              </span>
-            </Button>
-          </div>
-          <div className={styles.buyButtonWrapper}>
-            <Button
-              type="primary"
-              size="large"
-              onClick={() => {
-                openSheet(
-                  <BuyNftBottomSheet
-                    nftPrice={gift.price}
-                    onBuy={() => {}}
-                    onCancel={closeAll}
-                    quantity="1"
-                  />,
-                  {
-                    renderLeftHeader() {
-                      return (
-                        <span className={styles.bottomSheetTitle}>
-                          Покупка NFT
-                        </span>
-                      )
-                    },
-                  }
-                )
-                handleCloseGiftModal()
-              }}
-            >
-              Купить за {gift.price}
-              <img src={tonIcon} alt="TON" />
-            </Button>
-          </div>
-        </div>
+        <ModalButtonsWrapper
+          variant={isMarket ? "buy" : "remove from sale"}
+          price={90}
+          balance={0}
+          isInCart
+          onMainClick={isMarket ? handleBuy : handleWithdraw}
+          onSecondaryClick={
+            isMarket && isInCart ? handleViewCart : handlePutOnSale
+          }
+          onCartClick={handleAddToCart}
+        />
       </div>
     </BottomSheet>
   )
