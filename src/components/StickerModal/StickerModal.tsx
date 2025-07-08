@@ -43,7 +43,7 @@ export const StickerModal: FC = () => {
     openSheet(
       <ConfirmBuyNftBottomSheet
         nftPrice={mockNft.price}
-        onBuy={() => {
+        onBuy={async () => {
           closeAll()
         }}
         onCancel={closeAll}

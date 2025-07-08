@@ -33,10 +33,9 @@ export const CartPage: FC = () => {
   const { openSheet, closeAll } = useBottomSheet()
 
   const handleBuyNft = async () => {
-    try {
-      //api.buyNft(id)
-      await new Promise(r => setTimeout(r, 2000))
-    } catch (e) {}
+    //api.buyNft(id)
+
+    await new Promise(r => setTimeout(r, 2000))
   }
 
   const handleOnBuyClick = () => {
