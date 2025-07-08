@@ -5,7 +5,7 @@ import { ProfilePage } from "@/pages/ProfilePage/ProfilePage"
 import { MainLayout } from "@/layouts/MainLayout/MainLayout"
 import { StickersPage } from "@/pages/StickersPage/StickersPage"
 import { GiftPage } from "@/pages/GiftPage/GiftPage"
-import { GiftsGrid } from "@/components/GiftsGrid/GiftsGrid"
+import { GiftsCollectionGrid } from "@/components/GiftsCollectionGrid/GiftsCollectionGrid"
 import { StickerModal } from "@/components/StickerModal/StickerModal"
 import { GiftModal } from "@/components/GiftModal/GiftModal"
 
@@ -23,7 +23,7 @@ export const router = createHashRouter([
             element: <StickersPage />,
             children: [{ path: ":id", element: <StickerModal /> }],
           },
-          { path: "gifts", element: <GiftsGrid /> },
+          { path: "gifts", element: <GiftsCollectionGrid /> },
           {
             path: "gifts/:key",
             element: <GiftPage />,
@@ -42,7 +42,7 @@ export const router = createHashRouter([
             element: <StickersPage />,
             children: [{ path: ":id", element: <StickerModal /> }],
           },
-          { path: "gifts", element: <GiftsGrid /> },
+          { path: "gifts", element: <GiftsCollectionGrid /> },
           {
             path: "gifts/:key",
             element: <GiftPage />,

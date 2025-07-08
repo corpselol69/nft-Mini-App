@@ -1,19 +1,20 @@
-import React from "react";
-import styles from "./ItemCard.module.scss";
-import { Button } from "@/components/common/Button/Button";
-import tonIcon from "@/static/icons/icn-S_ton.svg";
-import snowImg from "@/static/placeholders/snow.png";
-import { IGiftCard } from "../types";
-import Icon from "@/components/common/Icon/Icon";
-import { NavLink } from "react-router-dom";
+import React from "react"
+import styles from "./GiftCollectionCard.module.scss"
+import { Button } from "@/components/common/Button/Button"
+import tonIcon from "@/static/icons/icn-S_ton.svg"
+import snowImg from "@/static/placeholders/snow.png"
+import { IGiftCard } from "../types"
+import Icon from "@/components/common/Icon/Icon"
+import { NavLink } from "react-router-dom"
 
 type TProps = {
-  item: IGiftCard;
-};
+  item: IGiftCard
+  link: string
+}
 
-export const ItemCard: React.FC<TProps> = ({ item }) => {
+export const GiftCollectionCard: React.FC<TProps> = ({ item, link }) => {
   return (
-    <NavLink to={`/market/gifts/${item.id}`} className={styles.root}>
+    <NavLink to={`${link}/gifts/${item.id}`} className={styles.root}>
       <div
         className={styles.pic}
         style={{
@@ -33,5 +34,5 @@ export const ItemCard: React.FC<TProps> = ({ item }) => {
         </div>
       </div>
     </NavLink>
-  );
-};
+  )
+}
