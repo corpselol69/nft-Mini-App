@@ -13,6 +13,7 @@ import monkey from "@/static/placeholders/monkey.png"
 import Icon from "@/components/common/Icon/Icon"
 import { IStickersPageProps } from "./StickersPage.d"
 import { Outlet, useNavigate } from "react-router-dom"
+import { useOutletContext } from "react-router-dom"
 
 // Пример данных для карточек
 const mockNfts = [
@@ -26,9 +27,10 @@ const mockNfts = [
 
 export const StickersPage: FC<IStickersPageProps> = () => {
   const navigate = useNavigate()
+  const { isMarket } = useOutletContext<{ isMarket: boolean }>()
 
   const onCardClick = (cardId: string) => {
-    navigate(`/market/stickers/${cardId}`)
+    navigate(`${cardId}`)
   }
   const [value, setValue] = useState("")
 
@@ -36,15 +38,18 @@ export const StickersPage: FC<IStickersPageProps> = () => {
     <Page back={false}>
       <div>
         <div className={styles.filterWrapper}>
-          <div className={styles.selectWrapper}>
-            <Select
-              options={SELECT_DATA}
-              value={value}
-              onChange={setValue}
-              defaultValue={SELECT_DATA[0].value}
-            />
-            <Select options={[]} onChange={() => {}} placeholder="Модель" />
-          </div>
+          {isMarket && (
+            <div className={styles.selectWrapper}>
+              <Select
+                options={SELECT_DATA}
+                value={value}
+                onChange={setValue}
+                defaultValue={SELECT_DATA[0].value}
+              />
+              <Select options={[]} onChange={() => {}} placeholder="Модель" />
+            </div>
+          )}
+
           <Input
             icon={<Icon src={searchIcon} />}
             placeholder="Поиск по названию или ID"

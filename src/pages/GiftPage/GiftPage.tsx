@@ -9,11 +9,12 @@ import searchIcon from "@/static/icons/searchIcon.svg"
 import { SELECT_DATA } from "@/components/StickersGrid/model/const"
 
 import Icon from "@/components/common/Icon/Icon"
-import { Outlet, useNavigate } from "react-router-dom"
+import { Outlet, useNavigate, useOutletContext } from "react-router-dom"
 import { NftGrid } from "@/components/NftGrid/NftGrid"
 import bdayImg from "@/static/placeholders/bday.png"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { AddToCartBottomSheet } from "@/components/Modals/AddToCartBottomSheet/AddToCartBottomSheet"
+import { IGiftPageProps } from "./GiftPage.d"
 
 // Пример данных для карточек
 const mockNfts = [
@@ -25,10 +26,12 @@ const mockNfts = [
   { id: 6, title: "Snow ball", price: 90, url: bdayImg },
 ]
 
-export const GiftPage: FC = () => {
-  const [priceFilter, setPriceFilter] = useState("")
+export const GiftPage: FC<IGiftPageProps> = () => {
   const navigate = useNavigate()
   const { openSheet } = useBottomSheet()
+  const { isMarket } = useOutletContext<{ isMarket: boolean }>()
+
+  const [priceFilter, setPriceFilter] = useState("")
 
   const onCardClick = (cardId: string) => {
     navigate(`${cardId}`)
