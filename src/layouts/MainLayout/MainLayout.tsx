@@ -1,34 +1,35 @@
-import { useEffect, useState } from "react";
-import { Outlet, NavLink } from "react-router-dom";
-import storeIcon from "@/static/icons/store.svg";
-import cardsIcon from "@/static/icons/cards_star.svg";
+import { useEffect, useState } from "react"
+import { Outlet, NavLink, useMatch } from "react-router-dom"
+import storeIcon from "@/static/icons/store.svg"
+import cardsIcon from "@/static/icons/cards_star.svg"
 
-import { t } from "i18next";
-import { miniApp, swipeBehavior, viewport } from "@telegram-apps/sdk";
+import { t } from "i18next"
+import { miniApp, swipeBehavior, viewport } from "@telegram-apps/sdk"
 
-import styles from "./MainLayout.module.scss";
-import Icon from "@/components/common/Icon/Icon";
+import styles from "./MainLayout.module.scss"
+import Icon from "@/components/common/Icon/Icon"
 
 export function MainLayout() {
-  const [paddingTop, setPaddingTop] = useState(0);
-  const [paddingBottom, setPaddingBottom] = useState(0);
-  const [activeTab, setActiveTab] = useState<"market" | "my-nft" | "profile">(
-    "market"
-  );
+  const isMarket = !!useMatch({ path: "/market/*" })
+  const isMyNft = !!useMatch({ path: "/my-nft/*" })
+  const isProfile = !!useMatch({ path: "/profile" })
+
+  const [paddingTop, setPaddingTop] = useState(0)
+  const [paddingBottom, setPaddingBottom] = useState(0)
 
   useEffect(() => {
     if (viewport.isFullscreen() && miniApp.isMounted()) {
-      const safeArea = viewport.safeAreaInsets();
-      const totalPadding = safeArea.top + safeArea.bottom;
-      setPaddingTop(totalPadding);
-      setPaddingBottom(safeArea.bottom);
+      const safeArea = viewport.safeAreaInsets()
+      const totalPadding = safeArea.top + safeArea.bottom
+      setPaddingTop(totalPadding)
+      setPaddingBottom(safeArea.bottom)
     }
 
-    swipeBehavior.mount.ifAvailable();
+    swipeBehavior.mount.ifAvailable()
     if (swipeBehavior.isMounted()) {
-      swipeBehavior.disableVertical();
+      swipeBehavior.disableVertical()
     }
-  }, []);
+  }, [])
 
   return (
     <div className={styles.root}>
@@ -44,38 +45,27 @@ export function MainLayout() {
         <NavLink
           to="/market"
           className={({ isActive }) => (isActive ? styles.active : undefined)}
-          onClick={() => setActiveTab("market")}
         >
-          <Icon
-            src={storeIcon}
-            color={activeTab === "market" ? "active" : "default"}
-          />
+          <Icon src={storeIcon} color={isMarket ? "active" : "default"} />
           <span>{t("market")}</span>
         </NavLink>
         <NavLink
           to="/my-nft"
           className={({ isActive }) => (isActive ? styles.active : undefined)}
-          onClick={() => setActiveTab("my-nft")}
         >
-          <Icon
-            src={cardsIcon}
-            color={activeTab === "my-nft" ? "active" : "default"}
-          />
+          <Icon src={cardsIcon} color={isMyNft ? "active" : "default"} />
           <span>{t("my_nft")}</span>
         </NavLink>
         <NavLink
           to="/profile"
           className={({ isActive }) => (isActive ? styles.active : undefined)}
-          onClick={() => setActiveTab("profile")}
         >
           <div
-            className={`${styles.avatar} ${
-              activeTab === "profile" ? styles.active : ""
-            }`}
+            className={`${styles.avatar} ${isProfile ? styles.active : ""}`}
           ></div>
           <span>{t("profile")}</span>
         </NavLink>
       </nav>
     </div>
-  );
+  )
 }
