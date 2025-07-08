@@ -1,2 +1,19 @@
-@use "@/styles/variables";
+@use "@/styles/variables" as *;
 @use "@/styles/typography";
+
+.root {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+
+  color: $typography-primary;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .title {
+    @include typography.title-l-sf;
+  }
+}
