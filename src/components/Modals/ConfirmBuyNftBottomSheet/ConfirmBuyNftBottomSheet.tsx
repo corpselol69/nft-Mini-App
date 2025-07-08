@@ -11,7 +11,7 @@ import { t } from "i18next"
 type Props = {
   nftPrice: number
   quantity: string
-  onBuy: () => void
+  onBuy: () => Promise<void>
   onCancel: () => void
 }
 
@@ -23,13 +23,18 @@ export const ConfirmBuyNftBottomSheet: FC<Props> = ({
 }) => {
   const { openSheet, closeAll } = useBottomSheet()
 
-  const handleOnBuyClick = useCallback(() => {
-    onBuy()
-    openSheet(<SuccessBuyNftBottomSheet onConfirm={closeAll} />, {
-      renderLeftHeader() {
-        return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
-      },
-    })
+  const handleOnBuyClick = useCallback(async () => {
+    try {
+      await onBuy()
+      openSheet(<SuccessBuyNftBottomSheet onConfirm={closeAll} />, {
+        renderLeftHeader() {
+          return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
+        },
+      })
+    } catch (e) {
+      console.error(e)
+      //
+    }
   }, [])
 
   return (
