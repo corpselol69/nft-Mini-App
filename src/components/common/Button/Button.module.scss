@@ -33,6 +33,7 @@
 .primary {
   background: $colors-accent;
   color: $typography-white;
+  padding: 8px 12px;
   @include typography.button-l-sf;
 
   &:active {
