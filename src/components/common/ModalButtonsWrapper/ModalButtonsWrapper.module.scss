@@ -1,0 +1,63 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.availableBalanceValue {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tableDataWrapper {
+  margin-bottom: 24px;
+}
+
+.availableBalanceWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  @include typography.caption-l-sf;
+  margin-bottom: 24px;
+}
+
+.actionButtonsWrapper {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+  .notInCartButtonsWrapper {
+    display: flex;
+    button {
+      flex: 1;
+    }
+    .notInCartText {
+      color: $colors-accent;
+      @include typography.caption-l-sf;
+    }
+  }
+  .cartButtonsWrapper {
+    display: flex;
+    gap: 8px;
+    .mainCartButton {
+      flex: 1;
+    }
+
+    .inCartText {
+      color: $colors-red;
+      @include typography.caption-l-sf;
+    }
+  }
+}
+
+.tonBalanceIcon {
+  width: 16px;
+  height: 16px;
+
+  svg {
+    path {
+      fill: $typography-secondary;
+    }
+  }
+}
+
+.buyButton {
+  flex: 1;
+}
