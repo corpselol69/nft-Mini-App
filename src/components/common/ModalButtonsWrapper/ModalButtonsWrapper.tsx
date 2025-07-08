@@ -8,6 +8,7 @@ import tonIcon from "@/static/icons/icn-S_ton.svg"
 import Icon from "@/components/common/Icon/Icon"
 import { t } from "i18next"
 import { Button } from "@/components/common/Button/Button"
+import { AvailableBalance } from "../AvailableBalance/AvailableBalance"
 
 export const ModalButtonsWrapper: React.FC<ModalButtonsWrapperProps> = ({
   variant = "buy",
@@ -18,22 +19,15 @@ export const ModalButtonsWrapper: React.FC<ModalButtonsWrapperProps> = ({
   onSecondaryClick,
   onCartClick,
 }) => {
+  const isBalanceEnough = balance >= price
+
   const getCartButtonText = () =>
     isInCart
       ? `${t("buttons.delete_from_cart")}`
       : `${t("buttons.add_to_cart")}`
   return (
     <>
-      {variant === "buy" && (
-        <div className={styles.availableBalanceWrapper}>
-          <span className={styles.availableBalanceText}>
-            {t("available_balance")}
-          </span>
-          <div className={styles.availableBalanceValue}>
-            {balance} <Icon src={tonIcon} className={styles.tonBalanceIcon} />
-          </div>
-        </div>
-      )}
+      {variant === "buy" && <AvailableBalance balance={balance} />}
 
       <div className={styles.actionButtonsWrapper}>
         {variant === "buy" && (
@@ -72,8 +66,13 @@ export const ModalButtonsWrapper: React.FC<ModalButtonsWrapperProps> = ({
               className={styles.mainCartButton}
               onClick={onMainClick}
             >
-              {t("buttons.buy_for")} {price}
-              <Icon src={tonIcon} />
+              {isBalanceEnough ? (
+                <>
+                  {t("buttons.buy_for")} {price} <Icon src={tonIcon} />
+                </>
+              ) : (
+                `${t("buttons.top_up_and_buy")}`
+              )}
             </Button>
           </>
         )}
