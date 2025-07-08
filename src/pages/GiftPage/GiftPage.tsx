@@ -6,7 +6,7 @@ import styles from "./GiftPage.module.scss"
 import { Select } from "@/components/common/Select/Select"
 import { Input } from "@/components/common/Input/Input"
 import searchIcon from "@/static/icons/searchIcon.svg"
-import { SELECT_DATA } from "@/components/StickersGrid/model/const"
+import { SELECT_DATA } from "@/constants/stickerFilter"
 
 import Icon from "@/components/common/Icon/Icon"
 import { Outlet, useNavigate, useOutletContext } from "react-router-dom"
