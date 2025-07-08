@@ -92,7 +92,7 @@ export const GiftPage: FC<IGiftPageProps> = () => {
           onAddToCart={onAddToCart}
         />
 
-        <Outlet />
+        <Outlet context={{ isMarket: isMarket }} />
       </div>
     </Page>
   )
