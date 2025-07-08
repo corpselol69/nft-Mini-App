@@ -11,7 +11,7 @@ export const MyNftPage: FC = () => {
     <div className={styles.root}>
       <div className={styles.header}>
         <p className={styles.title}>{t("my_nft")}</p>
-        <Button>{t("sell_nft")}</Button>
+        <Button>{t("buttons.sell_nft")}</Button>
       </div>
       <Tabs>
         <Tab to="/my-nft/stickers">{t("stickers")}</Tab>

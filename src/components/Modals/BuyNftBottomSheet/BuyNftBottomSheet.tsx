@@ -6,9 +6,10 @@ import questionMarkImg from "@/static/icons/question_mark.svg"
 import { Button } from "@/components/common/Button/Button"
 import { SuccessBuyNftBottomSheet } from "../SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
 import Icon from "@/components/common/Icon/Icon"
+import { t } from "i18next"
 
 type Props = {
-  nftPrice: string
+  nftPrice: number
   quantity: string
   onBuy: () => void
   onCancel: () => void
@@ -52,10 +53,10 @@ export const BuyNftBottomSheet: FC<Props> = ({
       </div>
       <div className={styles.actionButtonsWrapper}>
         <Button type="secondary" onClick={onCancel} size="large">
-          Отменить
+          {t("buttons.cancel")}
         </Button>
         <Button type="primary" onClick={handleOnBuyClick} size="large">
-          Купить
+          {t("buttons.buy")}
         </Button>
       </div>
     </div>

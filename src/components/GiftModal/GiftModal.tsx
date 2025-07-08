@@ -27,7 +27,7 @@ const gift = {
   id: "gift1",
   name: "Bored Monkey",
   imgLink: "/assets/gifts/monkey.png",
-  price: "150",
+  price: 150,
   model: "2024A",
   symbol: "Royal Crown",
   background: "#ffe480",
@@ -120,15 +120,15 @@ export const GiftModal: FC = () => {
         <div className={styles.detailGiftSheetActions}>
           <Button type="vertical" size="large" onClick={showEmodjiStatus}>
             <Icon src={telegramIcon} className={styles.actionIcon} />
-            Посмотреть
+            {t("buttons.view")}
           </Button>
           <Button type="vertical" size="large" onClick={setEmodjiStatus}>
             <Icon src={statusIcon} className={styles.actionIcon} />
-            Статус
+            {t("buttons.status")}
           </Button>
           <Button type="vertical" size="large" onClick={shareEmodjiStatus}>
             <Icon src={shareIcon} className={styles.actionIcon} />
-            Поделиться
+            {t("buttons.share")}
           </Button>
         </div>
 
@@ -150,7 +150,9 @@ export const GiftModal: FC = () => {
               size="large"
               className={styles.mainCartButton}
             >
-              <span className={styles.cartButtonText}>Добавить в корзину</span>
+              <span className={styles.cartButtonText}>
+                {t("buttons.add_to_cart")}
+              </span>
             </Button>
           </div>
           <div className={styles.buyButtonWrapper}>
