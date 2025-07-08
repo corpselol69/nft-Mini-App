@@ -42,7 +42,7 @@ export const ModalButtonsWrapper: React.FC<ModalButtonsWrapperProps> = ({
                 type="secondary"
                 size="large"
                 className={styles.secondaryCartButton}
-                onClick={onSecondaryClick}
+                onClick={onCartClick}
               >
                 <span
                   className={cs({
@@ -54,7 +54,11 @@ export const ModalButtonsWrapper: React.FC<ModalButtonsWrapperProps> = ({
                 </span>
               </Button>
               {isInCart && (
-                <Button type="secondary" size="large" onClick={onCartClick}>
+                <Button
+                  type="secondary"
+                  size="large"
+                  onClick={onSecondaryClick}
+                >
                   <Icon src={shoppingCart} />
                 </Button>
               )}
