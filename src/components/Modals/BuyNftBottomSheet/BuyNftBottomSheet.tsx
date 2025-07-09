@@ -1,10 +1,6 @@
 import { FC } from "react"
-import { Button } from "@/components/common/Button/Button"
-import Icon from "@/components/common/Icon/Icon"
-import tonSrc from "@/static/icons/icn-S_ton.svg"
-import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
+
 import styles from "./BuyNftBottomSheet.module.scss"
-import { BalanceTopUpBottomSheet } from "../BalanceTopUpBottomSheet"
 import { AvailableBalance } from "@/components/common/AvailableBalance/AvailableBalance"
 
 type Props = {
@@ -13,7 +9,6 @@ type Props = {
   id: string
   price: number
   availableBalance: number
-  onClick?: () => void
 }
 
 export const BuyNftBottomSheet: FC<Props> = ({
@@ -22,42 +17,7 @@ export const BuyNftBottomSheet: FC<Props> = ({
   imgLink,
   price,
   title,
-  onClick,
 }) => {
-  const { openSheet, closeAll } = useBottomSheet()
-  const isBalanceEnough = availableBalance >= price
-
-  const buttonToShow = isBalanceEnough ? (
-    <Button type="primary" onClick={onClick} size="large">
-      Купить за {price} <Icon src={tonSrc} />
-    </Button>
-  ) : (
-    <Button
-      type="primary"
-      onClick={() =>
-        openSheet(
-          <BalanceTopUpBottomSheet
-            availableBalance={availableBalance}
-            onClose={closeAll}
-            purchasePrice={price}
-          />,
-          {
-            renderLeftHeader() {
-              return (
-                <span className={styles.bottomSheetTitle}>
-                  Пополнение баланса
-                </span>
-              )
-            },
-          }
-        )
-      }
-      size="large"
-    >
-      Пополнить баланс и купить
-    </Button>
-  )
-
   return (
     <div className={styles.addToCartBottomSheetWrapper}>
       <div className={styles.titleAndPriceWrapper}>
@@ -76,12 +36,6 @@ export const BuyNftBottomSheet: FC<Props> = ({
         </div>
       </div>
       <AvailableBalance balance={availableBalance} />
-      <div className={styles.actionButtonsWrapper}>
-        <Button size="large" type="secondary">
-          Добавить в корзину
-        </Button>
-        {buttonToShow}
-      </div>
     </div>
   )
 }
