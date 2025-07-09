@@ -15,7 +15,8 @@ type TProps = {
   status?: "sell" | "on sale"
   onClick: () => void
   addToCart: () => void
-  onBuy?: () => void
+  onMainClick?: () => void
+  onSecondaryClick?: () => void
 }
 
 export const NftCard: React.FC<TProps> = ({
@@ -26,7 +27,9 @@ export const NftCard: React.FC<TProps> = ({
   status,
   onClick,
   addToCart,
-  onBuy,
+
+  onMainClick, // бывший onBuy
+  onSecondaryClick,
 }) => {
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
 
@@ -45,7 +48,7 @@ export const NftCard: React.FC<TProps> = ({
         <div className={styles.actions}>
           {isMarket && (
             <>
-              <Button color="accent" style={{ flex: 1 }} onClick={onBuy}>
+              <Button color="accent" style={{ flex: 1 }} onClick={onMainClick}>
                 {price}
                 <Icon src={tonIcon} className={styles.tonIcon} />
               </Button>

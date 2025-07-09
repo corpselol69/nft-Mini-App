@@ -17,7 +17,14 @@ type TProps = {
     id: string
     price: number
   }) => void
-  onBuy?: (nft: {
+
+  mainClick?: (nft: {
+    imgLink: string
+    title: string
+    id: string
+    price: number
+  }) => void
+  secondaryClick?: (nft: {
     imgLink: string
     title: string
     id: string
@@ -29,7 +36,8 @@ export const NftGrid: React.FC<TProps> = ({
   mockNfts,
   onNftClick,
   onAddToCart, //заменить на secondaryClick
-  onBuy, //заменить на mainClick
+  mainClick, // бывший onBuy
+  secondaryClick,
 }) => {
   return (
     <div className={styles.grid}>
@@ -50,8 +58,8 @@ export const NftGrid: React.FC<TProps> = ({
               id: nft.id.toString(),
             })
           }
-          onBuy={() =>
-            onBuy?.({
+          onMainClick={() =>
+            mainClick?.({
               ...nft,
               imgLink: nft.url,
               price: nft.price,
