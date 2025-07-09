@@ -3,6 +3,7 @@ import { ReactNode } from "react"
 export type SheetEntry = {
   key: string
   content: ReactNode
-  renderLeftHeader?: () => ReactNode
+  bottomSheetTitle?: string
+  leftButton?: React.ReactNode
   buttons?: React.ReactNode
 }

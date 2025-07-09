@@ -71,6 +71,33 @@
   touch-action: pan-y;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 0 0 auto;
+}
+
+.title {
+  flex: 1;
+  @include typography.title-l-sf;
+  color: $typography-primary;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 0 auto;
+}
+
 .iconsRow {
   display: flex;
   justify-content: space-between;

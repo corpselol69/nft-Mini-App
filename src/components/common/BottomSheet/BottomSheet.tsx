@@ -10,7 +10,8 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
   onClose,
   open,
   children,
-  renderLeftHeader,
+  title,
+  leftButton,
   buttons,
   doCloseAnimation = false,
 }) => {
@@ -71,14 +72,12 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
         onTouchEnd={onTouchEnd}
       >
         <div className={styles.dragHandle} />
-        <div
-          className={clsx(
-            renderLeftHeader?.() && styles.iconsRow,
-            !renderLeftHeader?.() && styles.iconRow
-          )}
-        >
-          {renderLeftHeader?.()}
-          <CloseIcon onClick={doClose} />
+        <div className={styles.header}>
+          <div className={styles.left}>{leftButton}</div>
+          <div className={styles.title}>{title}</div>
+          <div className={styles.right}>
+            <CloseIcon onClick={doClose} />
+          </div>
         </div>
         <div className={styles.children}>{children}</div>
         {buttons && buttons}

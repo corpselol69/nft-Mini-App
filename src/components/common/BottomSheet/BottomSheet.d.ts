@@ -3,7 +3,8 @@ import { PropsWithChildren, ReactNode } from "react"
 export interface IBottomSheetProps extends PropsWithChildren {
   open: boolean
   onClose: () => void
-  renderLeftHeader?: () => ReactNode
+  title?: string
+  leftButton?: React.ReactNode
   buttons?: ReactElement
   backgroundColor?: string
   blur?: string
