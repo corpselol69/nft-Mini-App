@@ -78,7 +78,8 @@ export const GiftModal: FC = () => {
     openSheet(
       <ConfirmBuyNftBottomSheet
         nftPrice={gift.price}
-        onBuy={() => {
+        onBuy={async () => {
+          await new Promise(r => setTimeout(r, 2000))
           closeAll()
         }}
         onCancel={closeAll}
