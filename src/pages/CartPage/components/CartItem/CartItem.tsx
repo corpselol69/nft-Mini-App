@@ -6,7 +6,7 @@ import icnLClose from "@/static/icons/icn-L_Close.svg"
 import upwardIcon from "@/static/icons/arrow_upward_alt.svg"
 import { Checkbox } from "@/components/Checkbox/Checkbox"
 import monkeyImg from "@/static/placeholders/monkey.png"
-import clsx from "clsx"
+import clsx from "classnames"
 
 export function CartItem({
   item,

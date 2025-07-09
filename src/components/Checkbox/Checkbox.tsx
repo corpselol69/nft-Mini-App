@@ -1,5 +1,5 @@
 import { forwardRef, InputHTMLAttributes, useEffect, useRef } from "react"
-import clsx from "clsx"
+import clsx from "classnames"
 
 import styles from "./Checkbox.module.scss"
 
