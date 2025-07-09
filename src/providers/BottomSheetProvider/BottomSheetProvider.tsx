@@ -6,7 +6,11 @@ import { BottomSheet } from "@/components/common/BottomSheet/BottomSheet"
 type BottomSheetContextType = {
   openSheet: (
     content: React.ReactNode,
-    opts?: { renderLeftHeader?: () => React.ReactNode; key?: string }
+    opts?: {
+      renderLeftHeader?: () => React.ReactNode
+      key?: string
+      buttons?: React.ReactNode
+    }
   ) => void
   closeSheet: () => void
   closeAll: () => void
@@ -31,12 +35,17 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
   const openSheet = useCallback(
     (
       content: React.ReactNode,
-      opts?: { renderLeftHeader?: () => React.ReactNode; key?: string }
+      opts?: {
+        renderLeftHeader?: () => React.ReactNode
+        key?: string
+        buttons?: React.ReactNode
+      }
     ) => {
       const entry: SheetEntry = {
         key: opts?.key ?? Math.random().toString(36),
         content,
         renderLeftHeader: opts?.renderLeftHeader,
+        buttons: opts?.buttons,
       }
       setStack(prev => [...prev, entry])
     },
@@ -58,6 +67,7 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
           open={idx === stack.length - 1}
           onClose={closeAll}
           renderLeftHeader={sheet.renderLeftHeader}
+          buttons={sheet.buttons}
         >
           {sheet.content}
         </BottomSheet>

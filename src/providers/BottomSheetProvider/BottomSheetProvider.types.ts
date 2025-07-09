@@ -1,7 +1,8 @@
-import { ReactNode } from "react";
+import { ReactNode } from "react"
 
 export type SheetEntry = {
-	key: string;
-	content: ReactNode;
-	renderLeftHeader?: () => ReactNode;
-};
+  key: string
+  content: ReactNode
+  renderLeftHeader?: () => ReactNode
+  buttons?: React.ReactNode
+}
