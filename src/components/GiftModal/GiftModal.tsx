@@ -79,16 +79,13 @@ export const GiftModal: FC = () => {
       <ConfirmBuyNftBottomSheet
         nftPrice={gift.price}
         onBuy={async () => {
-          await new Promise(r => setTimeout(r, 2000))
           closeAll()
         }}
         onCancel={closeAll}
         quantity="1"
       />,
       {
-        renderLeftHeader() {
-          return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
-        },
+        bottomSheetTitle: `${t("buy_nft")}`,
       }
     )
   }

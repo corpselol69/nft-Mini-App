@@ -27,9 +27,7 @@ export const ConfirmBuyNftBottomSheet: FC<Props> = ({
     try {
       await onBuy()
       openSheet(<SuccessBuyNftBottomSheet onConfirm={closeAll} />, {
-        renderLeftHeader() {
-          return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
-        },
+        bottomSheetTitle: `${t("buy_nft")}`,
       })
     } catch (e) {
       console.error(e)

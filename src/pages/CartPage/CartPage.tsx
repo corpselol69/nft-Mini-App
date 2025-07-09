@@ -10,6 +10,7 @@ import { CartSelectAll } from "./components/CartSelectAll/CartSelectAll"
 import { CartItem } from "./components/CartItem/CartItem"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { ConfirmBuyNftBottomSheet } from "@/components/Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
+import { t } from "i18next"
 
 export const CartPage: FC = () => {
   const [items, setItems] = useState(mockCartItems)
@@ -49,9 +50,7 @@ export const CartPage: FC = () => {
         quantity={selectedItemsLength.toString()}
       />,
       {
-        renderLeftHeader() {
-          return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
-        },
+        bottomSheetTitle: `${t("buy_nft")}`,
       }
     )
   }

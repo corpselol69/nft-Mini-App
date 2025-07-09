@@ -16,6 +16,7 @@ import { PriceTooltip } from "../common/PriceTooltip/PriceTooltip"
 import { DetailsTable } from "../common/DetailsTable/DetailsTable"
 import { ConfirmBuyNftBottomSheet } from "../Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
 import { AvailableBalance } from "../common/AvailableBalance/AvailableBalance"
+import { t } from "i18next"
 
 // Пример данных для карточек
 const mockNft = {
@@ -50,9 +51,7 @@ export const StickerModal: FC = () => {
         quantity="1"
       />,
       {
-        renderLeftHeader() {
-          return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
-        },
+        bottomSheetTitle: `${t("buy_nft")}`,
       }
     )
   }
@@ -96,23 +95,21 @@ export const StickerModal: FC = () => {
       open={true}
       doCloseAnimation={isClosing}
       onClose={() => navigate(-1)}
-      renderLeftHeader={
-        isMarket
-          ? () => (
-              <Button
-                type="icon"
-                className={styles.shareButton}
-                onClick={() => {
-                  const url = `https://t.me/d33sf0mebot/mytest/#/market/stickers/${id}`
-                  if (shareURL.isAvailable()) {
-                    shareURL(url, `Смотри этот стикер #${id}`)
-                  }
-                }}
-              >
-                <Icon src={shareIcon} />
-              </Button>
-            )
-          : undefined
+      leftButton={
+        isMarket ? (
+          <Button
+            type="icon"
+            className={styles.shareButton}
+            onClick={() => {
+              const url = `https://t.me/d33sf0mebot/mytest/#/market/stickers/${id}`
+              if (shareURL.isAvailable()) {
+                shareURL(url, `Смотри этот стикер #${id}`)
+              }
+            }}
+          >
+            <Icon src={shareIcon} />
+          </Button>
+        ) : undefined
       }
       buttons={
         <ModalButtonsWrapper

@@ -10,6 +10,7 @@ import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvi
 import { LoadingTopUpBalanceBottomSheet } from "../LoadingTopUpBalanceBottomSheet/LoadingTopUpBalanceBottomSheet"
 import { SuccessBuyNftBottomSheet } from "../SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
 import { ErrorBottomSheet } from "../ErrorBottomSheet/ErrorBottomSheet"
+import { t } from "i18next"
 
 type Props = {
   purchasePrice: number
@@ -32,19 +33,13 @@ export const BalanceTopUpBottomSheet: FC<Props> = ({
 
   const handleTopUp = async () => {
     openSheet(<LoadingTopUpBalanceBottomSheet />, {
-      renderLeftHeader() {
-        return (
-          <span className={styles.bottomSheetTitle}>Пополнение баланса</span>
-        )
-      },
+      bottomSheetTitle: `${t("top_up_balance")}`,
     })
 
     try {
       await doTopUp()
       openSheet(<SuccessBuyNftBottomSheet onConfirm={closeAll} />, {
-        renderLeftHeader() {
-          return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
-        },
+        bottomSheetTitle: `${t("buy_nft")}`,
       })
     } catch (error) {
       const retry = () => {
@@ -85,15 +80,10 @@ export const BalanceTopUpBottomSheet: FC<Props> = ({
           actionButtons={actionButtons}
         />,
         {
-          renderLeftHeader() {
-            return (
-              <span className={styles.bottomSheetTitle}>
-                {(error as any)?.type === "topup"
-                  ? "Ошибка пополнения"
-                  : "Покупка NFT"}
-              </span>
-            )
-          },
+          bottomSheetTitle:
+            (error as any)?.type === "topup"
+              ? "Ошибка пополнения"
+              : "Покупка NFT",
         }
       )
     }
