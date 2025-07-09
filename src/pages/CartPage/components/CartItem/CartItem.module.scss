@@ -57,7 +57,7 @@
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: 4px;
+
     justify-content: flex-end;
     .oldPriceValue {
       text-decoration: line-through;
@@ -76,6 +76,8 @@
         margin-right: 4px;
       }
       .priceIcon {
+        height: 16px;
+
         path {
           fill: $colors-orange;
         }
@@ -85,14 +87,23 @@
     .priceText {
       color: $colors-accent;
       @include typography.caption-l-sf;
+      margin-right: 4px;
     }
     .priceIcon {
+      height: 16px;
+
       path {
         fill: $colors-accent;
       }
     }
   }
 }
+
+.upwardIcon {
+  width: 16px;
+  height: 16px;
+}
+
 .disabled {
   opacity: 50%;
 }
