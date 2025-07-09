@@ -1,4 +1,4 @@
-import { useState, type FC } from "react"
+import { useCallback, useState, type FC } from "react"
 
 import { Page } from "@/components/Page.tsx"
 
@@ -15,6 +15,9 @@ import bdayImg from "@/static/placeholders/bday.png"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { IGiftPageProps } from "./GiftPage.d"
 import { BuyNftBottomSheet } from "@/components/Modals/BuyNftBottomSheet/BuyNftBottomSheet"
+import { ModalButtonsWrapper } from "@/components/common/ModalButtonsWrapper/ModalButtonsWrapper"
+import { SuccessBuyNftBottomSheet } from "@/components/Modals/SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
+import { t } from "i18next"
 
 // Пример данных для карточек
 const mockNfts: {
@@ -32,9 +35,11 @@ const mockNfts: {
   { id: 6, title: "Snow ball", price: 90, url: bdayImg, status: "sell" },
 ]
 
+const isInCart = false
+
 export const GiftPage: FC<IGiftPageProps> = () => {
   const navigate = useNavigate()
-  const { openSheet } = useBottomSheet()
+  const { openSheet, closeAll } = useBottomSheet()
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
 
   const [priceFilter, setPriceFilter] = useState("")
@@ -43,16 +48,46 @@ export const GiftPage: FC<IGiftPageProps> = () => {
     navigate(`${cardId}`)
   }
 
-  const onBuy = (nft: {
+  const handleBuy = useCallback(async () => {
+    try {
+      openSheet(<SuccessBuyNftBottomSheet onConfirm={closeAll} />, {
+        bottomSheetTitle: `${t("buy_nft")}`,
+      })
+    } catch (e) {
+      console.error(e)
+      //
+    }
+  }, [])
+
+  const handleAddToCart = () => {
+    // логика добавления в корзину
+    closeAll()
+  }
+
+  const handleViewCart = () => {
+    // логика открытия корзины
+    navigate("/cart")
+  }
+
+  const onBuyButtonClick = (nft: {
     imgLink: string
     title: string
     id: string
     price: number
   }) => {
-    openSheet(<BuyNftBottomSheet {...nft} availableBalance={96} />, {
-      renderLeftHeader() {
-        return <span className={styles.bottomSheetTitle}>Покупка NFT</span>
-      },
+    openSheet(<BuyNftBottomSheet {...nft} availableBalance={95} />, {
+      bottomSheetTitle: `${t("buy_nft")}`,
+      buttons: (
+        <ModalButtonsWrapper
+          variant={isMarket ? "buy" : "remove from sale"}
+          price={90}
+          balance={100}
+          isInCart={isInCart}
+          onMainClick={handleBuy}
+          onSecondaryClick={handleViewCart}
+          onCartClick={handleAddToCart}
+        />
+      ),
     })
   }
 
@@ -92,7 +127,11 @@ export const GiftPage: FC<IGiftPageProps> = () => {
             placeholder="Поиск по названию или ID"
           />
         </div>
-        <NftGrid mockNfts={mockNfts} onNftClick={onCardClick} onBuy={onBuy} />
+        <NftGrid
+          mockNfts={mockNfts}
+          onNftClick={onCardClick}
+          mainClick={onBuyButtonClick}
+        />
 
         <Outlet context={{ isMarket: isMarket }} />
       </div>
