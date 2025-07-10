@@ -1,0 +1,131 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.walletConnect {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.connectContent {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.connectText {
+  @include typography.body-m-sf;
+  color: $typography-primary;
+  white-space: nowrap;
+}
+
+.walletCompact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.compactContent {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+}
+
+.walletIconCompact {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.addressCompact {
+  @include typography.body-m-sf;
+  color: $colors-accent;
+  white-space: nowrap;
+}
+
+.walletExpanded {
+  background-color: $bg-dynamic;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.walletIcon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.address {
+  @include typography.title-s-sf;
+  color: $typography-primary;
+  white-space: nowrap;
+}
+
+.balance {
+  @include typography.caption-s-sf;
+  color: $typography-secondary;
+  white-space: nowrap;
+}
+
+.copyButton {
+  background: none;
+  border: none;
+  border-radius: 10px;
+  padding: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
