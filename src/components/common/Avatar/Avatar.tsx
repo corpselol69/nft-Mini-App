@@ -1,11 +1,12 @@
 import { FC } from "react"
 import styles from "./Avatar.module.scss"
 import { AvatarProps } from "./Avatar.d"
+import cs from "classnames"
 
-export const Avatar: FC<AvatarProps> = ({ src }) => {
+export const Avatar: FC<AvatarProps> = ({ src, className }) => {
   return (
     <div
-      className={styles.avatar}
+      className={cs(styles.avatar, className)}
       style={{ backgroundImage: src && `url(${src})` }}
     ></div>
   )
