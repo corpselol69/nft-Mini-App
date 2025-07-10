@@ -1,0 +1,73 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.snackbar {
+  width: calc(100vw - 32px);
+  max-width: 400px;
+  backdrop-filter: blur(5px);
+  background-color: $bg-glass;
+  border-radius: 16px;
+  padding: 0;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+}
+
+.iconContainer {
+  background-color: $colors-green;
+  border-radius: 8px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+
+.checkIcon {
+  svg {
+    width: 12px;
+    height: 9px;
+  }
+}
+
+.textContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  @include typography.title-s-sf;
+  color: $typography-primary;
+}
+
+.description {
+  @include typography.body-m-sf;
+  color: $typography-primary;
+}
+
+.closeButton {
+  background-color: $bg-glass;
+  border: none;
+  border-radius: 32px;
+  padding: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  flex-shrink: 0;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
