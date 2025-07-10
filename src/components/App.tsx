@@ -18,14 +18,17 @@ export function App() {
       miniApp.setHeaderColor(isDark ? "#131416" : "#ffffff")
     }
   }, [isDark])
-  return (
-    <div
-      data-theme={isDark ? "dark" : "light"}
-      data-platform={
-        ["macos", "ios"].includes(lp.tgWebAppPlatform) ? "ios" : "base"
-      }
-    >
-      <RouterProvider router={router} />
-    </div>
-  )
+
+  useEffect(() => {
+    document.documentElement.setAttribute(
+      "data-theme",
+      isDark ? "dark" : "light"
+    )
+    document.documentElement.setAttribute(
+      "data-platform",
+      ["macos", "ios"].includes(lp.tgWebAppPlatform) ? "ios" : "base"
+    )
+  }, [isDark, lp.tgWebAppPlatform])
+
+  return <RouterProvider router={router} />
 }
