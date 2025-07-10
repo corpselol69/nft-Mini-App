@@ -1,10 +1,17 @@
-// src/components/ui/Tabs/Tabs.tsx
-import { ReactNode } from "react";
-import { NavLink } from "react-router-dom";
-import type { TabProps } from "./Tabs.d";
-import cs from "classnames";
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
+import { NavLink, useLocation } from "react-router-dom"
+import type { TabProps } from "./Tabs.d"
+import cs from "classnames"
 
-import styles from "./Tabs.module.scss";
+import styles from "./Tabs.module.scss"
 
 export function Tab({ to, children }: TabProps) {
   return (
@@ -14,11 +21,34 @@ export function Tab({ to, children }: TabProps) {
     >
       {children}
     </NavLink>
-  );
+  )
 }
 
 export function Tabs({ children }: { children: ReactNode }) {
-  return <div className={styles.tabs}>{children}</div>;
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [indicatorStyle, setIndicatorStyle] = useState({})
+  const location = useLocation()
+
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const active = container.querySelector(`.${styles.active}`)
+    if (active instanceof HTMLElement) {
+      setIndicatorStyle({
+        width: `${active.offsetWidth}px`,
+        transform: `translateX(${active.offsetLeft}px)`,
+      })
+    }
+  }, [location.pathname, children])
+  return (
+    <div className={styles.tabs} ref={containerRef}>
+      <span className={styles.indicator} style={indicatorStyle} />
+      {Children.map(children, child =>
+        isValidElement(child) ? cloneElement(child) : child
+      )}
+    </div>
+  )
 }
 
-Tabs.Tab = Tab;
+Tabs.Tab = Tab
