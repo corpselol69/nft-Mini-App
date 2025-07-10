@@ -18,12 +18,10 @@ export const BalanceUpInput: FC<Props> = ({
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [inputValue, setValue] = useState(value)
   const id = useId()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.(e.target.value)
-    setValue(e.target.value)
   }
 
   return (
@@ -32,7 +30,7 @@ export const BalanceUpInput: FC<Props> = ({
         <input
           ref={inputRef}
           className={classnames(styles.input, className && className)}
-          value={inputValue || ""}
+          value={value || ""}
           onChange={handleChange}
           id={id}
           {...rest}
