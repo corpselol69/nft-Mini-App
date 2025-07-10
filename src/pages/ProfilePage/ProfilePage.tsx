@@ -14,12 +14,14 @@ import { Avatar } from "@/components/common/Avatar/Avatar.tsx"
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { t } from "i18next"
+import { WithdrawBottomSheet } from "@/components/Modals/WithdrawBottomSheet/WithdrawBottomSheet"
 
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
   const { openSheet, closeAll } = useBottomSheet()
 
   const [walletBalance, setWalletBalance] = useState("")
+  const [withdraw, setWithdraw] = useState("")
   const userFriendlyAddress = useTonAddress()
 
   const [tonConnectUI] = useTonConnectUI()
@@ -49,6 +51,15 @@ export const ProfilePage: FC = () => {
     }
   }
 
+  const handleWithdraw = () => {
+    //логика вывода средств
+    console.log(`выведено ${withdraw}`)
+  }
+
+  const handleInputChange = (v: string) => {
+    setWithdraw(v)
+  }
+
   const handleToggleWallet = () => {
     openSheet(
       <Wallet
@@ -69,6 +80,23 @@ export const ProfilePage: FC = () => {
             {t("buttons.reconnect_wallet")}
           </Button>
         ),
+      }
+    )
+  }
+
+  const handleOpenWithdrawModal = () => {
+    setWithdraw("")
+    openSheet(
+      <WithdrawBottomSheet
+        address={"21412515adwadfwaa"}
+        availableWithdrawValue="92"
+        onChange={handleInputChange}
+        withdrawValue={withdraw}
+        handleWithdraw={handleWithdraw}
+        key={withdraw}
+      />,
+      {
+        bottomSheetTitle: "Вывод средств",
       }
     )
   }
@@ -103,7 +131,11 @@ export const ProfilePage: FC = () => {
             <Icon src={imgAddIcon} className={styles.actionIcon} />
             Пополнить
           </Button>
-          <Button type="vertical" size="large">
+          <Button
+            type="vertical"
+            size="large"
+            onClick={handleOpenWithdrawModal}
+          >
             <Icon src={imgArrowUp} className={styles.actionIcon} />
             Вывести
           </Button>

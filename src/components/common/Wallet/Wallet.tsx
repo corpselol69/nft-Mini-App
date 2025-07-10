@@ -7,6 +7,7 @@ import imgWalletIcon from "@/static/icons/wallet.svg"
 import imgCopy from "@/static/icons/icn-copy.svg"
 import { t } from "i18next"
 import imgWalletBigIcon from "@/static/icons/account_balance_wallet.svg"
+import { formatAddress } from "@/helpers/formatAddress"
 
 export const Wallet: FC<WalletProps> = ({
   address,
@@ -17,11 +18,6 @@ export const Wallet: FC<WalletProps> = ({
   onCopy,
   onToggle,
 }) => {
-  const formatAddress = (addr: string) => {
-    if (addr.length <= 8) return addr
-    return `${addr.slice(0, 4)}...${addr.slice(-4)}`
-  }
-
   // Состояние "подключить кошелек"
   if (!address) {
     return (

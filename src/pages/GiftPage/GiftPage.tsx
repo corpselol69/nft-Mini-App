@@ -80,7 +80,7 @@ export const GiftPage: FC<IGiftPageProps> = () => {
       buttons: (
         <ModalButtonsWrapper
           variant={isMarket ? "buy" : "remove from sale"}
-          price={90}
+          price={nft.price}
           balance={100}
           isInCart={isInCart}
           onMainClick={handleBuy}
