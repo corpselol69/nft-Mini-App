@@ -38,9 +38,20 @@ export const BalanceTopUpBottomSheet: FC<Props> = ({
 
     try {
       await doTopUp()
-      openSheet(<SuccessBuyNftBottomSheet onConfirm={closeAll} />, {
-        bottomSheetTitle: `${t("buy_nft")}`,
-      })
+      openSheet(
+        <SuccessBuyNftBottomSheet
+          title={"NFT успешно куплен"}
+          subTitle="Мы уже отправили NFT к вам в профиль"
+          actionButtons={[
+            <Button type="primary" size="large" onClick={closeAll}>
+              Готово
+            </Button>,
+          ]}
+        />,
+        {
+          bottomSheetTitle: `${t("buy_nft")}`,
+        }
+      )
     } catch (error) {
       const retry = () => {
         closeAll()

@@ -15,6 +15,7 @@ import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { t } from "i18next"
 import { WithdrawBottomSheet } from "@/components/Modals/WithdrawBottomSheet/WithdrawBottomSheet"
+import { SuccessBuyNftBottomSheet } from "@/components/Modals/SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
 
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
@@ -54,6 +55,20 @@ export const ProfilePage: FC = () => {
   const handleWithdraw = () => {
     //логика вывода средств
     console.log(`выведено ${withdraw}`)
+
+    openSheet(
+      <SuccessBuyNftBottomSheet
+        title={"Вывод выполнен"}
+        actionButtons={[
+          <Button type="primary" size="large" onClick={closeAll}>
+            Завершить
+          </Button>,
+        ]}
+      />,
+      {
+        bottomSheetTitle: `${t("buy_nft")}`,
+      }
+    )
   }
 
   const handleInputChange = (v: string) => {
@@ -93,7 +108,6 @@ export const ProfilePage: FC = () => {
         onChange={handleInputChange}
         withdrawValue={withdraw}
         handleWithdraw={handleWithdraw}
-        key={withdraw}
       />,
       {
         bottomSheetTitle: "Вывод средств",

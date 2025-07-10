@@ -29,7 +29,6 @@ export const WithdrawBottomSheet: FC<Props> = ({
   const [withdrawValue, setWithdrawValue] = useState(initialWithdrawValue || "")
 
   const handleAllSumClick = () => {
-    console.log("Setting value:", availableWithdrawValue) // для отладки
     setWithdrawValue(availableWithdrawValue)
     onChangeExternal?.(availableWithdrawValue)
     setError("")
@@ -45,8 +44,6 @@ export const WithdrawBottomSheet: FC<Props> = ({
   }
 
   useEffect(() => {
-    console.log("withdrawValue changed:", withdrawValue)
-    console.log(!!error)
     if (withdrawValue.trim() !== "") {
       const numValue = parseFloat(withdrawValue)
       if (isNaN(numValue) || numValue < MIN_WITHDRAW_AMOUNT) {
@@ -97,7 +94,7 @@ export const WithdrawBottomSheet: FC<Props> = ({
       <div className={styles.actionButtonWrapper}>
         <Button
           type="primary"
-          isDisabled={!!error}
+          isDisabled={!!error || !withdrawValue.trim()}
           size="large"
           onClick={handleWithdraw}
         >
