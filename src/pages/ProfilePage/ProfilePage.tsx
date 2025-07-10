@@ -8,9 +8,15 @@ import imgAddIcon from "@/static/icons/icn-add.svg"
 import imgArrowUp from "@/static/icons/arrow-up.svg"
 import imgDiversity from "@/static/icons/diversity.svg"
 import imgChevronForward from "@/static/icons/chevron_forward.svg"
+import { Outlet, useNavigate } from "react-router-dom"
 import { Avatar } from "@/components/common/Avatar/Avatar.tsx"
 
 export const ProfilePage: FC = () => {
+  const navigate = useNavigate()
+  const handleReferralClick = () => {
+    navigate("ref")
+  }
+
   return (
     <Page back={false}>
       <div className={styles.profilePage}>
@@ -44,7 +50,7 @@ export const ProfilePage: FC = () => {
           </Button>
         </div>
 
-        <div className={styles.referralBlock}>
+        <div className={styles.referralBlock} onClick={handleReferralClick}>
           <span className={styles.referralLabel}>реферальная система</span>
           <div className={styles.referralCard}>
             <Icon src={imgDiversity} className={styles.actionIcon} />
@@ -64,6 +70,7 @@ export const ProfilePage: FC = () => {
           </div>
         </div>
       </div>
+      <Outlet />
     </Page>
   )
 }

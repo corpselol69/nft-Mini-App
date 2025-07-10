@@ -9,6 +9,7 @@ import { GiftsCollectionGrid } from "@/components/GiftsCollectionGrid/GiftsColle
 import { StickerModal } from "@/components/StickerModal/StickerModal"
 import { GiftModal } from "@/components/GiftModal/GiftModal"
 import { CartPage } from "@/pages/CartPage/CartPage"
+import { ReferralPage } from "@/pages/ReferralPage/ReferralPage"
 
 export const router = createHashRouter([
   {
@@ -51,6 +52,10 @@ export const router = createHashRouter([
         ],
       },
       { path: "profile", element: <ProfilePage /> },
+      {
+        path: "profile/ref",
+        element: <ReferralPage />,
+      },
       { path: "cart", element: <CartPage /> },
       { path: "*", element: <Navigate to="market" /> },
     ],
