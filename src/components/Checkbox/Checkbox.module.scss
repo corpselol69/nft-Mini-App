@@ -39,7 +39,7 @@
 
   input[type="checkbox"]:checked + .checkboxCustom {
     background: $colors-accent;
-
+    border: none;
     &::after {
       display: block;
     }
