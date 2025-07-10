@@ -50,18 +50,6 @@
   }
 }
 
-.vertical {
-  background: $bg-dynamic;
-  color: $colors-accent;
-  padding: 12px;
-  height: 100% !important;
-  @include typography.button-s-sf;
-
-  &:active {
-    background: linear-gradient(0deg, $bg-state 0%, $bg-state 100%), $bg-dynamic;
-  }
-}
-
 .text {
   background: transparent;
   color: $colors-accent;
@@ -122,4 +110,16 @@
   height: 42px;
   padding: 12px;
   @include typography.button-l-sf;
+}
+
+.vertical {
+  background: $bg-dynamic;
+  color: $colors-accent;
+  padding: 12px;
+  height: 100% !important;
+  @include typography.button-s-sf;
+
+  &:active {
+    background: linear-gradient(0deg, $bg-state 0%, $bg-state 100%), $bg-dynamic;
+  }
 }
