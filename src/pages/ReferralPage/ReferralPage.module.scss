@@ -1,6 +1,14 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
 .referralPage {
   display: flex;
   flex-direction: column;
   gap: 24px;
   padding: 16px;
+}
+
+.title {
+  @include typography.title-l-sf;
+  color: $typography-primary;
 }

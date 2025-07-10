@@ -42,6 +42,7 @@ export const ReferralPage: FC = () => {
 
   return (
     <div className={styles.referralPage}>
+      <h1 className={styles.title}>Реферальная система</h1>
       <SnackbarContainer
         snackbars={snackbars}
         onRemove={handleRemoveSnackbar}
