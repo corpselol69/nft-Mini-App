@@ -1,0 +1,10 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.avatar {
+  display: flex;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: $bg-glass;
+}
