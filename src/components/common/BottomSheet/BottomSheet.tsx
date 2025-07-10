@@ -4,6 +4,7 @@ import { IBottomSheetProps } from "./BottomSheet.d"
 import styles from "./BottomSheet.module.scss"
 import clsx from "classnames"
 import { CloseIcon } from "./CloseIcon"
+import { viewport, miniApp } from "@telegram-apps/sdk"
 
 //FIXME: При монтировании компонента, почему-то рядом с ним монтируется еще один пустой див без классов, без контента. Надо понять почему и убрать
 export const BottomSheet: FC<IBottomSheetProps> = ({
@@ -17,6 +18,8 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
 }) => {
   const [dragY, setDragY] = useState(0)
   const [closing, setClosing] = useState(false)
+  const [paddingBottom, setPaddingBottom] = useState(0)
+
   const touchStartRef = useRef<number | null>(null)
 
   const doClose = () => {
@@ -54,6 +57,13 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
     doCloseAnimation && doClose()
   }, [doCloseAnimation])
 
+  useEffect(() => {
+    if (viewport.isFullscreen() && miniApp.isMounted()) {
+      const safeArea = viewport.safeAreaInsets()
+      setPaddingBottom(safeArea.bottom)
+    }
+  }, [])
+
   if (!open && !closing) return null
 
   const content = (
@@ -65,6 +75,7 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
         className={clsx(styles.sheet, closing && styles.closing)}
         style={{
           transform: dragY > 0 ? `translateY(${dragY * 3}px)` : undefined,
+          paddingBottom: `${paddingBottom}px`,
         }}
         onClick={e => e.stopPropagation()}
         onTouchStart={onTouchStart}

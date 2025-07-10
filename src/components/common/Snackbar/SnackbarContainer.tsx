@@ -3,6 +3,7 @@ import { useState, useCallback, useEffect } from "react"
 import { Snackbar } from "./Snackbar"
 import type { SnackbarContainerProps } from "./Snackbar.d"
 import styles from "./SnackbarContainer.module.scss"
+import { viewport, miniApp } from "@telegram-apps/sdk"
 
 const MAX_SNACKBARS = 3
 
@@ -11,6 +12,7 @@ export const SnackbarContainer: FC<SnackbarContainerProps> = ({
   onRemove,
 }) => {
   const [removingIds, setRemovingIds] = useState<Set<string>>(new Set())
+  const [paddingTop, setPaddingTop] = useState(0)
 
   useEffect(() => {
     if (snackbars.length > MAX_SNACKBARS) {
@@ -39,8 +41,16 @@ export const SnackbarContainer: FC<SnackbarContainerProps> = ({
 
   const visibleSnackbars = snackbars.slice(-MAX_SNACKBARS)
 
+  useEffect(() => {
+    if (viewport.isFullscreen() && miniApp.isMounted()) {
+      const safeArea = viewport.safeAreaInsets()
+      const totalPadding = safeArea.top + safeArea.bottom
+      setPaddingTop(totalPadding)
+    }
+  }, [])
+
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ paddingTop }}>
       {visibleSnackbars.map(snackbar => (
         <div
           key={snackbar.id}
