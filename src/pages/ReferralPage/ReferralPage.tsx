@@ -1,11 +1,13 @@
 import type { FC } from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ReferralLink } from "@/components/ReferralPage/ReferralLink"
 import { ReferralList } from "@/components/ReferralPage/ReferralList"
 import styles from "./ReferralPage.module.scss"
 import { ReferralHeader } from "@/components/ReferralPage/ReferralHeader"
 import { SnackbarContainer } from "@/components/common/Snackbar"
 import type { SnackbarData } from "@/components/common/Snackbar"
+import { backButton } from "@telegram-apps/sdk"
+import { useNavigate } from "react-router-dom"
 
 const mockData = {
   referralLink: "t.me/bot238757=ref17349619",
@@ -21,6 +23,8 @@ const mockData = {
 }
 
 export const ReferralPage: FC = () => {
+  const navigate = useNavigate()
+
   const [snackbars, setSnackbars] = useState<SnackbarData[]>([])
 
   const handleCopyLink = () => {
@@ -39,6 +43,29 @@ export const ReferralPage: FC = () => {
   const handleRemoveSnackbar = (id: string) => {
     setSnackbars(prev => prev.filter(snackbar => snackbar.id !== id))
   }
+
+  const handleBackButtonClick = () => {
+    navigate(-1)
+    if (backButton.hide.isAvailable()) {
+      backButton.hide()
+    }
+  }
+
+  useEffect(() => {
+    if (backButton.show.isAvailable()) {
+      backButton.show()
+    }
+
+    if (backButton.onClick.isAvailable()) {
+      backButton.onClick(handleBackButtonClick)
+    }
+
+    return () => {
+      if (backButton.offClick.isAvailable()) {
+        backButton.offClick(handleBackButtonClick)
+      }
+    }
+  }, [])
 
   return (
     <div className={styles.referralPage}>
