@@ -12,9 +12,13 @@ import imgChevronForward from "@/static/icons/chevron_forward.svg"
 import { Outlet, useNavigate } from "react-router-dom"
 import { Avatar } from "@/components/common/Avatar/Avatar.tsx"
 import { useTonConnectUI } from "@tonconnect/ui-react"
+import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
+import { t } from "i18next"
 
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
+  const { openSheet } = useBottomSheet()
+
   const [isWalletConnected, setIsWalletConnected] = useState(false)
   const [walletAddress, setWalletAddress] = useState("")
   const [walletBalance, setWalletBalance] = useState("")
@@ -40,6 +44,31 @@ export const ProfilePage: FC = () => {
     }
   }
 
+  const handleToggleWallet = () => {
+    openSheet(
+      <Wallet
+        address={walletAddress}
+        balance={walletBalance}
+        isConnected={isWalletConnected}
+        onConnect={handleConnectWallet}
+        onCopy={handleCopyWallet}
+        isExpanded={true}
+      />,
+      {
+        bottomSheetTitle: `${t("your_wallet")}`,
+        buttons: (
+          <Button
+            size="large"
+            onClick={handleConnectWallet}
+            style={{ marginTop: "24px" }}
+          >
+            {t("buttons.reconnect_wallet")}
+          </Button>
+        ),
+      }
+    )
+  }
+
   return (
     <Page back={false}>
       <div className={styles.profilePage}>
@@ -54,6 +83,7 @@ export const ProfilePage: FC = () => {
             isConnected={isWalletConnected}
             onConnect={handleConnectWallet}
             onCopy={handleCopyWallet}
+            onToggle={handleToggleWallet}
           />
         </div>
 

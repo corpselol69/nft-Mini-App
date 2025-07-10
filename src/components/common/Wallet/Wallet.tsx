@@ -5,6 +5,8 @@ import Icon from "@/components/common/Icon/Icon"
 import { Button } from "@/components/common/Button/Button"
 import imgWalletIcon from "@/static/icons/wallet.svg"
 import imgCopy from "@/static/icons/icn-copy.svg"
+import { t } from "i18next"
+import imgWalletBigIcon from "@/static/icons/account_balance_wallet.svg"
 
 export const Wallet: FC<WalletProps> = ({
   address,
@@ -25,7 +27,7 @@ export const Wallet: FC<WalletProps> = ({
     return (
       <Button type="text" onClick={onConnect}>
         <Icon src={imgWalletIcon} />
-        <span>Подключить кошелёк</span>
+        <span>{t("buttons.connect_wallet")}</span>
       </Button>
     )
   }
@@ -36,7 +38,7 @@ export const Wallet: FC<WalletProps> = ({
       <div className={styles.walletExpanded} onClick={onToggle}>
         <div className={styles.content}>
           <div className={styles.leftSection}>
-            <Icon src={imgWalletIcon} className={styles.walletIcon} />
+            <Icon src={imgWalletBigIcon} className={styles.walletIcon} />
             <div className={styles.textContainer}>
               <div className={styles.address}>{formatAddress(address)}</div>
               {balance && (
