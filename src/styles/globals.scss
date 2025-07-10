@@ -99,7 +99,7 @@ html,
 body {
   transition: background 0.3s ease-out;
   width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
   color: var(--typography-primary);
   margin: 0 auto;
   background-color: var(--bg-main);
