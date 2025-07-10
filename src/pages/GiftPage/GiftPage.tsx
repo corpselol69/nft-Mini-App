@@ -92,7 +92,7 @@ export const GiftPage: FC<IGiftPageProps> = () => {
   }
 
   return (
-    <Page back={false}>
+    <Page back={isMarket}>
       <div>
         <div className={styles.filterWrapper}>
           <div className={styles.selectWrapper}>
