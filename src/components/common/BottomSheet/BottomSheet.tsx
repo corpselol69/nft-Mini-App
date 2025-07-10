@@ -76,7 +76,8 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
       <div
         className={clsx(styles.sheet, closing && styles.closing)}
         style={{
-          transform: dragY > 0 ? `translateY(${dragY * 3}px)` : undefined,
+          transform: dragY > 0 ? `translateY(${dragY}px)` : undefined,
+          transition: dragY > 0 ? "none" : "transform 0.3s ease",
           paddingBottom: paddingBottom > 0 ? `${paddingBottom}px` : undefined,
         }}
         onClick={e => e.stopPropagation()}

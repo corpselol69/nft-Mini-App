@@ -35,12 +35,12 @@
   box-shadow: 0 -2px 32px rgba(24, 86, 160, 0.05);
   padding: 16px;
   animation: slideup 0.25s cubic-bezier(0.22, 0.61, 0.36, 1);
-  will-change: transform;
-  transition: transform 0.2s;
-  touch-action: none;
+  // will-change: transform;
+
+  // touch-action: none;
 
   &.closing {
-    animation: slidedown 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+    animation: slidedown 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 }
 
@@ -54,9 +54,6 @@
 }
 
 @keyframes slidedown {
-  from {
-    transform: none;
-  }
   to {
     transform: translateY(100%);
   }
