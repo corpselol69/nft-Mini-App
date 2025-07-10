@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Outlet } from "react-router-dom"
-import { miniApp, swipeBehavior, viewport } from "@telegram-apps/sdk"
+import { miniApp, on, swipeBehavior, viewport } from "@telegram-apps/sdk"
 import styles from "./MainLayout.module.scss"
 import { BottomNavigation } from "@/components/common/BottomNavigation"
 
@@ -20,6 +20,12 @@ export function MainLayout() {
     if (swipeBehavior.isMounted()) {
       swipeBehavior.disableVertical()
     }
+  }, [])
+
+  useEffect(() => {
+    on("safe_area_changed", payload => {
+      setPaddingBottom(payload.bottom)
+    })
   }, [])
 
   return (
