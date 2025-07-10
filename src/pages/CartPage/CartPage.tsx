@@ -32,7 +32,7 @@ export const CartPage: FC = () => {
 
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const handleRemove = (id: string) => setDeletingId(id)
-  const handleRestore = (id: string) => setDeletingId(null)
+  const handleRestore = (_id: string) => setDeletingId(null)
   const { openSheet, closeAll } = useBottomSheet()
 
   const handleBuyNft = async () => {

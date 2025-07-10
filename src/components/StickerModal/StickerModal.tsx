@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, type FC } from "react"
+import { useMemo, useState, type FC } from "react"
 
 import { BottomSheet } from "../common/BottomSheet/BottomSheet"
 

@@ -29,7 +29,7 @@ export const NftCard: React.FC<TProps> = ({
   addToCart,
 
   onMainClick, // бывший onBuy
-  onSecondaryClick,
+  //onSecondaryClick,
 }) => {
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
 

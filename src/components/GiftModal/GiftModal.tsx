@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, type FC } from "react"
+import { useMemo, useState, type FC } from "react"
 
 import { BottomSheet } from "../common/BottomSheet/BottomSheet"
 
@@ -8,7 +8,6 @@ import { PriceTooltip } from "@/components/common/PriceTooltip/PriceTooltip"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 
 import bdayImg from "@/static/placeholders/bday.png"
-import tonIcon from "@/static/icons/icn-S_ton.svg"
 
 import { GiftImageWithText } from "@/pages/GiftPage/ui/GiftImageWithText/GiftImageWithText"
 import { t } from "i18next"

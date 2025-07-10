@@ -37,7 +37,7 @@ export const NftGrid: React.FC<TProps> = ({
   onNftClick,
   onAddToCart, //заменить на secondaryClick
   mainClick, // бывший onBuy
-  secondaryClick,
+  // secondaryClick,
 }) => {
   return (
     <div className={styles.grid}>

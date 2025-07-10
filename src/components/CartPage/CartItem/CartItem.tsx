@@ -10,7 +10,7 @@ import clsx from "classnames"
 
 export function CartItem({
   item,
-  onRemove,
+  //onRemove,
   onSelect,
   isDeleting,
   onRestore,
