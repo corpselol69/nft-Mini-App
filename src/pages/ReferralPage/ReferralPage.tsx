@@ -4,6 +4,8 @@ import { ReferralLink } from "@/components/ReferralPage/ReferralLink"
 import { ReferralList } from "@/components/ReferralPage/ReferralList"
 import styles from "./ReferralPage.module.scss"
 import { ReferralHeader } from "@/components/ReferralPage/ReferralHeader"
+import { SnackbarContainer } from "@/components/common/Snackbar"
+import type { SnackbarData } from "@/components/common/Snackbar"
 
 const mockData = {
   referralLink: "t.me/bot238757=ref17349619",
@@ -19,25 +21,37 @@ const mockData = {
 }
 
 export const ReferralPage: FC = () => {
-  const [copied, setCopied] = useState(false)
+  const [snackbars, setSnackbars] = useState<SnackbarData[]>([])
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(mockData.referralLink)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+
+    const newSnackbar: SnackbarData = {
+      id: Date.now().toString(),
+      title: "Реферальная ссылка скопирована",
+      autoHide: true,
+      duration: 5000,
+    }
+
+    setSnackbars(prev => [...prev, newSnackbar])
+  }
+
+  const handleRemoveSnackbar = (id: string) => {
+    setSnackbars(prev => prev.filter(snackbar => snackbar.id !== id))
   }
 
   return (
     <div className={styles.referralPage}>
+      <SnackbarContainer
+        snackbars={snackbars}
+        onRemove={handleRemoveSnackbar}
+      />
+
       <ReferralHeader
         totalEarned={"12.4"}
         description={"Вы зарабатываете 1,5% с комиссии ваших рефералов"}
       />
-      <ReferralLink
-        link={mockData.referralLink}
-        onCopy={handleCopyLink}
-        copied={copied}
-      />
+      <ReferralLink link={mockData.referralLink} onCopy={handleCopyLink} />
 
       <ReferralList invites={mockData.invites} totalCount={3} />
     </div>
