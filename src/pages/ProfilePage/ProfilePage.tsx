@@ -8,6 +8,7 @@ import imgAddIcon from "@/static/icons/icn-add.svg"
 import imgArrowUp from "@/static/icons/arrow-up.svg"
 import imgDiversity from "@/static/icons/diversity.svg"
 import imgChevronForward from "@/static/icons/chevron_forward.svg"
+import { Avatar } from "@/components/common/Avatar/Avatar.tsx"
 
 export const ProfilePage: FC = () => {
   return (
@@ -15,7 +16,7 @@ export const ProfilePage: FC = () => {
       <div className={styles.profilePage}>
         <div className={styles.header}>
           <div className={styles.userInfo}>
-            <div className={styles.avatar} />
+            <Avatar />
             <span className={styles.username}>@username</span>
           </div>
           <Button type="text">
