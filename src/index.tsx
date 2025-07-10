@@ -7,19 +7,24 @@ import { Root } from "@/components/Root.tsx"
 import { EnvUnsupported } from "@/components/EnvUnsupported.tsx"
 import { init } from "@/init.ts"
 import { initI18n } from "@/i18n"
-// import {
-//   initData,
-//   initDataAuthDate,
-//   initDataHash,
-//   initDataQueryId,
-//   initDataUser,
-// } from "@telegram-apps/sdk"
-import { miniApp, retrieveLaunchParams } from "@telegram-apps/sdk"
+
+import {
+  initDataAuthDate,
+  initDataHash,
+  initDataUser,
+  miniApp,
+  retrieveLaunchParams,
+  retrieveRawInitData,
+  retrieveRawLaunchParams,
+} from "@telegram-apps/sdk"
 
 import "./mockEnv.ts"
 
 try {
   const launchParams = retrieveLaunchParams()
+  const initDataRaw = retrieveRawInitData()
+  const webapp = retrieveRawLaunchParams()
+
   const { tgWebAppPlatform: platform } = launchParams
 
   const debug =
@@ -39,9 +44,12 @@ try {
   //   viewport.requestFullscreen();
   // }
 
-  // console.log(initDataQueryId())
-  // console.log(initDataHash())
-  // console.log(initDataUser())
+  console.log("initDataQueryId", initDataRaw)
+  console.log("launchParams", launchParams)
+  console.log("webapp", webapp)
+  console.log("initDataHash", initDataHash())
+  console.log("initDataUser", initDataUser())
+  console.log("initDataAuth", initDataAuthDate()?.getTime())
 
   if (miniApp.setHeaderColor.isAvailable()) {
     miniApp.setBackgroundColor("#131416")
