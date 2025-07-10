@@ -62,6 +62,7 @@
       gap: 16px;
       .buttonIconClose {
         backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         background: $bg-glass;
         border-radius: 50%;
         display: flex;

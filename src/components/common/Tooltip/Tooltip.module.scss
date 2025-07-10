@@ -11,6 +11,7 @@
   transition: opacity 0.16s;
   position: absolute;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   width: 168px;
 }
 
