@@ -1,4 +1,3 @@
-import "@telegram-apps/telegram-ui/dist/styles.css"
 import "./styles/globals.scss"
 
 import ReactDOM from "react-dom/client"
