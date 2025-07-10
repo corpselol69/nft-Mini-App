@@ -1,0 +1,46 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.referralLink {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  @include typography.subheadline-sf;
+  color: $typography-secondary;
+  padding-left: 8px;
+}
+
+.linkContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $bg-static;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.link {
+  color: $colors-accent;
+  @include typography.body-l-sf;
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.separator {
+  width: 1px;
+  height: 24px;
+  background-color: $stroke-20;
+}
+
+.icn {
+  width: 16px;
+  height: 16px;
+}

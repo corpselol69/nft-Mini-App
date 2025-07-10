@@ -1,0 +1,42 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.referralHeader {
+  background-color: $bg-static;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  @include typography.subheadline-sf;
+  color: $typography-secondary;
+}
+
+.amount {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.amountMain {
+  @include typography.amount-main-sf;
+  color: $typography-primary;
+}
+
+.amountSub {
+  @include typography.amount-sub-sf;
+  color: $typography-primary;
+}
+
+.currency {
+  @include typography.amount-sub-sf;
+  color: $typography-secondary;
+}
+
+.description {
+  @include typography.body-l-sf;
+  color: $typography-secondary;
+}

@@ -1,0 +1,77 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.referralList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.title {
+  @include typography.subheadline-sf;
+  color: $typography-secondary;
+}
+
+.count {
+  @include typography.subheadline-sf;
+  color: $typography-secondary;
+}
+
+.listContainer {
+  background-color: $bg-static;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.inviteItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.username {
+  @include typography.caption-m-sf;
+  color: $typography-secondary;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.purchases {
+  @include typography.caption-l-sf;
+  color: $typography-primary;
+}
+
+.earned {
+  @include typography.body-s-sf;
+  color: $typography-secondary;
+}
+
+.separator {
+  height: 1px;
+  background-color: $stroke-10;
+  margin: 8px 0;
+}
