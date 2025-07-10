@@ -6,4 +6,5 @@ export type SheetEntry = {
   bottomSheetTitle?: string
   leftButton?: React.ReactNode
   buttons?: React.ReactNode
+  onClose?: () => void
 }

@@ -100,7 +100,6 @@ export const ProfilePage: FC = () => {
   }
 
   const handleOpenWithdrawModal = () => {
-    setWithdraw("")
     openSheet(
       <WithdrawBottomSheet
         address={"21412515adwadfwaa"}
@@ -111,6 +110,9 @@ export const ProfilePage: FC = () => {
       />,
       {
         bottomSheetTitle: "Вывод средств",
+        onClose() {
+          setWithdraw("")
+        },
       }
     )
   }
