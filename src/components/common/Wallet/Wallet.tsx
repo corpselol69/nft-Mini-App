@@ -11,7 +11,7 @@ import imgWalletBigIcon from "@/static/icons/account_balance_wallet.svg"
 export const Wallet: FC<WalletProps> = ({
   address,
   balance,
-  isConnected = false,
+
   isExpanded = false,
   onConnect,
   onCopy,
@@ -23,7 +23,7 @@ export const Wallet: FC<WalletProps> = ({
   }
 
   // Состояние "подключить кошелек"
-  if (!isConnected) {
+  if (!address) {
     return (
       <Button type="text" onClick={onConnect}>
         <Icon src={imgWalletIcon} />
@@ -31,7 +31,6 @@ export const Wallet: FC<WalletProps> = ({
       </Button>
     )
   }
-
   // Развернутое состояние (подключен)
   if (isExpanded && address) {
     return (

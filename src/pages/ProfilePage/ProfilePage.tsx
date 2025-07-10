@@ -17,10 +17,8 @@ import { t } from "i18next"
 
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
-  const { openSheet } = useBottomSheet()
+  const { openSheet, closeAll } = useBottomSheet()
 
-  const [isWalletConnected, setIsWalletConnected] = useState(false)
-  const [walletAddress, setWalletAddress] = useState("")
   const [walletBalance, setWalletBalance] = useState("")
   const userFriendlyAddress = useTonAddress()
 
@@ -34,14 +32,19 @@ export const ProfilePage: FC = () => {
     // Симуляция подключения кошелька
     tonConnectUI.openModal()
 
-    setIsWalletConnected(true)
-    setWalletAddress(userFriendlyAddress)
     setWalletBalance("214")
   }
 
+  const handleDisconnectWallet = async () => {
+    await tonConnectUI.disconnect()
+    handleConnectWallet()
+    closeAll()
+    setWalletBalance("")
+  }
+
   const handleCopyWallet = () => {
-    if (walletAddress) {
-      navigator.clipboard.writeText(walletAddress)
+    if (userFriendlyAddress) {
+      navigator.clipboard.writeText(userFriendlyAddress)
       //  добавить уведомление о копировании
     }
   }
@@ -49,9 +52,8 @@ export const ProfilePage: FC = () => {
   const handleToggleWallet = () => {
     openSheet(
       <Wallet
-        address={walletAddress}
+        address={userFriendlyAddress}
         balance={walletBalance}
-        isConnected={isWalletConnected}
         onConnect={handleConnectWallet}
         onCopy={handleCopyWallet}
         isExpanded={true}
@@ -61,7 +63,7 @@ export const ProfilePage: FC = () => {
         buttons: (
           <Button
             size="large"
-            onClick={handleConnectWallet}
+            onClick={handleDisconnectWallet}
             style={{ marginTop: "24px" }}
           >
             {t("buttons.reconnect_wallet")}
@@ -82,7 +84,6 @@ export const ProfilePage: FC = () => {
           <Wallet
             address={userFriendlyAddress}
             balance={walletBalance}
-            isConnected={isWalletConnected}
             onConnect={handleConnectWallet}
             onCopy={handleCopyWallet}
             onToggle={handleToggleWallet}
