@@ -14,7 +14,7 @@ import { initI18n } from "@/i18n"
 //   initDataQueryId,
 //   initDataUser,
 // } from "@telegram-apps/sdk"
-import { retrieveLaunchParams } from "@telegram-apps/sdk"
+import { miniApp, retrieveLaunchParams } from "@telegram-apps/sdk"
 
 import "./mockEnv.ts"
 
@@ -42,6 +42,10 @@ try {
   // console.log(initDataQueryId())
   // console.log(initDataHash())
   // console.log(initDataUser())
+
+  if (miniApp.setHeaderColor.isAvailable()) {
+    miniApp.setBackgroundColor("#131416")
+  }
 
   const root = ReactDOM.createRoot(document.getElementById("root")!)
 
