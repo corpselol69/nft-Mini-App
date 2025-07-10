@@ -11,7 +11,7 @@ import imgDiversity from "@/static/icons/diversity.svg"
 import imgChevronForward from "@/static/icons/chevron_forward.svg"
 import { Outlet, useNavigate } from "react-router-dom"
 import { Avatar } from "@/components/common/Avatar/Avatar.tsx"
-import { useTonConnectUI } from "@tonconnect/ui-react"
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { t } from "i18next"
 
@@ -22,6 +22,7 @@ export const ProfilePage: FC = () => {
   const [isWalletConnected, setIsWalletConnected] = useState(false)
   const [walletAddress, setWalletAddress] = useState("")
   const [walletBalance, setWalletBalance] = useState("")
+  const userFriendlyAddress = useTonAddress()
 
   const [tonConnectUI] = useTonConnectUI()
 
@@ -32,8 +33,9 @@ export const ProfilePage: FC = () => {
   const handleConnectWallet = () => {
     // Симуляция подключения кошелька
     tonConnectUI.openModal()
+
     setIsWalletConnected(true)
-    setWalletAddress("UQD6naYvQrlcfsaAbDOFgBiNRRlLckIxdUEhd0aGF1pKo6Q")
+    setWalletAddress(userFriendlyAddress)
     setWalletBalance("214")
   }
 
@@ -78,7 +80,7 @@ export const ProfilePage: FC = () => {
             <span className={styles.username}>@username</span>
           </div>
           <Wallet
-            address={walletAddress}
+            address={userFriendlyAddress}
             balance={walletBalance}
             isConnected={isWalletConnected}
             onConnect={handleConnectWallet}
