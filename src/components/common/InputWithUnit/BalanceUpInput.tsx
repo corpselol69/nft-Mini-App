@@ -32,15 +32,15 @@ export const BalanceUpInput: FC<Props> = ({
         <input
           ref={inputRef}
           className={classnames(styles.input, className && className)}
-          type="text"
-          inputMode="decimal"
           value={inputValue || ""}
           onChange={handleChange}
           id={id}
           {...rest}
         />
       </div>
-      <span className={styles.unit}>{unit}</span>
+      <span className={classnames(styles.unit, className && className)}>
+        {unit}
+      </span>
     </div>
   )
 }

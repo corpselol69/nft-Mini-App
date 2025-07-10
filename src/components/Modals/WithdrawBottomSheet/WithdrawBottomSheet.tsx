@@ -19,24 +19,35 @@ type Props = {
 const MIN_WITHDRAW_AMOUNT = 0.5
 
 export const WithdrawBottomSheet: FC<Props> = ({
-  handleWithdraw,
-  onChange,
-  withdrawValue,
+  handleWithdraw: onWithdraw,
+  onChange: onChangeExternal,
+  withdrawValue: initialWithdrawValue,
   availableWithdrawValue,
   address,
 }) => {
   const [error, setError] = useState<string>()
+  const [withdrawValue, setWithdrawValue] = useState(initialWithdrawValue || "")
 
   const handleAllSumClick = () => {
     console.log("Setting value:", availableWithdrawValue) // для отладки
-    onChange(availableWithdrawValue)
+    setWithdrawValue(availableWithdrawValue)
+    onChangeExternal?.(availableWithdrawValue)
     setError("")
   }
 
-  useEffect(() => {
-    console.log("withdrawValue changed:", withdrawValue) // для отладки
+  const handleChange = (value: string) => {
+    setWithdrawValue(value)
+    onChangeExternal?.(value)
+  }
 
-    if (withdrawValue && withdrawValue.trim() !== "") {
+  const handleWithdraw = () => {
+    onWithdraw()
+  }
+
+  useEffect(() => {
+    console.log("withdrawValue changed:", withdrawValue)
+    console.log(!!error)
+    if (withdrawValue.trim() !== "") {
       const numValue = parseFloat(withdrawValue)
       if (isNaN(numValue) || numValue < MIN_WITHDRAW_AMOUNT) {
         setError(`Введите сумму более ${MIN_WITHDRAW_AMOUNT} TON`)
@@ -62,7 +73,7 @@ export const WithdrawBottomSheet: FC<Props> = ({
         <BalanceUpInput
           className={error ? styles.error : undefined}
           value={withdrawValue}
-          onChange={onChange}
+          onChange={handleChange}
         />
       </div>
 
@@ -86,7 +97,7 @@ export const WithdrawBottomSheet: FC<Props> = ({
       <div className={styles.actionButtonWrapper}>
         <Button
           type="primary"
-          disabled={!!error || !withdrawValue}
+          isDisabled={!!error}
           size="large"
           onClick={handleWithdraw}
         >
