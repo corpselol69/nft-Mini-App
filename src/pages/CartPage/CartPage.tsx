@@ -5,12 +5,12 @@ import Icon from "@/components/common/Icon/Icon"
 import tonIcon from "@/static/icons/icn-S_ton.svg"
 import { Page } from "@/components/Page.tsx"
 import { mockCartItems } from "./const/mockData"
-import { CartHeader } from "./components/CartHeader/CartHeader"
-import { CartSelectAll } from "./components/CartSelectAll/CartSelectAll"
-import { CartItem } from "./components/CartItem/CartItem"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { ConfirmBuyNftBottomSheet } from "@/components/Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
 import { t } from "i18next"
+import { CartHeader } from "@/components/CartPage/CartHeader/CartHeader"
+import { CartSelectAll } from "@/components/CartPage/CartSelectAll/CartSelectAll"
+import { CartItem } from "@/components/CartPage/CartItem/CartItem"
 
 export const CartPage: FC = () => {
   const [items, setItems] = useState(mockCartItems)
