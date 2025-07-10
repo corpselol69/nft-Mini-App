@@ -12,7 +12,6 @@ import {
   initDataAuthDate,
   initDataHash,
   initDataUser,
-  miniApp,
   retrieveLaunchParams,
   retrieveRawInitData,
   retrieveRawLaunchParams,
@@ -40,20 +39,12 @@ try {
     initI18n(), // ждём локализацию
   ])
 
-  // if (viewport) {
-  //   viewport.requestFullscreen();
-  // }
-
   console.log("initDataQueryId", initDataRaw)
   console.log("launchParams", launchParams)
   console.log("webapp", webapp)
   console.log("initDataHash", initDataHash())
   console.log("initDataUser", initDataUser())
   console.log("initDataAuth", initDataAuthDate()?.getTime())
-
-  if (miniApp.setHeaderColor.isAvailable()) {
-    miniApp.setBackgroundColor("#131416")
-  }
 
   const root = ReactDOM.createRoot(document.getElementById("root")!)
 
