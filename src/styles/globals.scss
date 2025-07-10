@@ -62,16 +62,37 @@
   // stroke
   --stroke-20: rgba(255, 255, 255, 0.2);
   --stroke-10: rgba(255, 255, 255, 0.1);
-
-  --font-ui: "SF Pro Rounded", "SF Pro Display", "Nunito", "Roboto",
-    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 :root[data-theme="light"] {
+  // colors
+  --colors-accent: rgba(39, 143, 255, 1);
+  --colors-green: rgba(52, 199, 89, 1);
+  --colors-red: rgba(255, 59, 48, 1);
+  --colors-orange: rgba(255, 149, 0, 1);
+
+  // BG
+  --bg-main: rgba(239, 239, 244, 1);
+  --bg-modal: rgba(239, 239, 244, 1);
+  --bg-surface: rgba(255, 255, 255, 1);
+  --bg-static: rgba(255, 255, 255, 1);
+  --bg-dynamic: rgba(67, 120, 255, 0.1);
+  --bg-base-component: rgba(255, 255, 255, 1);
+  --bg-state: rgba(15, 23, 31, 0.1);
+  --bg-glass: rgba(65, 63, 64, 0.4);
+
+  // Typography
+  --typography-primary: rgba(0, 0, 0, 1);
+  --typography-secondary: rgba(0, 0, 0, 0.6);
+  --typography-tertriary: rgba(0, 0, 0, 0.4);
+  --typography-white: rgba(255, 255, 255, 1);
+
+  // stroke
+  --stroke-20: rgba(0, 0, 0, 0.2);
+  --stroke-10: rgba(0, 0, 0, 0.1);
 }
 
 * {
-  //font-family: var(--font-ui);
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   //font-variation-settings: 'opsz' 10;
