@@ -8,6 +8,7 @@ import { miniApp, swipeBehavior, viewport } from "@telegram-apps/sdk"
 
 import styles from "./MainLayout.module.scss"
 import Icon from "@/components/common/Icon/Icon"
+import { Avatar } from "@/components/common/Avatar/Avatar"
 
 export function MainLayout() {
   const isMarket = !!useMatch({ path: "/market/*" })
@@ -60,9 +61,9 @@ export function MainLayout() {
           to="/profile"
           className={({ isActive }) => (isActive ? styles.active : undefined)}
         >
-          <div
+          <Avatar
             className={`${styles.avatar} ${isProfile ? styles.active : ""}`}
-          ></div>
+          />
           <span>{t("profile")}</span>
         </NavLink>
       </nav>
