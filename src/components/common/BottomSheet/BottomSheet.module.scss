@@ -100,17 +100,10 @@
   flex: 0 0 auto;
 }
 
-.iconsRow {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.iconRow {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
+.closeButton {
+  border-radius: 32px;
+  background: $bg-glass;
+  backdrop-filter: blur(5px);
 }
 
 .children {

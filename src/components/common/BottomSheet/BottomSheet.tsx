@@ -3,8 +3,10 @@ import ReactDOM from "react-dom"
 import { IBottomSheetProps } from "./BottomSheet.d"
 import styles from "./BottomSheet.module.scss"
 import clsx from "classnames"
-import { CloseIcon } from "./CloseIcon"
 import { viewport, miniApp } from "@telegram-apps/sdk"
+import closeIcon from "@/static/icons/icn-L_Close.svg"
+import Icon from "../Icon/Icon"
+import { Button } from "@/components/common/Button/Button"
 
 //FIXME: При монтировании компонента, почему-то рядом с ним монтируется еще один пустой див без классов, без контента. Надо понять почему и убрать
 export const BottomSheet: FC<IBottomSheetProps> = ({
@@ -87,7 +89,13 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
           <div className={styles.left}>{leftButton}</div>
           <div className={styles.title}>{title}</div>
           <div className={styles.right}>
-            <CloseIcon onClick={doClose} />
+            <Button
+              type="icon"
+              onClick={doClose}
+              className={styles.closeButton}
+            >
+              <Icon src={closeIcon} />
+            </Button>
           </div>
         </div>
         <div className={styles.children}>{children}</div>
