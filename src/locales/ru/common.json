@@ -7,6 +7,7 @@
   "buy_nft": "Покупка NFT",
   "available_balance": "Доступный баланс",
   "top_up_balance": "Пополнение баланса",
+  "your_wallet": "Ваш кошелёк",
   "all": "Все",
   "not_for_sale": "Не в продаже",
   "for_sale": "На продаже",
@@ -25,6 +26,8 @@
     "remove_from_sale": "Снять с продажи",
     "status": "Статус",
     "view": "Посмотреть",
+    "connect_wallet": "Подключить кошелёк",
+    "reconnect_wallet": "Переподключить кошелёк",
     "withdraw": "Вывести",
     "put_on_sale": "Выставить на продажу"
   }
