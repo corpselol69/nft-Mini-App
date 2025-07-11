@@ -1,24 +1,21 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect } from "react"
 import { RouterProvider } from "react-router-dom"
-import {
-  retrieveLaunchParams,
-  isMiniAppDark,
-  miniApp,
-  retrieveRawInitData,
-} from "@telegram-apps/sdk"
-import { signal } from "@telegram-apps/signals"
+import { retrieveRawInitData, on } from "@telegram-apps/sdk"
 
 import { router } from "@/navigation/routes.tsx"
 import { useLoginMutation } from "@/api/endpoints/auth"
-import { useAppDispatch } from "@/hooks/useRedux"
+import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import { setToken } from "@/slices/authSlice"
+import i18n from "@/i18n"
+import { setTheme } from "@/slices/uiSlice"
 
 export function App() {
-  const lp = useMemo(() => retrieveLaunchParams(), [])
-  const isDark = signal(isMiniAppDark())()
   const initDataRaw = retrieveRawInitData()
-
   const dispatch = useAppDispatch()
+
+  const language = useAppSelector(state => state.i18n.language)
+  const theme = useAppSelector(state => state.ui.theme)
+
   const [login] = useLoginMutation()
 
   useEffect(() => {
@@ -42,21 +39,24 @@ export function App() {
   }, [initDataRaw, login, dispatch])
 
   useEffect(() => {
-    if (miniApp.setHeaderColor.isAvailable()) {
-      miniApp.setHeaderColor(isDark ? "#131416" : "#ffffff")
+    if (i18n.language !== language) {
+      i18n.changeLanguage(language).catch(err => {
+        console.error("Ошибка при смене языка:", err)
+      })
     }
-  }, [isDark])
+  }, [language])
 
   useEffect(() => {
-    document.documentElement.setAttribute(
-      "data-theme",
-      isDark ? "dark" : "light"
-    )
-    document.documentElement.setAttribute(
-      "data-platform",
-      ["macos", "ios"].includes(lp.tgWebAppPlatform) ? "ios" : "base"
-    )
-  }, [isDark, lp.tgWebAppPlatform])
+    on("theme_changed", payload => {
+      const theme =
+        payload.theme_params.bg_color === "#ffffff" ? "light" : "dark"
+      dispatch(setTheme(theme))
+    })
+  }, [dispatch])
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme)
+  }, [theme])
 
   return <RouterProvider router={router} />
 }

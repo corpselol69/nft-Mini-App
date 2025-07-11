@@ -1,5 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { authSlice } from "../slices/authSlice"
+import { i18nSlice } from "../slices/i18nSlice"
+import { uiSlice } from "@/slices/uiSlice"
 
 import { api } from "@/api/api"
 import "@/api/endpoints/auth"
@@ -7,6 +9,8 @@ import "@/api/endpoints/auth"
 export const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
+    i18n: i18nSlice.reducer,
+    ui: uiSlice.reducer,
 
     [api.reducerPath]: api.reducer,
   },
