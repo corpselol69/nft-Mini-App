@@ -1,6 +1,10 @@
 import { useEffect } from "react"
 import { RouterProvider } from "react-router-dom"
-import { retrieveRawInitData, on } from "@telegram-apps/sdk"
+import {
+  retrieveRawInitData,
+  on,
+  retrieveLaunchParams,
+} from "@telegram-apps/sdk"
 
 import { router } from "@/navigation/routes.tsx"
 import { useLoginMutation } from "@/api/endpoints/auth"
@@ -12,6 +16,7 @@ import { setTheme } from "@/slices/uiSlice"
 export function App() {
   const initDataRaw = retrieveRawInitData()
   const dispatch = useAppDispatch()
+  const lp = retrieveLaunchParams()
 
   const language = useAppSelector(state => state.i18n.language)
   const theme = useAppSelector(state => state.ui.theme)
@@ -57,6 +62,13 @@ export function App() {
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme)
   }, [theme])
+
+  useEffect(() => {
+    document.documentElement.setAttribute(
+      "data-platform",
+      ["macos", "ios"].includes(lp.tgWebAppPlatform) ? "ios" : "base"
+    )
+  }, [lp.tgWebAppPlatform])
 
   return <RouterProvider router={router} />
 }
