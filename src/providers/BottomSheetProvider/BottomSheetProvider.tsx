@@ -11,6 +11,7 @@ type BottomSheetContextType = {
       leftButton?: React.ReactNode
       key?: string
       buttons?: React.ReactNode
+      onClose?: () => void
     }
   ) => void
   closeSheet: () => void
@@ -41,6 +42,7 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         leftButton?: React.ReactNode
         key?: string
         buttons?: React.ReactNode
+        onClose?: () => void
       }
     ) => {
       const entry: SheetEntry = {
@@ -49,6 +51,7 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         bottomSheetTitle: opts?.bottomSheetTitle,
         leftButton: opts?.leftButton,
         buttons: opts?.buttons,
+        onClose: opts?.onClose,
       }
       setStack(prev => [...prev, entry])
     },
@@ -68,7 +71,10 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         <BottomSheet
           key={sheet.key}
           open={idx === stack.length - 1}
-          onClose={closeAll}
+          onClose={() => {
+            sheet.onClose?.()
+            closeAll()
+          }}
           title={sheet.bottomSheetTitle}
           leftButton={sheet.leftButton}
           buttons={sheet.buttons}

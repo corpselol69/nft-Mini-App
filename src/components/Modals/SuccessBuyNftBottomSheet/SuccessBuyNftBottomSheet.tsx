@@ -1,14 +1,19 @@
-import { FC } from "react"
+import { FC, ReactNode } from "react"
 import styles from "./SuccessBuyNftBottomSheet.module.scss"
 
 import checkSmallImg from "@/static/icons/check_small.svg"
-import { Button } from "@/components/common/Button/Button"
 
 type Props = {
-  onConfirm: () => void
+  title: string
+  subTitle?: string
+  actionButtons?: ReactNode[]
 }
 
-export const SuccessBuyNftBottomSheet: FC<Props> = ({ onConfirm }) => {
+export const SuccessBuyNftBottomSheet: FC<Props> = ({
+  subTitle,
+  title,
+  actionButtons,
+}) => {
   return (
     <div className={styles.buyBottomSheetWrapper}>
       <div className={styles.buyBottomSheetImage}>
@@ -16,17 +21,22 @@ export const SuccessBuyNftBottomSheet: FC<Props> = ({ onConfirm }) => {
       </div>
       <div className={styles.buyBottomSheetTextWrapper}>
         <div className={styles.buyBottomSheetTextTitle}>
-          <span>NFT успешно куплен</span>
+          <span>{title}</span>
         </div>
-        <div className={styles.buyBottomSheetSubText}>
-          <span>Мы уже отправили NFT к вам в профиль</span>
+
+        {subTitle && (
+          <div className={styles.buyBottomSheetSubText}>
+            <span>{subTitle}</span>
+          </div>
+        )}
+      </div>
+      {actionButtons && actionButtons.length > 0 && (
+        <div className={styles.actionButtonsWrapper}>
+          {actionButtons.map(el => {
+            return <>{el}</>
+          })}
         </div>
-      </div>
-      <div className={styles.actionButtonsWrapper}>
-        <Button type="primary" onClick={onConfirm} size="large">
-          Готово
-        </Button>
-      </div>
+      )}
     </div>
   )
 }

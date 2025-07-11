@@ -4,13 +4,13 @@ import accountBalanceIcon from "@/static/icons/account_balance_wallet.svg"
 import tonSrc from "@/static/icons/icn-S_ton.svg"
 
 import styles from "./BalanceTopUpBottomSheet.module.scss"
-import { BalanceUpInput } from "./Input/BalanceUpInput"
 import { Button } from "@/components/common/Button/Button"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { LoadingTopUpBalanceBottomSheet } from "../LoadingTopUpBalanceBottomSheet/LoadingTopUpBalanceBottomSheet"
 import { SuccessBuyNftBottomSheet } from "../SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
 import { ErrorBottomSheet } from "../ErrorBottomSheet/ErrorBottomSheet"
 import { t } from "i18next"
+import { BalanceUpInput } from "@/components/common/InputWithUnit/BalanceUpInput"
 
 type Props = {
   purchasePrice: number
@@ -38,9 +38,20 @@ export const BalanceTopUpBottomSheet: FC<Props> = ({
 
     try {
       await doTopUp()
-      openSheet(<SuccessBuyNftBottomSheet onConfirm={closeAll} />, {
-        bottomSheetTitle: `${t("buy_nft")}`,
-      })
+      openSheet(
+        <SuccessBuyNftBottomSheet
+          title={"NFT успешно куплен"}
+          subTitle="Мы уже отправили NFT к вам в профиль"
+          actionButtons={[
+            <Button type="primary" size="large" onClick={closeAll}>
+              Готово
+            </Button>,
+          ]}
+        />,
+        {
+          bottomSheetTitle: `${t("buy_nft")}`,
+        }
+      )
     } catch (error) {
       const retry = () => {
         closeAll()
