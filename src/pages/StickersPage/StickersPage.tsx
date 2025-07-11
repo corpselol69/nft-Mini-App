@@ -19,6 +19,7 @@ import { BuyNftBottomSheet } from "@/components/Modals/BuyNftBottomSheet/BuyNftB
 import { ModalButtonsWrapper } from "@/components/common/ModalButtonsWrapper/ModalButtonsWrapper"
 import { SuccessBuyNftBottomSheet } from "@/components/Modals/SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
 import { t } from "i18next"
+import { Button } from "@/components/common/Button/Button"
 
 // Пример данных для карточек
 const mockNfts: {
@@ -50,9 +51,20 @@ export const StickersPage: FC<IStickersPageProps> = () => {
 
   const handleBuy = useCallback(async () => {
     try {
-      openSheet(<SuccessBuyNftBottomSheet onConfirm={closeAll} />, {
-        bottomSheetTitle: `${t("buy_nft")}`,
-      })
+      openSheet(
+        <SuccessBuyNftBottomSheet
+          title={"NFT успешно куплен"}
+          subTitle="Мы уже отправили NFT к вам в профиль"
+          actionButtons={[
+            <Button type="primary" size="large" onClick={closeAll}>
+              Готово
+            </Button>,
+          ]}
+        />,
+        {
+          bottomSheetTitle: `${t("buy_nft")}`,
+        }
+      )
     } catch (e) {
       console.error(e)
       //
