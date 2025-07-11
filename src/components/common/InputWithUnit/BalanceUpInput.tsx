@@ -1,5 +1,4 @@
-// BalanceUpInput.tsx
-import { FC, InputHTMLAttributes, useId, useRef, useState } from "react"
+import { FC, InputHTMLAttributes, useId, useRef } from "react"
 import classnames from "classnames"
 import styles from "./BalanceUpInput.module.scss"
 

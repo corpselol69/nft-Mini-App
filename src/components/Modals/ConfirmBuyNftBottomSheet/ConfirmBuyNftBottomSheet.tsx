@@ -26,9 +26,20 @@ export const ConfirmBuyNftBottomSheet: FC<Props> = ({
   const handleOnBuyClick = useCallback(async () => {
     try {
       await onBuy()
-      openSheet(<SuccessBuyNftBottomSheet onConfirm={closeAll} />, {
-        bottomSheetTitle: `${t("buy_nft")}`,
-      })
+      openSheet(
+        <SuccessBuyNftBottomSheet
+          title="NFT успешно куплен"
+          subTitle="Мы уже отправили NFT к вам в профиль"
+          actionButtons={[
+            <Button type="primary" size="large" onClick={closeAll}>
+              Готово
+            </Button>,
+          ]}
+        />,
+        {
+          bottomSheetTitle: `${t("buy_nft")}`,
+        }
+      )
     } catch (e) {
       console.error(e)
       //
