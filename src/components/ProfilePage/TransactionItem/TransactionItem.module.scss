@@ -8,10 +8,6 @@
   border-bottom: 1px solid $stroke-10;
   transition: background-color 0.2s ease;
   padding-bottom: 8px;
-
-  &:last-child {
-    border-bottom: none;
-  }
 }
 
 .info {
