@@ -18,6 +18,7 @@ import { WithdrawBottomSheet } from "@/components/Modals/WithdrawBottomSheet/Wit
 import { SuccessBuyNftBottomSheet } from "@/components/Modals/SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
 import { TransactionGroup } from "@/components/ProfilePage/types"
 import { TransactionBlock } from "@/components/ProfilePage/TransactionsBlock/TransactionsBlock"
+import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
 
 const mockData: TransactionGroup[] = [
   {
@@ -72,6 +73,7 @@ const mockData: TransactionGroup[] = [
     ],
   },
 ]
+
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
   const { openSheet, closeAll } = useBottomSheet()
@@ -107,23 +109,53 @@ export const ProfilePage: FC = () => {
     }
   }
 
-  const handleWithdraw = () => {
+  const handleWithdraw = async () => {
     //логика вывода средств
     console.log(`выведено ${withdraw}`)
 
-    openSheet(
-      <SuccessBuyNftBottomSheet
-        title={"Вывод выполнен"}
-        actionButtons={[
-          <Button type="primary" size="large" onClick={closeAll}>
-            Завершить
-          </Button>,
-        ]}
-      />,
-      {
-        bottomSheetTitle: `${t("buy_nft")}`,
-      }
-    )
+    try {
+      // await api.withdraw()
+      openSheet(
+        <SuccessBuyNftBottomSheet
+          title={"Вывод выполнен"}
+          actionButtons={[
+            <Button type="primary" size="large" onClick={closeAll}>
+              Завершить
+            </Button>,
+          ]}
+        />,
+        {
+          bottomSheetTitle: `${t("buy_nft")}`,
+        }
+      )
+    } catch (e) {
+      console.error(e)
+      openSheet(
+        <ErrorBottomSheet
+          errorTitle={"Ошибка вывода"}
+          actionButtons={[
+            <Button
+              type="secondary"
+              size="large"
+              onClick={() => console.log("написал в службу поддержки и че?")}
+            >
+              Написать в службу поддержки
+            </Button>,
+            <Button
+              type="primary"
+              size="large"
+              onClick={handleOpenWithdrawModal}
+            >
+              Повторить попытку
+            </Button>,
+          ]}
+          errorText="При выводе средств произошла ошибка. Повторите попытку или обратитесь в службу поддержки."
+        />,
+        {
+          bottomSheetTitle: "Вывод средств",
+        }
+      )
+    }
   }
 
   const handleInputChange = (v: string) => {
