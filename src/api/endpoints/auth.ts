@@ -1,21 +1,25 @@
-import api from "@/api/apiClient"
+import { api } from "../api"
 import type { TelegramWebAppLoginPayload, Token } from "@/types/auth"
+import type { User } from "@/types/user"
 
-const endpoint = "/auth/"
+const endpoint = "/auth"
 
-const login = async (data: TelegramWebAppLoginPayload) => {
-  const response = await api.post<Token>(`${endpoint}login/webapp`, data)
-  return response.data
-}
+export const authAPI = api.injectEndpoints({
+  endpoints: builder => ({
+    login: builder.mutation<Token, TelegramWebAppLoginPayload>({
+      query: data => ({
+        url: `${endpoint}/login/webapp`,
+        method: "POST",
+        data,
+      }),
+    }),
+    getMe: builder.query<User, void>({
+      query: () => ({
+        url: `${endpoint}/me`,
+        method: "GET",
+      }),
+    }),
+  }),
+})
 
-const getMe = async () => {
-  const response = await api.get(`${endpoint}me`)
-  return response.data
-}
-
-export const authAPI = {
-  login,
-  getMe,
-}
-
-export default authAPI
+export const { useLoginMutation, useGetMeQuery } = authAPI

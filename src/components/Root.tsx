@@ -7,6 +7,8 @@ import { publicUrl } from "@/helpers/publicUrl.ts"
 import { I18nextProvider } from "react-i18next"
 import i18n from "@/i18n"
 import { BottomSheetProvider } from "@/providers/BottomSheetProvider/BottomSheetProvider"
+import { store } from "@/store"
+import { Provider } from "react-redux"
 
 function ErrorBoundaryError({ error }: { error: unknown }) {
   return (
@@ -27,16 +29,18 @@ function ErrorBoundaryError({ error }: { error: unknown }) {
 
 export function Root() {
   return (
-    <ErrorBoundary fallback={ErrorBoundaryError}>
-      <I18nextProvider i18n={i18n}>
-        <TonConnectUIProvider
-          manifestUrl={publicUrl("tonconnect-manifest.json")}
-        >
-          <BottomSheetProvider>
-            <App />
-          </BottomSheetProvider>
-        </TonConnectUIProvider>
-      </I18nextProvider>
-    </ErrorBoundary>
+    <Provider store={store}>
+      <ErrorBoundary fallback={ErrorBoundaryError}>
+        <I18nextProvider i18n={i18n}>
+          <TonConnectUIProvider
+            manifestUrl={publicUrl("tonconnect-manifest.json")}
+          >
+            <BottomSheetProvider>
+              <App />
+            </BottomSheetProvider>
+          </TonConnectUIProvider>
+        </I18nextProvider>
+      </ErrorBoundary>
+    </Provider>
   )
 }
