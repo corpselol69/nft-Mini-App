@@ -1,0 +1,63 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid $stroke-10;
+  transition: background-color 0.2s ease;
+  padding-bottom: 8px;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.description {
+  @include typography.body-l-sf;
+  color: $typography-primary;
+}
+
+.time {
+  @include typography.caption-s-sf;
+  color: $typography-secondary;
+}
+
+.amount {
+  @include typography.caption-l-sf;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  &.positive {
+    color: $colors-green;
+  }
+
+  &.negative {
+    color: $colors-red;
+  }
+
+  &.pending {
+    color: $typography-primary;
+  }
+}
+
+.error {
+  path {
+    fill: $colors-red;
+  }
+}
+
+.success {
+  path {
+    fill: $colors-green;
+  }
+}

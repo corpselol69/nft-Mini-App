@@ -16,7 +16,62 @@ import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvi
 import { t } from "i18next"
 import { WithdrawBottomSheet } from "@/components/Modals/WithdrawBottomSheet/WithdrawBottomSheet"
 import { SuccessBuyNftBottomSheet } from "@/components/Modals/SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
+import { TransactionGroup } from "@/components/ProfilePage/types"
+import { TransactionBlock } from "@/components/ProfilePage/TransactionsBlock/TransactionsBlock"
 
+const mockData: TransactionGroup[] = [
+  {
+    date: "12 ИЮНЯ",
+    transactions: [
+      {
+        id: "1",
+        type: "buy",
+        description: "Покупка NFT",
+        amount: 3.6,
+        timestamp: "2023-06-12T14:11:00Z",
+      },
+      {
+        id: "2",
+        type: "sell",
+        description: "Продажа NFT",
+        amount: 10,
+        timestamp: "2023-06-12T10:55:00Z",
+      },
+    ],
+  },
+  {
+    date: "11 ИЮНЯ",
+    transactions: [
+      {
+        id: "3",
+        type: "topup",
+        description: "Пополнение баланса",
+        amount: 15,
+        timestamp: "2023-06-11T11:37:00Z",
+      },
+      {
+        id: "4",
+        type: "topup",
+        description: "Пополнение баланса",
+        amount: 15,
+        timestamp: "2023-06-11T11:21:00Z",
+        status: "failed",
+      },
+    ],
+  },
+  {
+    date: "10 ИЮНЯ",
+    transactions: [
+      {
+        id: "5",
+        type: "bonus",
+        description: "Реферальный бонус",
+        amount: 0.25,
+        timestamp: "2023-06-10T10:57:00Z",
+      },
+    ],
+  },
+]
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
   const { openSheet, closeAll } = useBottomSheet()
@@ -168,13 +223,17 @@ export const ProfilePage: FC = () => {
 
         <div className={styles.historyBlock}>
           <span className={styles.historyLabel}>История транзакций</span>
-          <div className={styles.historyCard}>
-            <span>
-              Совершите свою первую
-              <br />
-              транзакцию
-            </span>
-          </div>
+          {mockData.length ? (
+            <TransactionBlock groups={mockData} />
+          ) : (
+            <div className={styles.historyCard}>
+              <span>
+                Совершите свою первую
+                <br />
+                транзакцию
+              </span>
+            </div>
+          )}
         </div>
       </div>
       <Outlet />

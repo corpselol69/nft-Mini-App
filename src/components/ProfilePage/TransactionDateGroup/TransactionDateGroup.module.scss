@@ -1,0 +1,20 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+.dateHeader {
+  @include typography.subheadline-sf;
+  color: $typography-secondary;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.transactions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
