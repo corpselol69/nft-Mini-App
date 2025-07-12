@@ -66,6 +66,10 @@ export const TopUpBottomSheet: FC<Props> = ({
         />
       </div>
 
+      <div className={styles.withdrawAllSumButtonWrapper}>
+        {error && <div className={styles.errorMessage}>{error}</div>}
+      </div>
+
       <div className={styles.actionButtonWrapper}>
         <Button
           type="primary"
@@ -73,7 +77,7 @@ export const TopUpBottomSheet: FC<Props> = ({
           size="large"
           onClick={handleWithdraw}
         >
-          Вывести {withdrawValue} TON
+          Пополнить на {withdrawValue} TON
         </Button>
       </div>
     </div>
