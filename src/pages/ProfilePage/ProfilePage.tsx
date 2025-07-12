@@ -22,6 +22,11 @@ import { TransactionBlock } from "@/components/ProfilePage/TransactionsBlock/Tra
 import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
 import { useAppDispatch } from "@/hooks/useRedux"
 import { addSnackbar } from "@/slices/snackbarSlice"
+import {
+  useLinkWalletMutation,
+  useUnlinkWalletMutation,
+} from "@/api/endpoints/wallets.ts"
+import { setWalletAddress, resetWallet } from "@/slices/walletSlice"
 
 const mockData: TransactionGroup[] = [
   {
@@ -84,25 +89,55 @@ export const ProfilePage: FC = () => {
 
   const [walletBalance, setWalletBalance] = useState("")
   const [withdraw, setWithdraw] = useState("")
-  const userFriendlyAddress = useTonAddress()
 
+  const userFriendlyAddress = useTonAddress()
   const [tonConnectUI] = useTonConnectUI()
+
+  const [linkWallet] = useLinkWalletMutation()
+  const [unlinkWallet] = useUnlinkWalletMutation()
 
   const handleReferralClick = () => {
     navigate("ref")
   }
 
-  const handleConnectWallet = () => {
+  const handleConnectWallet = async () => {
     tonConnectUI.openModal()
 
-    setWalletBalance("214")
+    if (!userFriendlyAddress) return
+
+    try {
+      await linkWallet({ address: userFriendlyAddress }).unwrap()
+      dispatch(setWalletAddress(userFriendlyAddress))
+      setWalletBalance("214") // временно — заменить на значение из API, если есть
+    } catch (e) {
+      console.error("Ошибка при линке кошелька:", e)
+      dispatch(
+        addSnackbar({
+          title: "Ошибка подключения кошелька",
+          autoHide: true,
+          duration: 5000,
+        })
+      )
+    }
   }
 
   const handleDisconnectWallet = async () => {
-    await tonConnectUI.disconnect()
-    handleConnectWallet()
-    closeAll()
-    setWalletBalance("")
+    try {
+      await unlinkWallet().unwrap()
+      await tonConnectUI.disconnect()
+      dispatch(resetWallet())
+      setWalletBalance("")
+      closeAll()
+    } catch (e) {
+      console.error("Ошибка при анлинке кошелька:", e)
+      dispatch(
+        addSnackbar({
+          title: "Ошибка отключения кошелька",
+          autoHide: true,
+          duration: 5000,
+        })
+      )
+    }
   }
 
   const handleCopyWallet = () => {
