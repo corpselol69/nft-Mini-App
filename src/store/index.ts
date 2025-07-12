@@ -4,6 +4,7 @@ import { i18nSlice } from "@/slices/i18nSlice"
 import { uiSlice } from "@/slices/uiSlice"
 import { snackbarSlice } from "@/slices/snackbarSlice"
 import { walletSlice } from "@/slices/walletSlice"
+import { cartSlice } from "@/slices/cartSlice"
 
 import { api } from "@/api/api"
 import "@/api/endpoints/auth"
@@ -15,6 +16,7 @@ export const store = configureStore({
     ui: uiSlice.reducer,
     snackbar: snackbarSlice.reducer,
     wallet: walletSlice.reducer,
+    cart: cartSlice.reducer,
 
     [api.reducerPath]: api.reducer,
   },
