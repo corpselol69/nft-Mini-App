@@ -168,6 +168,7 @@ export const ProfilePage: FC = () => {
   }
 
   const handleTopUp = () => {
+    closeAll()
     dispatch(
       addSnackbar({
         title: "Успешное пополнение",
