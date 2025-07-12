@@ -5,6 +5,10 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  .withdrawInputWrapper {
+    display: flex;
+    justify-content: center;
+  }
   .withdrawWalletTextWrapper {
     display: flex;
     flex-direction: column;

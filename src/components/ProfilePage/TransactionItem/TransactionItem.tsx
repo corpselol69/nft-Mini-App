@@ -9,9 +9,14 @@ import Icon from "@/components/common/Icon/Icon"
 type Props = {
   transaction: Transaction
   onClick?: () => void
+  className?: string
 }
 
-export const TransactionItem: FC<Props> = ({ transaction, onClick }) => {
+export const TransactionItem: FC<Props> = ({
+  transaction,
+  onClick,
+  className,
+}) => {
   const config = TRANSACTION_GROUP_CONFIG[transaction.type]
   const formattedTime = new Date(transaction.timestamp).toLocaleDateString(
     "ru-RU",
@@ -30,14 +35,21 @@ export const TransactionItem: FC<Props> = ({ transaction, onClick }) => {
       className={clsx(
         styles.item,
         isClickable && styles.clickable,
-        transaction.status === "failed" && styles.failed
+        transaction.status === "failed" && styles.failed,
+        className && className
       )}
       onClick={onClick}
       role={isClickable ? "button" : undefined}
       tabIndex={isClickable ? 0 : undefined}
     >
       <div className={styles.info}>
-        <div className={styles.description}>{transaction.description}</div>
+        <div
+          className={clsx(styles.description, {
+            [styles.negative]: transaction.status === "failed",
+          })}
+        >
+          {transaction.description}
+        </div>
         <div className={styles.time}>{formattedTime}</div>
       </div>
 
