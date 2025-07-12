@@ -20,13 +20,13 @@ import { TopUpBottomSheet } from "@/components/Modals/TopUpBottomSheet/TopUpBott
 import { TransactionGroup } from "@/components/ProfilePage/types"
 import { TransactionBlock } from "@/components/ProfilePage/TransactionsBlock/TransactionsBlock"
 import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
-import { useAppDispatch } from "@/hooks/useRedux"
+import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import { addSnackbar } from "@/slices/snackbarSlice"
 import {
   useLinkWalletMutation,
   useUnlinkWalletMutation,
 } from "@/api/endpoints/wallets.ts"
-import { setWalletAddress, resetWallet } from "@/slices/walletSlice"
+import { resetWallet } from "@/slices/walletSlice"
 
 const mockData: TransactionGroup[] = [
   {
@@ -87,7 +87,6 @@ export const ProfilePage: FC = () => {
   const { openSheet, closeAll } = useBottomSheet()
   const dispatch = useAppDispatch()
 
-  const [walletBalance, setWalletBalance] = useState("")
   const [withdraw, setWithdraw] = useState("")
 
   const userFriendlyAddress = useTonAddress()
@@ -95,6 +94,10 @@ export const ProfilePage: FC = () => {
 
   const [linkWallet] = useLinkWalletMutation()
   const [unlinkWallet] = useUnlinkWalletMutation()
+
+  const wallet = useAppSelector(state => state.wallet.data)
+  const balance = wallet?.balance
+  const address = wallet?.address
 
   const handleReferralClick = () => {
     navigate("ref")
@@ -107,26 +110,27 @@ export const ProfilePage: FC = () => {
 
     try {
       await linkWallet({ address: userFriendlyAddress }).unwrap()
-      dispatch(setWalletAddress(userFriendlyAddress))
-      setWalletBalance("214") // временно — заменить на значение из API, если есть
     } catch (e) {
-      console.error("Ошибка при линке кошелька:", e)
-      dispatch(
-        addSnackbar({
-          title: "Ошибка подключения кошелька",
-          autoHide: true,
-          duration: 5000,
-        })
-      )
+      console.error("Ошибка при подключении:", e)
     }
   }
 
   const handleDisconnectWallet = async () => {
+    if (!wallet?.id && userFriendlyAddress) {
+      // Если кошелек не привязан, просто отключаем TonConnect
+      await tonConnectUI.disconnect()
+      closeAll()
+      handleConnectWallet()
+      return
+    }
+    if (!wallet?.id) return
+
     try {
-      await unlinkWallet().unwrap()
+      await unlinkWallet({
+        wallet_id: wallet.id,
+      }).unwrap()
       await tonConnectUI.disconnect()
       dispatch(resetWallet())
-      setWalletBalance("")
       closeAll()
     } catch (e) {
       console.error("Ошибка при анлинке кошелька:", e)
@@ -222,7 +226,7 @@ export const ProfilePage: FC = () => {
     openSheet(
       <Wallet
         address={userFriendlyAddress}
-        balance={walletBalance}
+        balance={balance}
         onConnect={handleConnectWallet}
         onCopy={handleCopyWallet}
         isExpanded={true}
@@ -276,7 +280,7 @@ export const ProfilePage: FC = () => {
       }
     )
   }
-
+  console.log("walletBalance", wallet)
   return (
     <Page back={false}>
       <div className={styles.profilePage}>
@@ -287,7 +291,7 @@ export const ProfilePage: FC = () => {
           </div>
           <Wallet
             address={userFriendlyAddress}
-            balance={walletBalance}
+            balance={balance}
             onConnect={handleConnectWallet}
             onCopy={handleCopyWallet}
             onToggle={handleToggleWallet}
