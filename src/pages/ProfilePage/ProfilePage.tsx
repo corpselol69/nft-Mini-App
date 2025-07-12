@@ -280,7 +280,11 @@ export const ProfilePage: FC = () => {
           <Button
             type="vertical"
             size="large"
-            onClick={handleOpenWithdrawModal}
+            onClick={() =>
+              !!userFriendlyAddress
+                ? handleOpenWithdrawModal()
+                : handleConnectWallet()
+            }
           >
             <Icon src={imgArrowUp} className={styles.actionIcon} />
             Вывести
