@@ -6,29 +6,23 @@ import icnLClose from "@/static/icons/icn-L_Close.svg"
 import upwardIcon from "@/static/icons/arrow_upward_alt.svg"
 import { Checkbox } from "@/components/common/Checkbox/Checkbox"
 import monkeyImg from "@/static/placeholders/monkey.png"
+import { FC } from "react"
+import { CartItemProps } from "./CartItem.d"
 import clsx from "classnames"
 
-export function CartItem({
+export const CartItem: FC<CartItemProps> = ({
   item,
-  //onRemove,
+  onRemove,
   onSelect,
   isDeleting,
   onRestore,
-  setIsDeleting,
-}: {
-  item: any
-  onRemove: (id: string) => void
-  onSelect: (id: string, checked: boolean) => void
-  isDeleting: boolean
-  onRestore: (id: string) => void
-  setIsDeleting: (v: boolean) => void
-}) {
+}) => {
   return (
     <div className={styles.itemWrapper}>
       <Checkbox
         checked={item.selected}
         disabled={!item.inStock}
-        onChange={e => onSelect(item.id, e.target.checked)}
+        onChange={e => onSelect(e.target.checked)}
         className={clsx(!item.inStock && styles.disabled)}
       />
       <div className={styles.imageWrapper}>
@@ -37,7 +31,7 @@ export function CartItem({
           <Button
             className={clsx(styles.buttonIconClose, styles.absolute)}
             size="large"
-            onClick={() => setIsDeleting(true)}
+            onClick={onRemove}
           >
             <Icon src={icnLClose} />
           </Button>
@@ -53,13 +47,7 @@ export function CartItem({
           {item.title}
         </span>
         {isDeleting ? (
-          <span
-            className={styles.restoreToCartText}
-            onClick={() => {
-              onRestore(item.id)
-              setIsDeleting(false)
-            }}
-          >
+          <span className={styles.restoreToCartText} onClick={onRestore}>
             Вернуть в корзину
           </span>
         ) : (
@@ -89,7 +77,7 @@ export function CartItem({
             <Button
               className={styles.buttonIconClose}
               size="large"
-              onClick={() => setIsDeleting(true)}
+              onClick={onRemove}
             >
               <Icon src={icnLClose} />
             </Button>

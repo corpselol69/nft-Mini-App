@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, useEffect } from "react"
 import styles from "./CartPage.module.scss"
 import { Button } from "@/components/common/Button/Button"
 import Icon from "@/components/common/Icon/Icon"
@@ -11,28 +11,66 @@ import { t } from "i18next"
 import { CartHeader } from "@/components/CartPage/CartHeader/CartHeader"
 import { CartSelectAll } from "@/components/CartPage/CartSelectAll/CartSelectAll"
 import { CartItem } from "@/components/CartPage/CartItem/CartItem"
+import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
+import {
+  removeItem,
+  setItemDeleting,
+  selectAll,
+  setCartItems,
+  toggleSelectItem,
+  restoreItem,
+} from "@/slices/cartSlice"
+import { store } from "@/store"
 
 export const CartPage: FC = () => {
-  const [items, setItems] = useState(mockCartItems)
+  const dispatch = useAppDispatch()
+  const items = useAppSelector(state => state.cart.items)
+
+  useEffect(() => {
+    dispatch(setCartItems(mockCartItems)) // только временно, до загрузки с API
+  }, [])
 
   const totalCount = items.length
   const totalValue = items
     .filter(i => i.inStock)
     .reduce((a, i) => a + i.price, 0)
+  const selectedItems = items.filter(i => i.selected)
+  const totalPrice = selectedItems.reduce((a, i) => a + i.price, 0)
 
-  const setAllSelected = (checked: boolean) =>
-    setItems(items.map(i => ({ ...i, selected: i.inStock ? checked : false })))
-  const setItemSelected = (id: string, checked: boolean) =>
-    setItems(items.map(i => (i.id === id ? { ...i, selected: checked } : i)))
-
+  const setAllSelected = (checked: boolean) => {
+    dispatch(selectAll(checked))
+  }
+  const setItemSelected = (id: string, checked: boolean) => {
+    dispatch(toggleSelectItem({ id, selected: checked }))
+  }
   const selectedItemsLength = items.filter(el => el.selected).length
-  const totalPrice = items
-    .filter(el => el.selected)
-    .reduce((a, b) => a + b.price, 0)
 
-  const [deletingId, setDeletingId] = useState<string | null>(null)
-  const handleRemove = (id: string) => setDeletingId(id)
-  const handleRestore = (_id: string) => setDeletingId(null)
+  const handleRemove = (id: string) => {
+    const item = items.find(i => i.id === id)
+    if (!item) return
+
+    if (!item.inStock) {
+      dispatch(removeItem(id)) // удаляем сразу
+      return
+    }
+
+    dispatch(setItemDeleting({ id, isDeleting: true }))
+
+    setTimeout(() => {
+      // Проверим, не был ли восстановлен
+      const stillDeleting = store
+        .getState()
+        .cart.items.find(i => i.id === id)?.isDeleting
+      if (stillDeleting) {
+        dispatch(removeItem(id))
+      }
+    }, 5000)
+  }
+
+  const handleRestore = (id: string) => {
+    dispatch(restoreItem(id))
+  }
+
   const { openSheet, closeAll } = useBottomSheet()
 
   const handleBuyNft = async () => {
@@ -69,11 +107,10 @@ export const CartPage: FC = () => {
             <CartItem
               key={item.id}
               item={item}
-              onRemove={handleRemove}
-              onSelect={setItemSelected}
-              isDeleting={deletingId === item.id}
-              onRestore={handleRestore}
-              setIsDeleting={v => setDeletingId(v ? item.id : null)}
+              isDeleting={!!item.isDeleting}
+              onRemove={() => handleRemove(item.id)}
+              onSelect={(checked: boolean) => setItemSelected(item.id, checked)}
+              onRestore={() => handleRestore(item.id)}
             />
           ))}
         </div>
