@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom"
 import { miniApp, on, swipeBehavior, viewport } from "@telegram-apps/sdk"
 import styles from "./MainLayout.module.scss"
 import { BottomNavigation } from "@/components/common/BottomNavigation"
+import { SnackbarContainer } from "@/components/common/Snackbar"
 
 export function MainLayout() {
   const [paddingTop, setPaddingTop] = useState(0)
@@ -30,6 +31,8 @@ export function MainLayout() {
 
   return (
     <div className={styles.root}>
+      <SnackbarContainer />
+
       <main className={styles.content} style={{ paddingTop }}>
         <Outlet />
       </main>

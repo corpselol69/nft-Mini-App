@@ -20,6 +20,8 @@ import { TopUpBottomSheet } from "@/components/Modals/TopUpBottomSheet/TopUpBott
 import { TransactionGroup } from "@/components/ProfilePage/types"
 import { TransactionBlock } from "@/components/ProfilePage/TransactionsBlock/TransactionsBlock"
 import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
+import { useAppDispatch } from "@/hooks/useRedux"
+import { addSnackbar } from "@/slices/snackbarSlice"
 
 const mockData: TransactionGroup[] = [
   {
@@ -78,6 +80,7 @@ const mockData: TransactionGroup[] = [
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
   const { openSheet, closeAll } = useBottomSheet()
+  const dispatch = useAppDispatch()
 
   const [walletBalance, setWalletBalance] = useState("")
   const [withdraw, setWithdraw] = useState("")
@@ -105,7 +108,13 @@ export const ProfilePage: FC = () => {
   const handleCopyWallet = () => {
     if (userFriendlyAddress) {
       navigator.clipboard.writeText(userFriendlyAddress)
-      //  добавить уведомление о копировании
+      dispatch(
+        addSnackbar({
+          title: "Адрес кошелька скопирован",
+          autoHide: true,
+          duration: 5000,
+        })
+      )
     }
   }
 
@@ -159,20 +168,13 @@ export const ProfilePage: FC = () => {
   }
 
   const handleTopUp = () => {
-    console.log(`пополнено ${withdraw}`)
-
-    openSheet(
-      <SuccessBuyNftBottomSheet
-        title={"Вывод выполнен"}
-        actionButtons={[
-          <Button type="primary" size="large" onClick={closeAll}>
-            Завершить
-          </Button>,
-        ]}
-      />,
-      {
-        bottomSheetTitle: `${t("buy_nft")}`,
-      }
+    dispatch(
+      addSnackbar({
+        title: "Успешное пополнение",
+        description: `Баланс пополнен на ${withdraw} TON`,
+        autoHide: true,
+        duration: 5000,
+      })
     )
   }
 

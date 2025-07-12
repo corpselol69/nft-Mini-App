@@ -1,7 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { authSlice } from "../slices/authSlice"
-import { i18nSlice } from "../slices/i18nSlice"
+import { authSlice } from "@/slices/authSlice"
+import { i18nSlice } from "@/slices/i18nSlice"
 import { uiSlice } from "@/slices/uiSlice"
+import { snackbarSlice } from "@/slices/snackbarSlice"
 
 import { api } from "@/api/api"
 import "@/api/endpoints/auth"
@@ -11,6 +12,7 @@ export const store = configureStore({
     auth: authSlice.reducer,
     i18n: i18nSlice.reducer,
     ui: uiSlice.reducer,
+    snackbar: snackbarSlice.reducer,
 
     [api.reducerPath]: api.reducer,
   },

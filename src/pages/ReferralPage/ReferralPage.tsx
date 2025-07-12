@@ -8,6 +8,8 @@ import { SnackbarContainer } from "@/components/common/Snackbar"
 import type { SnackbarData } from "@/components/common/Snackbar"
 
 import { Page } from "@/components/Page"
+import { useAppDispatch } from "@/hooks/useRedux"
+import { addSnackbar } from "@/slices/snackbarSlice"
 
 const mockData = {
   referralLink: "t.me/bot238757=ref17349619",
@@ -23,33 +25,24 @@ const mockData = {
 }
 
 export const ReferralPage: FC = () => {
-  const [snackbars, setSnackbars] = useState<SnackbarData[]>([])
+  const dispatch = useAppDispatch()
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(mockData.referralLink)
 
-    const newSnackbar: SnackbarData = {
-      id: Date.now().toString(),
-      title: "Реферальная ссылка скопирована",
-      autoHide: true,
-      duration: 5000,
-    }
-
-    setSnackbars(prev => [...prev, newSnackbar])
-  }
-
-  const handleRemoveSnackbar = (id: string) => {
-    setSnackbars(prev => prev.filter(snackbar => snackbar.id !== id))
+    dispatch(
+      addSnackbar({
+        title: "Реферальная ссылка скопирована",
+        autoHide: true,
+        duration: 5000,
+      })
+    )
   }
 
   return (
     <Page back>
       <div className={styles.referralPage}>
         <h1 className={styles.title}>Реферальная система</h1>
-        <SnackbarContainer
-          snackbars={snackbars}
-          onRemove={handleRemoveSnackbar}
-        />
 
         <ReferralHeader
           totalEarned={"12.4"}
