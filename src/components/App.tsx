@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { RouterProvider } from "react-router-dom"
 import {
   retrieveRawInitData,
@@ -12,9 +12,10 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import { setToken } from "@/slices/authSlice"
 import i18n from "@/i18n"
 import { setTheme } from "@/slices/uiSlice"
+import { setAccessToken } from "@/api/apiClient"
 
 export function App() {
-  const initDataRaw = retrieveRawInitData()
+  const initDataRaw = useMemo(() => retrieveRawInitData(), [])
   const dispatch = useAppDispatch()
   const lp = retrieveLaunchParams()
 
@@ -26,17 +27,11 @@ export function App() {
   useEffect(() => {
     if (!initDataRaw) return
 
-    const tokenFromStorage = localStorage.getItem("access_token")
-    if (tokenFromStorage) {
-      dispatch(setToken(tokenFromStorage))
-      return
-    }
-
     login({ init_data: initDataRaw })
       .unwrap()
       .then(res => {
-        localStorage.setItem("access_token", res.access_token)
         dispatch(setToken(res.access_token))
+        setAccessToken(res.access_token)
       })
       .catch(err => {
         console.error("Ошибка авторизации:", err)
