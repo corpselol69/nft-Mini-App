@@ -16,6 +16,7 @@ import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvi
 import { t } from "i18next"
 import { WithdrawBottomSheet } from "@/components/Modals/WithdrawBottomSheet/WithdrawBottomSheet"
 import { SuccessBuyNftBottomSheet } from "@/components/Modals/SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
+import { TopUpBottomSheet } from "@/components/Modals/TopUpBottomSheet/TopUpBottomSheet"
 
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
@@ -32,7 +33,6 @@ export const ProfilePage: FC = () => {
   }
 
   const handleConnectWallet = () => {
-    // Симуляция подключения кошелька
     tonConnectUI.openModal()
 
     setWalletBalance("214")
@@ -55,6 +55,24 @@ export const ProfilePage: FC = () => {
   const handleWithdraw = () => {
     //логика вывода средств
     console.log(`выведено ${withdraw}`)
+
+    openSheet(
+      <SuccessBuyNftBottomSheet
+        title={"Вывод выполнен"}
+        actionButtons={[
+          <Button type="primary" size="large" onClick={closeAll}>
+            Завершить
+          </Button>,
+        ]}
+      />,
+      {
+        bottomSheetTitle: `${t("buy_nft")}`,
+      }
+    )
+  }
+
+  const handleTopUp = () => {
+    console.log(`пополнено ${withdraw}`)
 
     openSheet(
       <SuccessBuyNftBottomSheet
@@ -102,7 +120,7 @@ export const ProfilePage: FC = () => {
   const handleOpenWithdrawModal = () => {
     openSheet(
       <WithdrawBottomSheet
-        address={"21412515adwadfwaa"}
+        address={userFriendlyAddress}
         availableWithdrawValue="92"
         onChange={handleInputChange}
         withdrawValue={withdraw}
@@ -110,6 +128,23 @@ export const ProfilePage: FC = () => {
       />,
       {
         bottomSheetTitle: "Вывод средств",
+        onClose() {
+          setWithdraw("")
+        },
+      }
+    )
+  }
+
+  const handleOpenTopUpModal = () => {
+    openSheet(
+      <TopUpBottomSheet
+        address={userFriendlyAddress}
+        onChange={handleInputChange}
+        withdrawValue={withdraw}
+        handleWithdraw={handleTopUp}
+      />,
+      {
+        bottomSheetTitle: t("top_up_balance"),
         onClose() {
           setWithdraw("")
         },
@@ -143,7 +178,15 @@ export const ProfilePage: FC = () => {
         </div>
 
         <div className={styles.actions}>
-          <Button type="vertical" size="large">
+          <Button
+            type="vertical"
+            size="large"
+            onClick={() =>
+              !!userFriendlyAddress
+                ? handleOpenTopUpModal()
+                : handleConnectWallet()
+            }
+          >
             <Icon src={imgAddIcon} className={styles.actionIcon} />
             Пополнить
           </Button>
