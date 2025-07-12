@@ -1,11 +1,8 @@
 import type { FC } from "react"
-import { useState } from "react"
 import { ReferralLink } from "@/components/ReferralPage/ReferralLink"
 import { ReferralList } from "@/components/ReferralPage/ReferralList"
 import styles from "./ReferralPage.module.scss"
 import { ReferralHeader } from "@/components/ReferralPage/ReferralHeader"
-import { SnackbarContainer } from "@/components/common/Snackbar"
-import type { SnackbarData } from "@/components/common/Snackbar"
 
 import { Page } from "@/components/Page"
 import { useAppDispatch } from "@/hooks/useRedux"
