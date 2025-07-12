@@ -1,5 +1,11 @@
 import axios from "axios"
 
+let accessToken: string | null = null
+
+export const setAccessToken = (token: string | null) => {
+  accessToken = token
+}
+
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   timeout: 100_000,
@@ -11,9 +17,8 @@ const apiClient = axios.create({
 // Интерцептор запроса — добавление токена авторизации
 apiClient.interceptors.request.use(
   config => {
-    const token = localStorage.getItem("authToken")
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`
     }
     return config
   },
