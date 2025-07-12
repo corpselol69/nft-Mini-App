@@ -1,8 +1,8 @@
-import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
-import react from "@vitejs/plugin-react-swc";
-import mkcert from "vite-plugin-mkcert";
-import path from "path";
+import { defineConfig } from "vite"
+import tsconfigPaths from "vite-tsconfig-paths"
+import react from "@vitejs/plugin-react-swc"
+import mkcert from "vite-plugin-mkcert"
+import path from "path"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -39,5 +39,6 @@ export default defineConfig({
     port: 3002,
     // Exposes your dev server and makes it accessible for the devices in the same network.
     host: true,
+    allowedHosts: ["weird-tim-constraints-goods.trycloudflare.com"],
   },
-});
+})
