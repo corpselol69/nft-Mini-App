@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react"
+import { FC } from "react"
 import styles from "./CartPage.module.scss"
 import { Button } from "@/components/common/Button/Button"
 import Icon from "@/components/common/Icon/Icon"
