@@ -1,22 +1,22 @@
-import { Wallet } from "@/types/wallet"
+import { Wallet, WalletLinkPayload } from "@/types/wallet"
 import { api } from "../api"
 import { setWallet, setWalletError } from "@/slices/walletSlice"
 
 export const walletApi = api.injectEndpoints({
   endpoints: builder => ({
-    linkWallet: builder.mutation<void, { address: string }>({
-      query: ({ address }) => ({
+    linkWallet: builder.mutation<void, WalletLinkPayload>({
+      query: payload => ({
         url: "/wallets/link",
         method: "POST",
-        data: { address },
+        data: payload,
       }),
-      async onQueryStarted({ address }, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           const res = await dispatch(
             walletApi.endpoints.getWallet.initiate()
           ).unwrap()
-          dispatch(setWallet(res)) // обновим walletSlice всем объектом
+          dispatch(setWallet(res[0])) // обновим walletSlice всем объектом
         } catch (error) {
           dispatch(setWalletError("Не удалось получить данные кошелька"))
         }
@@ -24,19 +24,20 @@ export const walletApi = api.injectEndpoints({
     }),
     unlinkWallet: builder.mutation<void, { wallet_id: string }>({
       query: ({ wallet_id }) => ({
-        url: `/wallets/unlink/${wallet_id}`,
+        url: `/wallets/${wallet_id}`,
         method: "DELETE",
       }),
     }),
-    getWallet: builder.query<Wallet, void>({
+    getWallet: builder.query<Wallet[], void>({
       query: () => ({
         url: "/wallets/me",
         method: "GET",
       }),
+      keepUnusedDataFor: 600,
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled
-          dispatch(setWallet(data)) // синхронизируем Redux-слайс
+          dispatch(setWallet(data[0])) // синхронизируем Redux-слайс
         } catch (e) {
           dispatch(setWalletError("Не удалось получить кошелек"))
         }

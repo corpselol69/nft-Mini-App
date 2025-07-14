@@ -1,53 +1,65 @@
-import api from "@/api/apiClient"
-import { TelegramInitData, UserUpdate } from "@/types/user"
-import { User } from "@telegram-apps/sdk"
+import { api } from "@/api/api"
+import type { TelegramInitData, UserUpdate } from "@/types/user"
+import type { User } from "@/types/user"
 
-const endpoint = "/users/"
+const endpoint = "/users"
 
-const onboardUser = async (init: TelegramInitData) => {
-  const response = await api.post(`${endpoint}onboard`, init)
-  return response.data
-}
+export const usersAPI = api.injectEndpoints({
+  endpoints: builder => ({
+    onboardUser: builder.mutation<User, TelegramInitData>({
+      query: data => ({
+        url: `${endpoint}/onboard`,
+        method: "POST",
+        data,
+      }),
+    }),
 
-const getMe = async () => {
-  const response = await api.get<User>(`${endpoint}me`)
-  return response.data
-}
+    getMe: builder.query<User, void>({
+      query: () => ({
+        url: `${endpoint}/me`,
+        method: "GET",
+      }),
+      keepUnusedDataFor: 600,
+    }),
 
-const updateMe = async (payload: UserUpdate) => {
-  const response = await api.patch(`${endpoint}me`, payload)
-  return response.data
-}
+    getUser: builder.query<User, string>({
+      query: userId => ({
+        url: `${endpoint}/${userId}`,
+        method: "GET",
+      }),
+    }),
 
-const getUser = async (userId: string) => {
-  const response = await api.get<User>(`${endpoint}${userId}`)
-  return response.data
-}
+    updateUser: builder.mutation<User, { userId: string; payload: UserUpdate }>(
+      {
+        query: ({ userId, payload }) => ({
+          url: `${endpoint}/${userId}`,
+          method: "PATCH",
+          data: payload,
+        }),
+      }
+    ),
 
-const updateUser = async (userId: string, payload: UserUpdate) => {
-  const response = await api.patch(`${endpoint}${userId}`, payload)
-  return response.data
-}
+    deleteUser: builder.mutation<void, string>({
+      query: userId => ({
+        url: `${endpoint}/${userId}`,
+        method: "DELETE",
+      }),
+    }),
 
-const deleteUser = async (userId: string) => {
-  await api.delete(`${endpoint}${userId}`)
-}
+    listUsers: builder.query<User[], { offset?: number; limit?: number }>({
+      query: ({ offset = 0, limit = 50 }) => ({
+        url: `${endpoint}`,
+        method: "GET",
+        params: { offset, limit },
+      }),
+    }),
+  }),
+})
 
-const listUsers = async (offset = 0, limit = 50) => {
-  const response = await api.get<User[]>(endpoint, {
-    params: { offset, limit },
-  })
-  return response.data
-}
-
-export const usersAPI = {
-  onboardUser,
-  getMe,
-  updateMe,
-  getUser,
-  updateUser,
-  deleteUser,
-  listUsers,
-}
-
-export default usersAPI
+export const {
+  useOnboardUserMutation,
+  useGetUserQuery,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+  useListUsersQuery,
+} = usersAPI

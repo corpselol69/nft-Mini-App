@@ -22,11 +22,9 @@ import { TransactionBlock } from "@/components/ProfilePage/TransactionsBlock/Tra
 import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import { addSnackbar } from "@/slices/snackbarSlice"
-import {
-  useLinkWalletMutation,
-  useUnlinkWalletMutation,
-} from "@/api/endpoints/wallets.ts"
+import { useUnlinkWalletMutation } from "@/api/endpoints/wallets.ts"
 import { resetWallet } from "@/slices/walletSlice"
+import { useTonWalletLinker } from "@/hooks/useTonWalletLinker"
 
 const mockData: TransactionGroup[] = [
   {
@@ -89,15 +87,17 @@ export const ProfilePage: FC = () => {
 
   const [withdraw, setWithdraw] = useState("")
 
+  const user = useAppSelector(state => state.auth.user)
+
   const userFriendlyAddress = useTonAddress()
   const [tonConnectUI] = useTonConnectUI()
 
-  const [linkWallet] = useLinkWalletMutation()
   const [unlinkWallet] = useUnlinkWalletMutation()
 
   const wallet = useAppSelector(state => state.wallet.data)
-  const balance = wallet?.balance
-  const address = wallet?.address
+  const balance = useAppSelector(state => state.finance.balance)
+
+  useTonWalletLinker()
 
   const handleReferralClick = () => {
     navigate("ref")
@@ -105,14 +105,6 @@ export const ProfilePage: FC = () => {
 
   const handleConnectWallet = async () => {
     tonConnectUI.openModal()
-
-    if (!userFriendlyAddress) return
-
-    try {
-      await linkWallet({ address: userFriendlyAddress }).unwrap()
-    } catch (e) {
-      console.error("Ошибка при подключении:", e)
-    }
   }
 
   const handleDisconnectWallet = async () => {
@@ -280,14 +272,14 @@ export const ProfilePage: FC = () => {
       }
     )
   }
-  console.log("walletBalance", wallet)
+
   return (
     <Page back={false}>
       <div className={styles.profilePage}>
         <div className={styles.header}>
           <div className={styles.userInfo}>
             <Avatar />
-            <span className={styles.username}>@username</span>
+            <span className={styles.username}>@{user?.username}</span>
           </div>
           <Wallet
             address={userFriendlyAddress}
@@ -301,7 +293,7 @@ export const ProfilePage: FC = () => {
         <div className={styles.balanceBlock}>
           <span className={styles.balanceLabel}>Баланс</span>
           <span className={styles.balanceValue}>
-            <span className={styles.balanceAmount}>0</span>
+            <span className={styles.balanceAmount}>{balance || 0}</span>
             <span className={styles.balanceCurrency}> TON</span>
           </span>
         </div>
