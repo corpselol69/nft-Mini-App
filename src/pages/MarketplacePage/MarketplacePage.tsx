@@ -9,9 +9,14 @@ import { Button } from "@/components/common/Button/Button"
 import Icon from "@/components/common/Icon/Icon"
 import tonIcon from "@/static/icons/icn-S_ton.svg"
 import shoppingCart from "@/static/icons/shopping_cart.svg"
+import { useAppSelector } from "@/hooks/useRedux"
 
 export const MarketplacePage: FC = () => {
   const navigate = useNavigate()
+
+  const cartItems = useAppSelector(state => state.cart.items)
+  const cartCount = cartItems.length
+
   return (
     <div className={styles.root}>
       <div className={styles.header}>
@@ -33,7 +38,8 @@ export const MarketplacePage: FC = () => {
             onClick={() => navigate("/cart")}
           >
             <div className={styles.button_content}>
-              <Icon src={shoppingCart} color="active" /> 3
+              <Icon src={shoppingCart} color="active" />{" "}
+              {cartCount > 0 && cartCount}
             </div>
           </Button>
         </div>
