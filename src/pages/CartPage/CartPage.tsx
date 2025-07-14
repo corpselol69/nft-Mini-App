@@ -4,7 +4,6 @@ import { Button } from "@/components/common/Button/Button"
 import Icon from "@/components/common/Icon/Icon"
 import tonIcon from "@/static/icons/icn-S_ton.svg"
 import { Page } from "@/components/Page.tsx"
-import { mockCartItems } from "./const/mockData"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { ConfirmBuyNftBottomSheet } from "@/components/Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
 import { t } from "i18next"
@@ -16,7 +15,6 @@ import {
   removeItem,
   setItemDeleting,
   selectAll,
-  setCartItems,
   toggleSelectItem,
   restoreItem,
 } from "@/slices/cartSlice"
@@ -25,10 +23,6 @@ import { store } from "@/store"
 export const CartPage: FC = () => {
   const dispatch = useAppDispatch()
   const items = useAppSelector(state => state.cart.items)
-
-  useEffect(() => {
-    dispatch(setCartItems(mockCartItems)) // только временно, до загрузки с API
-  }, [])
 
   const totalCount = items.length
   const totalValue = items
