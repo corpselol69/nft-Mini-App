@@ -40,6 +40,12 @@ export const cartSlice = createSlice({
         item.inStock ? { ...item, selected: action.payload } : item
       )
     },
+    addToCart(state, action: PayloadAction<CartItem>) {
+      const exists = state.items.find(i => i.id === action.payload.id)
+      if (!exists) {
+        state.items.push(action.payload)
+      }
+    },
     setItemDeleting(
       state,
       action: PayloadAction<{ id: string; isDeleting: boolean }>
@@ -67,6 +73,7 @@ export const {
   setCartItems,
   toggleSelectItem,
   selectAll,
+  addToCart,
   removeItem,
   setItemDeleting,
   restoreItem,
