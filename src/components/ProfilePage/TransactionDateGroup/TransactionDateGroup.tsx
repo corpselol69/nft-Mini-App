@@ -6,11 +6,13 @@ import styles from "./TransactionDateGroup.module.scss"
 type Props = {
   group: TransactionGroup
   onTransactionClick?: (transaction: Transaction) => void
+  className?: string
 }
 
 export const TransactionDateGroup: FC<Props> = ({
   group,
   onTransactionClick,
+  className,
 }) => (
   <div className={styles.group}>
     <div className={styles.dateHeader}>{group.date}</div>
@@ -20,6 +22,7 @@ export const TransactionDateGroup: FC<Props> = ({
           key={el.id}
           transaction={el}
           onClick={() => onTransactionClick?.(el)}
+          className={className}
         />
       ))}
     </div>

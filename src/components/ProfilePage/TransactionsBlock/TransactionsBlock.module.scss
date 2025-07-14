@@ -4,7 +4,7 @@
 .content {
   display: flex;
   flex-direction: column;
-  background: rgba(24, 34, 44, 1);
+  background: $bg-static;
   border-radius: 24px;
   padding: 16px;
   gap: 16px;
@@ -15,4 +15,9 @@
   color: $typography-secondary;
   text-align: center;
   padding: 40px 0;
+}
+
+.noBorderBottom {
+  //FIXME
+  border-bottom: none !important;
 }

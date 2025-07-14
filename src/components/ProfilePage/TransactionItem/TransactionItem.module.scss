@@ -4,7 +4,7 @@
 .item {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   border-bottom: 1px solid $stroke-10;
   transition: background-color 0.2s ease;
   padding-bottom: 8px;
@@ -37,10 +37,6 @@
     color: $colors-green;
   }
 
-  &.negative {
-    color: $colors-red;
-  }
-
   &.pending {
     color: $typography-primary;
   }
@@ -56,4 +52,8 @@
   path {
     fill: $colors-green;
   }
+}
+
+.negative {
+  color: $colors-red;
 }
