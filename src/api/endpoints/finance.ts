@@ -1,27 +1,51 @@
-import api from "@/api/apiClient"
-import { BalanceRead, DepositPayload, WithdrawalPayload } from "@/types/finance"
+import { api } from "@/api/api"
+import { setFinanceError, setUserBalance } from "@/slices/financeSlice"
+import type {
+  BalanceRead,
+  DepositPayload,
+  WithdrawalPayload,
+} from "@/types/finance"
 
-const endpoint = "/finance/"
+const endpoint = "/finance"
 
-const getBalance = async () => {
-  const response = await api.get<BalanceRead>(`${endpoint}balance`)
-  return response.data
-}
+export const financeApi = api.injectEndpoints({
+  endpoints: builder => ({
+    getBalance: builder.query<BalanceRead, void>({
+      query: () => ({
+        url: `${endpoint}/balance`,
+        method: "GET",
+      }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled
+          dispatch(setUserBalance(data.available))
+        } catch (e) {
+          dispatch(setFinanceError("Не удалось получить баланс"))
+        }
+      },
+    }),
 
-const deposit = async (payload: DepositPayload) => {
-  const response = await api.post(`${endpoint}deposit`, payload)
-  return response.data
-}
+    deposit: builder.mutation<void, DepositPayload>({
+      query: payload => ({
+        url: `${endpoint}/deposit`,
+        method: "POST",
+        data: payload,
+      }),
+    }),
 
-const withdraw = async (payload: WithdrawalPayload) => {
-  const response = await api.post(`${endpoint}withdraw`, payload)
-  return response.data
-}
+    withdraw: builder.mutation<void, WithdrawalPayload>({
+      query: payload => ({
+        url: `${endpoint}/withdraw`,
+        method: "POST",
+        data: payload,
+      }),
+    }),
+  }),
+})
 
-export const financeAPI = {
-  getBalance,
-  deposit,
-  withdraw,
-}
-
-export default financeAPI
+export const {
+  useGetBalanceQuery,
+  useLazyGetBalanceQuery,
+  useDepositMutation,
+  useWithdrawMutation,
+} = financeApi
