@@ -20,29 +20,40 @@ import { ModalButtonsWrapper } from "@/components/common/ModalButtonsWrapper/Mod
 import { SuccessBuyNftBottomSheet } from "@/components/Modals/SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
 import { t } from "i18next"
 import { Button } from "@/components/common/Button/Button"
+import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
+import { addToCart, removeItem } from "@/slices/cartSlice"
 
 // Пример данных для карточек
 const mockNfts: {
-  id: number
+  id: string
   title: string
   price: number
   url: string
   status: "sell" | "on sale"
 }[] = [
-  { id: 1, title: "Bored Stickers", price: 90, url: monkey, status: "sell" },
-  { id: 2, title: "Bored Stickers", price: 90, url: monkey, status: "on sale" },
-  { id: 3, title: "Bored Stickers", price: 90, url: monkey, status: "sell" },
-  { id: 4, title: "Bored Stickers", price: 90, url: monkey, status: "sell" },
-  { id: 5, title: "Bored Stickers", price: 90, url: monkey, status: "sell" },
-  { id: 6, title: "Bored Stickers", price: 90, url: monkey, status: "sell" },
+  { id: "1", title: "Bored Stickers", price: 90, url: monkey, status: "sell" },
+  {
+    id: "2",
+    title: "Bored Stickers",
+    price: 90,
+    url: monkey,
+    status: "on sale",
+  },
+  { id: "3", title: "Bored Stickers", price: 90, url: monkey, status: "sell" },
+  { id: "4", title: "Bored Stickers", price: 90, url: monkey, status: "sell" },
+  { id: "5", title: "Bored Stickers", price: 90, url: monkey, status: "sell" },
+  { id: "6", title: "Bored Stickers", price: 90, url: monkey, status: "sell" },
 ]
-
-const isInCart = false
 
 export const StickersPage: FC<IStickersPageProps> = () => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
   const { openSheet, closeAll } = useBottomSheet()
+
+  const cartItems = useAppSelector(state => state.cart.items)
+  const isInCart = (id: string) => cartItems.some(item => item.id === id)
 
   const onCardClick = (cardId: string) => {
     navigate(`${cardId}`)
@@ -67,12 +78,30 @@ export const StickersPage: FC<IStickersPageProps> = () => {
       )
     } catch (e) {
       console.error(e)
-      //
     }
   }, [])
 
-  const handleAddToCart = () => {
-    // логика добавления в корзину
+  const handleToggleCart = (nft: {
+    id: string
+    title: string
+    price: number
+    url: string
+  }) => {
+    if (isInCart(nft.id)) {
+      dispatch(removeItem(nft.id))
+    } else {
+      dispatch(
+        addToCart({
+          id: nft.id,
+          title: nft.title,
+          number: `#${nft.id}`,
+          price: nft.price,
+          inStock: true,
+          selected: true,
+        })
+      )
+    }
+
     closeAll()
   }
 
@@ -82,22 +111,22 @@ export const StickersPage: FC<IStickersPageProps> = () => {
   }
 
   const onBuyButtonClick = (nft: {
-    imgLink: string
-    title: string
     id: string
+    title: string
     price: number
+    url: string
   }) => {
     openSheet(<BuyNftBottomSheet {...nft} availableBalance={95} />, {
       bottomSheetTitle: `${t("buy_nft")}`,
       buttons: (
         <ModalButtonsWrapper
           variant={isMarket ? "buy" : "remove from sale"}
-          price={90}
+          price={nft.price}
           balance={100}
-          isInCart={isInCart}
+          isInCart={isInCart(nft.id)}
           onMainClick={handleBuy}
           onSecondaryClick={handleViewCart}
-          onCartClick={handleAddToCart}
+          onCartClick={() => handleToggleCart(nft)}
         />
       ),
     })
@@ -124,9 +153,12 @@ export const StickersPage: FC<IStickersPageProps> = () => {
         />
       </div>
       <NftGrid
-        mockNfts={mockNfts}
-        onNftClick={onCardClick}
-        mainClick={onBuyButtonClick}
+        items={mockNfts}
+        isMarket={isMarket}
+        onCardClick={onCardClick}
+        onMainAction={onBuyButtonClick}
+        onCartClick={handleToggleCart}
+        isInCart={id => cartItems.some(item => item.id === id)}
       />
       <Outlet context={{ isMarket: isMarket }} />
     </Page>

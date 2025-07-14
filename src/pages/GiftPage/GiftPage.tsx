@@ -19,29 +19,34 @@ import { ModalButtonsWrapper } from "@/components/common/ModalButtonsWrapper/Mod
 import { SuccessBuyNftBottomSheet } from "@/components/Modals/SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
 import { t } from "i18next"
 import { Button } from "@/components/common/Button/Button"
+import { removeItem, addToCart } from "@/slices/cartSlice"
+import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 
 // Пример данных для карточек
 const mockNfts: {
-  id: number
+  id: string
   title: string
   price: number
   url: string
   status: "sell" | "on sale"
 }[] = [
-  { id: 1, title: "Snow ball", price: 96, url: bdayImg, status: "sell" },
-  { id: 2, title: "Snow ball", price: 90, url: bdayImg, status: "on sale" },
-  { id: 3, title: "Snow ball", price: 90, url: bdayImg, status: "sell" },
-  { id: 4, title: "Snow ball", price: 90, url: bdayImg, status: "sell" },
-  { id: 5, title: "Snow ball", price: 90, url: bdayImg, status: "sell" },
-  { id: 6, title: "Snow ball", price: 90, url: bdayImg, status: "sell" },
+  { id: "11", title: "Snow ball", price: 96, url: bdayImg, status: "sell" },
+  { id: "22", title: "Snow ball", price: 90, url: bdayImg, status: "on sale" },
+  { id: "33", title: "Snow ball", price: 90, url: bdayImg, status: "sell" },
+  { id: "44", title: "Snow ball", price: 90, url: bdayImg, status: "sell" },
+  { id: "55", title: "Snow ball", price: 90, url: bdayImg, status: "sell" },
+  { id: "66", title: "Snow ball", price: 90, url: bdayImg, status: "sell" },
 ]
-
-const isInCart = false
 
 export const GiftPage: FC<IGiftPageProps> = () => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
   const { openSheet, closeAll } = useBottomSheet()
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
+
+  const cartItems = useAppSelector(state => state.cart.items)
+  const isInCart = (id: string) => cartItems.some(item => item.id === id)
 
   const [priceFilter, setPriceFilter] = useState("")
 
@@ -71,21 +76,41 @@ export const GiftPage: FC<IGiftPageProps> = () => {
     }
   }, [])
 
-  const handleAddToCart = () => {
-    // логика добавления в корзину
+  const handleToggleCart = (nft: {
+    id: string
+    title: string
+    price: number
+    url: string
+  }) => {
+    if (isInCart(nft.id)) {
+      dispatch(removeItem(nft.id))
+    } else {
+      dispatch(
+        addToCart({
+          id: nft.id,
+          title: nft.title,
+          number: `#${nft.id}`,
+          price: nft.price,
+          inStock: true,
+          selected: true,
+        })
+      )
+    }
+
     closeAll()
   }
 
   const handleViewCart = () => {
     // логика открытия корзины
+    closeAll()
     navigate("/cart")
   }
 
   const onBuyButtonClick = (nft: {
-    imgLink: string
-    title: string
     id: string
+    title: string
     price: number
+    url: string
   }) => {
     openSheet(<BuyNftBottomSheet {...nft} availableBalance={95} />, {
       bottomSheetTitle: `${t("buy_nft")}`,
@@ -94,10 +119,10 @@ export const GiftPage: FC<IGiftPageProps> = () => {
           variant={isMarket ? "buy" : "remove from sale"}
           price={nft.price}
           balance={100}
-          isInCart={isInCart}
+          isInCart={isInCart(nft.id)}
           onMainClick={handleBuy}
           onSecondaryClick={handleViewCart}
-          onCartClick={handleAddToCart}
+          onCartClick={() => handleToggleCart(nft)}
         />
       ),
     })
@@ -140,9 +165,12 @@ export const GiftPage: FC<IGiftPageProps> = () => {
           />
         </div>
         <NftGrid
-          mockNfts={mockNfts}
-          onNftClick={onCardClick}
-          mainClick={onBuyButtonClick}
+          items={mockNfts}
+          isMarket={isMarket}
+          onCardClick={onCardClick}
+          onMainAction={onBuyButtonClick}
+          onCartClick={handleToggleCart}
+          isInCart={id => cartItems.some(item => item.id === id)}
         />
 
         <Outlet context={{ isMarket: isMarket }} />

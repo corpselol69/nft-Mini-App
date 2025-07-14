@@ -1,37 +1,24 @@
 import React from "react"
 import tonIcon from "@/static/icons/icn-S_ton.svg"
 import addIcon from "@/static/icons/icn-add_shopping_cart.svg"
+import removeIcon from "@/static/icons/icn-red-cart.svg"
+
 import styles from "./NftCard.module.scss"
 import { Button } from "@/components/common/Button/Button"
 import Icon from "../common/Icon/Icon"
-import { useOutletContext } from "react-router-dom"
 import { t } from "i18next"
 
-type TProps = {
-  title: string
-  id: number
-  price: number
-  url: string
-  status?: "sell" | "on sale"
-  onClick: () => void
-  addToCart: () => void
-  onMainClick?: () => void
-  onSecondaryClick?: () => void
-}
+import { NftCardProps } from "./NftCard.d"
 
-export const NftCard: React.FC<TProps> = ({
-  title,
-  id,
-  price,
-  url,
-  status,
+export const NftCard: React.FC<NftCardProps> = ({
+  data,
+  isMarket,
   onClick,
-  addToCart,
-
-  onMainClick, // бывший onBuy
-  //onSecondaryClick,
+  onMainAction,
+  onCartClick,
+  isInCart,
 }) => {
-  const { isMarket } = useOutletContext<{ isMarket: boolean }>()
+  const { title, id, price, url, status } = data
 
   return (
     <div className={styles.root}>
@@ -46,26 +33,41 @@ export const NftCard: React.FC<TProps> = ({
           <div className={styles.id}>#{id}</div>
         </div>
         <div className={styles.actions}>
-          {isMarket && (
+          {isMarket ? (
             <>
-              <Button color="accent" style={{ flex: 1 }} onClick={onMainClick}>
+              <Button
+                color="accent"
+                style={{ flex: 1 }}
+                onClick={onMainAction}
+                className={
+                  isInCart ? styles.priceButtonCompact : styles.priceButton
+                }
+              >
                 {price}
                 <Icon src={tonIcon} className={styles.tonIcon} />
               </Button>
-              <Button type="secondary" onClick={addToCart}>
-                <img src={addIcon} alt="Add to cart" />
+              <Button
+                type="secondary"
+                onClick={onCartClick}
+                className={isInCart ? styles.cartButtonWide : styles.cartButton}
+              >
+                <img src={isInCart ? removeIcon : addIcon} alt="Add to cart" />
               </Button>
             </>
-          )}
-
-          {!isMarket && status === "sell" && (
-            <Button type="card-price" style={{ flex: 1 }} onClick={onClick}>
+          ) : status === "sell" ? (
+            <Button
+              type="card-price"
+              style={{ flex: 1 }}
+              onClick={onMainAction}
+            >
               {t("buttons.sell")}
             </Button>
-          )}
-
-          {!isMarket && status === "on sale" && (
-            <Button type="card-price" style={{ flex: 1 }} onClick={onClick}>
+          ) : status === "on sale" ? (
+            <Button
+              type="card-price"
+              style={{ flex: 1 }}
+              onClick={onMainAction}
+            >
               <div className={styles.onSale}>
                 {t("for_sale")}
                 <div className={styles.price}>
@@ -74,7 +76,7 @@ export const NftCard: React.FC<TProps> = ({
                 </div>
               </div>
             </Button>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

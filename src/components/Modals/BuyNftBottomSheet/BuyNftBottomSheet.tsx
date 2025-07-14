@@ -4,7 +4,7 @@ import styles from "./BuyNftBottomSheet.module.scss"
 import { AvailableBalance } from "@/components/common/AvailableBalance/AvailableBalance"
 
 type Props = {
-  imgLink: string
+  url: string
   title: string
   id: string
   price: number
@@ -14,7 +14,7 @@ type Props = {
 export const BuyNftBottomSheet: FC<Props> = ({
   availableBalance,
   id,
-  imgLink,
+  url,
   price,
   title,
 }) => {
@@ -23,7 +23,7 @@ export const BuyNftBottomSheet: FC<Props> = ({
       <div className={styles.titleAndPriceWrapper}>
         <div className={styles.imageAndTitleWrapper}>
           <div className={styles.imageWrapper}>
-            <img src={imgLink} />
+            <img src={url} />
           </div>
           <div className={styles.titleAdnIdWrapper}>
             <span className={styles.titleText}>{title}</span>

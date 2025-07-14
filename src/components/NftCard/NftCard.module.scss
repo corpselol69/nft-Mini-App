@@ -120,3 +120,27 @@
     display: block;
   }
 }
+
+.cartIconRed {
+  filter: brightness(0) saturate(100%) invert(32%) sepia(85%) saturate(7491%)
+    hue-rotate(346deg) brightness(91%) contrast(103%);
+}
+
+.cartButtonWide {
+  flex: 1;
+  justify-content: center;
+}
+
+.cartButton {
+  width: auto;
+}
+
+.priceButtonCompact {
+  flex: 0 0 auto !important;
+  width: auto;
+  padding: 0 12px;
+}
+
+.priceButton {
+  flex: 1;
+}
