@@ -23,11 +23,13 @@ import { DetailsTable } from "../common/DetailsTable/DetailsTable"
 import { ModalButtonsWrapper } from "../common/ModalButtonsWrapper/ModalButtonsWrapper"
 import { ConfirmBuyNftBottomSheet } from "../Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
 import { AvailableBalance } from "../common/AvailableBalance/AvailableBalance"
+import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
+import { removeItem, addToCart } from "@/slices/cartSlice"
 
 const gift = {
   id: "gift1",
-  name: "Bored Monkey",
-  imgLink: "/assets/gifts/monkey.png",
+  title: "Bored Monkey",
+  url: "/assets/gifts/monkey.png",
   price: 150,
   model: "2024A",
   symbol: "Royal Crown",
@@ -36,16 +38,20 @@ const gift = {
   sellPrice: "160",
   status: "on sale", // или "sold out"
 }
-const isInCart = false // заменить на реальное состояние
 
 export const GiftModal: FC = () => {
   const navigate = useNavigate()
-  const { id } = useParams<{ id: string }>()
-  const { isMarket } = useOutletContext<{ isMarket: boolean }>()
-
-  const [isClosing, setIsClosing] = useState(false)
+  const dispatch = useAppDispatch()
 
   const { openSheet, closeAll } = useBottomSheet()
+  const { id } = useParams<{ id: string }>()
+
+  const { isMarket } = useOutletContext<{ isMarket: boolean }>()
+  const cartItems = useAppSelector(state => state.cart.items)
+
+  const isInCart = cartItems.some(item => item.id === id)
+
+  const [isClosing, setIsClosing] = useState(false)
 
   const priceContent = useMemo(
     () => (
@@ -89,8 +95,27 @@ export const GiftModal: FC = () => {
     )
   }
 
-  const handleAddToCart = () => {
-    // логика добавления в корзину
+  const handleToggleCart = (nft: {
+    id: string
+    title: string
+    price: number
+    url: string
+  }) => {
+    if (isInCart) {
+      dispatch(removeItem(nft.id))
+    } else {
+      dispatch(
+        addToCart({
+          id: nft.id,
+          title: nft.title,
+          number: `#${nft.id}`,
+          price: nft.price,
+          inStock: true,
+          selected: true,
+        })
+      )
+    }
+
     setIsClosing(true)
   }
 
@@ -161,11 +186,11 @@ export const GiftModal: FC = () => {
           onSecondaryClick={
             isMarket && isInCart ? handleViewCart : handlePutOnSale
           }
-          onCartClick={handleAddToCart}
+          onCartClick={() => handleToggleCart(gift)}
         />
       }
     >
-      <GiftImageWithText imgSrc={bdayImg} name={gift.name} id={gift.id} />
+      <GiftImageWithText imgSrc={bdayImg} name={gift.title} id={gift.id} />
 
       <div className={styles.detailGiftSheetActions}>
         <Button type="vertical" size="large" onClick={showEmodjiStatus}>

@@ -17,10 +17,12 @@ import { DetailsTable } from "../common/DetailsTable/DetailsTable"
 import { ConfirmBuyNftBottomSheet } from "../Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
 import { AvailableBalance } from "../common/AvailableBalance/AvailableBalance"
 import { t } from "i18next"
+import { removeItem, addToCart } from "@/slices/cartSlice"
+import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 
 // Пример данных для карточек
 const mockNft = {
-  id: 1,
+  id: "1",
   title: "Bored Stickers",
   price: 90,
   url: monkeyImg,
@@ -29,15 +31,26 @@ const mockNft = {
   issued: "9 999/9 999",
 }
 
-const isInCart = false // заменить на реальное состояние
-
 export const StickerModal: FC = () => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
   const { openSheet, closeAll } = useBottomSheet()
   const { id } = useParams<{ id: string }>()
+
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
+  const cartItems = useAppSelector(state => state.cart.items)
+
+  const isInCart = cartItems.some(item => item.id === id)
 
   const [isClosing, setIsClosing] = useState(false)
+
+  const priceContent = (
+    <span className={styles.priceRow}>
+      <span>{mockNft.price} TON</span>
+      <PriceTooltip price={mockNft.price} />
+    </span>
+  )
 
   const handleBuy = () => {
     setIsClosing(true)
@@ -56,8 +69,27 @@ export const StickerModal: FC = () => {
     )
   }
 
-  const handleAddToCart = () => {
-    // логика добавления в корзину
+  const handleToggleCart = (nft: {
+    id: string
+    title: string
+    price: number
+    url: string
+  }) => {
+    if (isInCart) {
+      dispatch(removeItem(nft.id))
+    } else {
+      dispatch(
+        addToCart({
+          id: nft.id,
+          title: nft.title,
+          number: `#${nft.id}`,
+          price: nft.price,
+          inStock: true,
+          selected: true,
+        })
+      )
+    }
+
     setIsClosing(true)
   }
 
@@ -73,13 +105,6 @@ export const StickerModal: FC = () => {
   const handlePutOnSale = () => {
     // логика выставления на продажу
   }
-
-  const priceContent = (
-    <span className={styles.priceRow}>
-      <span>{mockNft.price} TON</span>
-      <PriceTooltip price={mockNft.price} />
-    </span>
-  )
 
   const rows = useMemo(() => {
     return [
@@ -121,7 +146,7 @@ export const StickerModal: FC = () => {
           onSecondaryClick={
             isMarket && isInCart ? handleViewCart : handlePutOnSale
           }
-          onCartClick={handleAddToCart}
+          onCartClick={() => handleToggleCart(mockNft)}
         />
       }
     >
