@@ -10,7 +10,7 @@ export interface Wallet {
 
 export interface TonAccount {
   address: string
-  network: "-3" | "-239"
+  network: CHAIN
   public_key: string
   wallet_state_init?: string | null
 }
