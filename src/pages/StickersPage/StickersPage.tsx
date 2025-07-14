@@ -107,6 +107,7 @@ export const StickersPage: FC<IStickersPageProps> = () => {
 
   const handleViewCart = () => {
     // логика открытия корзины
+    closeAll()
     navigate("/cart")
   }
 
