@@ -1,21 +1,29 @@
-import api from "@/api/apiClient"
-import { OutgoingCreatePayload, Transaction } from "@/types/transaction"
+import { api } from "@/api/api"
+import type { Transaction, OutgoingCreatePayload } from "@/types/transaction"
 
-const endpoint = "/transactions/"
+const endpoint = "/transactions"
 
-const getMyTransactions = async () => {
-  const response = await api.get<Transaction[]>(`${endpoint}me`)
-  return response.data
-}
+export const transactionsApi = api.injectEndpoints({
+  endpoints: builder => ({
+    getMyTransactions: builder.query<Transaction[], void>({
+      query: () => ({
+        url: `${endpoint}/me`,
+        method: "GET",
+      }),
+    }),
 
-const createOutgoingTx = async (payload: OutgoingCreatePayload) => {
-  const response = await api.post(`${endpoint}outgoing`, payload)
-  return response.data
-}
+    createOutgoingTx: builder.mutation<Transaction, OutgoingCreatePayload>({
+      query: payload => ({
+        url: `${endpoint}/outgoing`,
+        method: "POST",
+        data: payload,
+      }),
+    }),
+  }),
+})
 
-export const transactionsAPI = {
-  getMyTransactions,
-  createOutgoingTx,
-}
-
-export default transactionsAPI
+export const {
+  useGetMyTransactionsQuery,
+  useLazyGetMyTransactionsQuery,
+  useCreateOutgoingTxMutation,
+} = transactionsApi
