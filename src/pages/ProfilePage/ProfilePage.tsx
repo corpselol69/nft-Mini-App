@@ -206,7 +206,7 @@ export const ProfilePage: FC = () => {
   }
 
   const handleTopUp = async (value: string) => {
-    const { data } = await topUpBalance({ amount: value })
+    await topUpBalance({ amount: value })
     const recipient = "UQA5l8_3Db9mQNaXGJXbenNwPpqbXnmMdvg6ewoNSoemT8mu"
 
     // Сумма в нано-тонах (100000000 = 0.1 TON)
