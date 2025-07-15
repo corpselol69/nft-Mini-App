@@ -34,6 +34,7 @@ try {
     init({
       debug,
       eruda: true,
+      // debug && ["ios", "android"].includes(platform),
       mockForMacOS: platform === "macos",
     }),
     initI18n(), // ждём локализацию
