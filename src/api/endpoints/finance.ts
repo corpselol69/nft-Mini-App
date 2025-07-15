@@ -3,6 +3,7 @@ import { setFinanceError, setUserBalance } from "@/slices/financeSlice"
 import type {
   BalanceRead,
   DepositPayload,
+  DepositResponse,
   WithdrawalPayload,
 } from "@/types/finance"
 
@@ -25,7 +26,7 @@ export const financeApi = api.injectEndpoints({
       },
     }),
 
-    deposit: builder.mutation<void, DepositPayload>({
+    deposit: builder.mutation<DepositResponse, DepositPayload>({
       query: payload => ({
         url: `${endpoint}/deposit`,
         method: "POST",

@@ -11,3 +11,8 @@ export interface WithdrawalPayload {
   amount: number | string
   address: string
 }
+
+export interface DepositResponse {
+  payload: string
+  transfer_link: string
+}
