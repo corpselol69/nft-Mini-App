@@ -206,7 +206,7 @@ export const ProfilePage: FC = () => {
   }
 
   const handleTopUp = async (value: string) => {
-    await topUpBalance({ amount: value })
+    const { data } = await topUpBalance({ amount: value })
     const recipient = "UQA5l8_3Db9mQNaXGJXbenNwPpqbXnmMdvg6ewoNSoemT8mu"
 
     // Сумма в нано-тонах (100000000 = 0.1 TON)
@@ -216,7 +216,6 @@ export const ProfilePage: FC = () => {
     const validUntil = Math.floor(Date.now() / 1000) + 300
 
     // Payload: строка в hex (обычно это сериализованный BOC или base64)
-    const base64Payload = "b120ccc9b9374f07956e96ac3eea8af8:41b1a9799b1124e4"
 
     const transaction: SendTransactionRequest = {
       validUntil,
@@ -225,7 +224,7 @@ export const ProfilePage: FC = () => {
         {
           address: recipient,
           amount,
-          payload: base64Payload, // ⚠️ должен быть либо base64, либо hex, без двоеточий
+          payload: data?.payload, // ⚠️ должен быть либо base64, либо hex, без двоеточий
         },
       ],
     }
