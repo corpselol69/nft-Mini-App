@@ -15,7 +15,7 @@ type Props = {
 }
 
 const MIN_TOP_UP_AMOUNT = 0.1
-
+// переделать withdraw на top up, чтобы не путать с withdraw
 export const TopUpBottomSheet: FC<Props> = ({
   handleWithdraw: onWithdraw,
   onChange: onChangeExternal,
@@ -58,13 +58,11 @@ export const TopUpBottomSheet: FC<Props> = ({
         </div>
       </div>
 
-      <div className={styles.withdrawInputWrapper}>
-        <BalanceUpInput
-          className={error ? styles.error : undefined}
-          value={withdrawValue}
-          onChange={handleChange}
-        />
-      </div>
+      <BalanceUpInput
+        className={error ? styles.error : undefined}
+        value={withdrawValue}
+        onChange={handleChange}
+      />
 
       <div className={styles.withdrawAllSumButtonWrapper}>
         {error && <div className={styles.errorMessage}>{error}</div>}
