@@ -33,7 +33,7 @@ try {
   await Promise.all([
     init({
       debug,
-      eruda: debug && ["ios", "android"].includes(platform),
+      eruda: true,
       mockForMacOS: platform === "macos",
     }),
     initI18n(), // ждём локализацию
