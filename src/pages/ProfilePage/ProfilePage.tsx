@@ -31,6 +31,7 @@ import { useUnlinkWalletMutation } from "@/api/endpoints/wallets.ts"
 import { resetWallet } from "@/slices/walletSlice"
 import { useTonWalletLinker } from "@/hooks/useTonWalletLinker"
 import { useDepositMutation } from "@/api/endpoints/finance"
+import { beginCell } from "@ton/core"
 
 const mockData: TransactionGroup[] = [
   {
@@ -206,32 +207,29 @@ export const ProfilePage: FC = () => {
   }
 
   const handleTopUp = async (value: string) => {
-    await topUpBalance({ amount: value })
+    const { data } = await topUpBalance({ amount: value })
+    if (!data?.payload) return
     const recipient = "UQA5l8_3Db9mQNaXGJXbenNwPpqbXnmMdvg6ewoNSoemT8mu"
-
-    // Сумма в нано-тонах (100000000 = 0.1 TON)
     const amount = "100000000"
-
-    // Время жизни транзакции (например, 5 минут от текущего момента)
     const validUntil = Math.floor(Date.now() / 1000) + 300
 
-    // if (typeof data?.payload !== "string") return
-    // const base64Payload = btoa(data?.payload)
-    // const trimmedPayload = base64Payload.replace(/=+$/, "")
+    const cell = beginCell()
+      .storeUint(0, 32) // можно заменить на другой опкод при необходимости
+      .storeStringTail(data.payload)
+      .endCell()
 
     const transaction: SendTransactionRequest = {
       validUntil,
-      network: CHAIN.MAINNET, // или CHAIN.TESTNET, если тестируете
+      network: CHAIN.TESTNET, // или CHAIN.TESTNET, если тестируете
       messages: [
         {
           address: recipient,
           amount,
-          // payload: trimmedPayload,
+          payload: cell.toBoc().toString("base64"),
         },
       ],
     }
 
-    // Отправка запроса пользователю через подключённый кошелёк
     const res = await tonConnectUI.sendTransaction(transaction)
     console.log("Транзакция отправлена:", res)
     closeAll()
