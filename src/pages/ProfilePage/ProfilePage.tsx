@@ -25,7 +25,6 @@ import { addSnackbar } from "@/slices/snackbarSlice"
 import { useUnlinkWalletMutation } from "@/api/endpoints/wallets.ts"
 import { resetWallet } from "@/slices/walletSlice"
 import { useTonWalletLinker } from "@/hooks/useTonWalletLinker"
-import { useTonWalletAutoConnect } from "@/hooks/useTonWalletAutoConnect"
 
 const mockData: TransactionGroup[] = [
   {
@@ -98,7 +97,6 @@ export const ProfilePage: FC = () => {
   const wallet = useAppSelector(state => state.wallet.data)
   const balance = useAppSelector(state => state.finance.balance)
 
-  useTonWalletAutoConnect()
   useTonWalletLinker()
 
   const handleReferralClick = () => {
