@@ -20,21 +20,20 @@ export const BalanceUpInput: FC<Props> = ({
   const id = useId()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange?.(e.target.value)
+    onChange(e.target.value)
   }
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.inputBlock}>
-        <input
-          ref={inputRef}
-          className={classnames(styles.input, className && className)}
-          value={value || ""}
-          onChange={handleChange}
-          id={id}
-          {...rest}
-        />
-      </div>
+      <input
+        ref={inputRef}
+        className={classnames(styles.input, className && className)}
+        value={value || ""}
+        onChange={handleChange}
+        id={id}
+        {...rest}
+      />
+
       <span className={classnames(styles.unit, className && className)}>
         {unit}
       </span>

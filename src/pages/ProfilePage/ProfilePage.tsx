@@ -11,7 +11,12 @@ import imgDiversity from "@/static/icons/diversity.svg"
 import imgChevronForward from "@/static/icons/chevron_forward.svg"
 import { Outlet, useNavigate } from "react-router-dom"
 import { Avatar } from "@/components/common/Avatar/Avatar.tsx"
-import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
+import {
+  CHAIN,
+  SendTransactionRequest,
+  useTonAddress,
+  useTonConnectUI,
+} from "@tonconnect/ui-react"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { t } from "i18next"
 import { WithdrawBottomSheet } from "@/components/Modals/WithdrawBottomSheet/WithdrawBottomSheet"
@@ -25,6 +30,7 @@ import { addSnackbar } from "@/slices/snackbarSlice"
 import { useUnlinkWalletMutation } from "@/api/endpoints/wallets.ts"
 import { resetWallet } from "@/slices/walletSlice"
 import { useTonWalletLinker } from "@/hooks/useTonWalletLinker"
+import { useDepositMutation } from "@/api/endpoints/finance"
 
 const mockData: TransactionGroup[] = [
   {
@@ -85,7 +91,7 @@ export const ProfilePage: FC = () => {
   const { openSheet, closeAll } = useBottomSheet()
   const dispatch = useAppDispatch()
 
-  const [withdraw, setWithdraw] = useState("")
+  const [value, setValue] = useState("")
 
   const user = useAppSelector(state => state.auth.user)
 
@@ -93,6 +99,7 @@ export const ProfilePage: FC = () => {
   const [tonConnectUI] = useTonConnectUI()
 
   const [unlinkWallet] = useUnlinkWalletMutation()
+  const [topUpBalance] = useDepositMutation()
 
   const wallet = useAppSelector(state => state.wallet.data)
   const balance = useAppSelector(state => state.finance.balance)
@@ -151,7 +158,7 @@ export const ProfilePage: FC = () => {
 
   const handleWithdraw = async () => {
     //логика вывода средств
-    console.log(`выведено ${withdraw}`)
+    console.log(`выведено ${value}`)
 
     try {
       // await api.withdraw()
@@ -198,20 +205,49 @@ export const ProfilePage: FC = () => {
     }
   }
 
-  const handleTopUp = () => {
-    closeAll()
-    dispatch(
-      addSnackbar({
-        title: "Успешное пополнение",
-        description: `Баланс пополнен на ${withdraw} TON`,
-        autoHide: true,
-        duration: 5000,
-      })
+  const handleTopUp = async (value: string) => {
+    await topUpBalance({ amount: value })
+    const recipient = "UQA5l8_3Db9mQNaXGJXbenNwPpqbXnmMdvg6ewoNSoemT8mu"
+
+    // Сумма в нано-тонах (100000000 = 0.1 TON)
+    const amount = "100000000"
+
+    // Время жизни транзакции (например, 5 минут от текущего момента)
+    const validUntil = Math.floor(Date.now() / 1000) + 300
+
+    // Payload: строка в hex (обычно это сериализованный BOC или base64)
+    const base64Payload = btoa(
+      "b120ccc9b9374f07956e96ac3eea8af8:41b1a9799b1124e4"
     )
+
+    const transaction: SendTransactionRequest = {
+      validUntil,
+      network: CHAIN.MAINNET, // или CHAIN.TESTNET, если тестируете
+      messages: [
+        {
+          address: recipient,
+          amount,
+          payload: base64Payload, // ⚠️ должен быть либо base64, либо hex, без двоеточий
+        },
+      ],
+    }
+
+    // Отправка запроса пользователю через подключённый кошелёк
+    const res = await tonConnectUI.sendTransaction(transaction)
+    console.log("Транзакция отправлена:", res)
+    closeAll()
+    // dispatch(
+    //   addSnackbar({
+    //     title: "Успешное пополнение",
+    //     description: `Баланс пополнен на ${value} TON`,
+    //     autoHide: true,
+    //     duration: 5000,
+    //   })
+    // )
   }
 
   const handleInputChange = (v: string) => {
-    setWithdraw(v)
+    setValue(v)
   }
 
   const handleToggleWallet = () => {
@@ -244,13 +280,13 @@ export const ProfilePage: FC = () => {
         address={userFriendlyAddress}
         availableWithdrawValue="92"
         onChange={handleInputChange}
-        withdrawValue={withdraw}
+        withdrawValue={value}
         handleWithdraw={handleWithdraw}
       />,
       {
         bottomSheetTitle: "Вывод средств",
         onClose() {
-          setWithdraw("")
+          setValue("")
         },
       }
     )
@@ -260,14 +296,13 @@ export const ProfilePage: FC = () => {
     openSheet(
       <TopUpBottomSheet
         address={userFriendlyAddress}
-        onChange={handleInputChange}
-        withdrawValue={withdraw}
+        withdrawValue={value}
         handleWithdraw={handleTopUp}
       />,
       {
         bottomSheetTitle: t("top_up_balance"),
         onClose() {
-          setWithdraw("")
+          setValue("")
         },
       }
     )

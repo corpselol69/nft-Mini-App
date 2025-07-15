@@ -9,8 +9,8 @@ import { BalanceUpInput } from "@/components/common/InputWithUnit/BalanceUpInput
 
 type Props = {
   withdrawValue: string
-  onChange: (v: string) => void
-  handleWithdraw: () => void
+  onChange?: (v: string) => void
+  handleWithdraw: (value: string) => void
   address: string
 }
 
@@ -32,7 +32,7 @@ export const TopUpBottomSheet: FC<Props> = ({
   }
 
   const handleWithdraw = () => {
-    onWithdraw()
+    onWithdraw(withdrawValue)
   }
 
   useEffect(() => {
