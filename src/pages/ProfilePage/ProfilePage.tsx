@@ -216,6 +216,8 @@ export const ProfilePage: FC = () => {
     const validUntil = Math.floor(Date.now() / 1000) + 300
 
     // Payload: строка в hex (обычно это сериализованный BOC или base64)
+    if (typeof data?.payload !== "string") return
+    const base64Payload = btoa(data?.payload)
 
     const transaction: SendTransactionRequest = {
       validUntil,
@@ -224,7 +226,7 @@ export const ProfilePage: FC = () => {
         {
           address: recipient,
           amount,
-          payload: data?.payload, // ⚠️ должен быть либо base64, либо hex, без двоеточий
+          payload: base64Payload, // ⚠️ должен быть либо base64, либо hex, без двоеточий
         },
       ],
     }
