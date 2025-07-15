@@ -39,6 +39,6 @@ export default defineConfig({
     port: 3002,
     // Exposes your dev server and makes it accessible for the devices in the same network.
     host: true,
-    allowedHosts: ["tickets-sauce-complicated-cholesterol.trycloudflare.com"],
+    allowedHosts: ["ad-fluid-solomon-lucky.trycloudflare.com"],
   },
 })
