@@ -1,30 +1,33 @@
 import { FC } from "react"
-import { Transaction } from "../types"
-import { TRANSACTION_GROUP_CONFIG } from "../const"
+
 import styles from "./TransactionItem.module.scss"
 import clsx from "classnames"
 import tonIcon from "@/static/icons/icn-S_ton.svg"
 import Icon from "@/components/common/Icon/Icon"
+import { Transaction } from "@/types/transaction"
+import { TRANSACTION_GROUP_CONFIG } from "../const"
+import formatAmount from "@/helpers/formatAmount"
+import { Loader } from "../../Loader/Loader"
 
 type Props = {
   transaction: Transaction
   onClick?: () => void
-  className?: string
+  isLast?: boolean
 }
 
 export const TransactionItem: FC<Props> = ({
   transaction,
   onClick,
-  className,
+
+  isLast = false,
 }) => {
-  const config = TRANSACTION_GROUP_CONFIG[transaction.type]
-  const formattedTime = new Date(transaction.timestamp).toLocaleDateString(
-    "ru-RU",
-    {
-      hour: "2-digit",
-      minute: "2-digit",
-    }
-  )
+  const config = TRANSACTION_GROUP_CONFIG[transaction.tx_type]
+  const formattedTime = transaction.created_at
+    ? new Date(transaction.created_at).toLocaleTimeString("ru-RU", {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    : ""
 
   const isClickable = Boolean(onClick)
 
@@ -35,40 +38,41 @@ export const TransactionItem: FC<Props> = ({
       className={clsx(
         styles.item,
         isClickable && styles.clickable,
-        transaction.status === "failed" && styles.failed,
-        className && className
+        transaction.state === "failed" && styles.failed,
+        isLast && styles.noBorder
       )}
       onClick={onClick}
       role={isClickable ? "button" : undefined}
       tabIndex={isClickable ? 0 : undefined}
     >
+      {transaction.state === "pending" && <Loader />}
       <div className={styles.info}>
         <div
           className={clsx(styles.description, {
-            [styles.negative]: transaction.status === "failed",
+            [styles.negative]: transaction.state === "failed",
           })}
         >
-          {transaction.description}
+          {transaction.direction === "in" ? "Пополнение баланса" : "Вывод"}
         </div>
         <div className={styles.time}>{formattedTime}</div>
       </div>
 
       <div
         className={clsx(styles.amount, transaction, {
-          [classNameForAmount]: transaction.status !== "failed",
-          [styles.negative]: transaction.status === "failed",
+          [classNameForAmount]: transaction.state !== "failed",
+          [styles.negative]: transaction.state === "failed",
         })}
       >
         {config.sign}
-        {Math.abs(transaction.amount)}
+        {formatAmount(transaction.amount)}
         <div>
           <Icon
             src={tonIcon}
             className={clsx({
               [styles.success]:
-                ["topup", "sell", "bonus"].includes(transaction.type) &&
-                transaction.status !== "failed",
-              [styles.error]: transaction.status === "failed",
+                ["deposit", "sell", "bonus"].includes(transaction.tx_type) &&
+                transaction.state !== "failed",
+              [styles.error]: transaction.state === "failed",
             })}
           />
         </div>

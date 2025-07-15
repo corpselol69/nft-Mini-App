@@ -4,13 +4,13 @@
 .group {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  gap: 8px;
 }
 
 .dateHeader {
   @include typography.subheadline-sf;
   color: $typography-secondary;
-  padding-bottom: 8px;
-  margin-bottom: 8px;
 }
 
 .transactions {

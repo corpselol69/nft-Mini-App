@@ -8,12 +8,17 @@
   border-bottom: 1px solid $stroke-10;
   transition: background-color 0.2s ease;
   padding-bottom: 8px;
+  gap: 4px;
+
+  &.noBorder {
+    border-bottom: none;
+  }
 }
 
 .info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   flex: 1;
   min-width: 0;
 }

@@ -22,8 +22,8 @@ import { t } from "i18next"
 import { WithdrawBottomSheet } from "@/components/Modals/WithdrawBottomSheet/WithdrawBottomSheet"
 import { SuccessBuyNftBottomSheet } from "@/components/Modals/SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
 import { TopUpBottomSheet } from "@/components/Modals/TopUpBottomSheet/TopUpBottomSheet"
-import { TransactionGroup } from "@/components/ProfilePage/types"
-import { TransactionBlock } from "@/components/ProfilePage/TransactionsBlock/TransactionsBlock"
+
+import { TransactionBlock } from "@/components/common/Transactions/TransactionsBlock/TransactionsBlock"
 import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import { addSnackbar } from "@/slices/snackbarSlice"
@@ -31,60 +31,7 @@ import { useUnlinkWalletMutation } from "@/api/endpoints/wallets.ts"
 import { resetWallet } from "@/slices/walletSlice"
 import { useTonWalletLinker } from "@/hooks/useTonWalletLinker"
 import { useDepositMutation } from "@/api/endpoints/finance"
-
-const mockData: TransactionGroup[] = [
-  {
-    date: "12 ИЮНЯ",
-    transactions: [
-      {
-        id: "1",
-        type: "buy",
-        description: "Покупка NFT",
-        amount: 3.6,
-        timestamp: "2023-06-12T14:11:00Z",
-      },
-      {
-        id: "2",
-        type: "sell",
-        description: "Продажа NFT",
-        amount: 10,
-        timestamp: "2023-06-12T10:55:00Z",
-      },
-    ],
-  },
-  {
-    date: "11 ИЮНЯ",
-    transactions: [
-      {
-        id: "3",
-        type: "topup",
-        description: "Пополнение баланса",
-        amount: 15,
-        timestamp: "2023-06-11T11:37:00Z",
-      },
-      {
-        id: "4",
-        type: "topup",
-        description: "Пополнение баланса",
-        amount: 15,
-        timestamp: "2023-06-11T11:21:00Z",
-        status: "failed",
-      },
-    ],
-  },
-  {
-    date: "10 ИЮНЯ",
-    transactions: [
-      {
-        id: "5",
-        type: "bonus",
-        description: "Реферальный бонус",
-        amount: 0.25,
-        timestamp: "2023-06-10T10:57:00Z",
-      },
-    ],
-  },
-]
+import formatAmount from "@/helpers/formatAmount"
 
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
@@ -308,7 +255,7 @@ export const ProfilePage: FC = () => {
           </div>
           <Wallet
             address={userFriendlyAddress}
-            balance={balance}
+            balance={formatAmount(balance)}
             onConnect={handleConnectWallet}
             onCopy={handleCopyWallet}
             onToggle={handleToggleWallet}
@@ -318,7 +265,9 @@ export const ProfilePage: FC = () => {
         <div className={styles.balanceBlock}>
           <span className={styles.balanceLabel}>Баланс</span>
           <span className={styles.balanceValue}>
-            <span className={styles.balanceAmount}>{balance || 0}</span>
+            <span className={styles.balanceAmount}>
+              {formatAmount(balance)}
+            </span>
             <span className={styles.balanceCurrency}> TON</span>
           </span>
         </div>
@@ -357,17 +306,7 @@ export const ProfilePage: FC = () => {
 
         <div className={styles.historyBlock}>
           <span className={styles.historyLabel}>История транзакций</span>
-          {mockData.length ? (
-            <TransactionBlock groups={mockData} />
-          ) : (
-            <div className={styles.historyCard}>
-              <span>
-                Совершите свою первую
-                <br />
-                транзакцию
-              </span>
-            </div>
-          )}
+          <TransactionBlock />
         </div>
       </div>
       <Outlet />
