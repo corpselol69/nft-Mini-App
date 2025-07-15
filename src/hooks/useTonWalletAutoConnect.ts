@@ -1,12 +1,11 @@
 import { useEffect } from "react"
 import { useAppSelector } from "@/hooks/useRedux"
 import TonConnect from "@tonconnect/sdk"
-import { useTonWallet } from "@tonconnect/ui-react"
 
 export const useTonWalletAutoConnect = () => {
   const connector = new TonConnect()
   const wallet = useAppSelector(state => state.wallet.data)
-  const walletTon = useTonWallet()
+  //const walletTon = useTonWallet()
 
   useEffect(() => {
     const autoConnect = async () => {
