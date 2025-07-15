@@ -31,7 +31,6 @@ import { useUnlinkWalletMutation } from "@/api/endpoints/wallets.ts"
 import { resetWallet } from "@/slices/walletSlice"
 import { useTonWalletLinker } from "@/hooks/useTonWalletLinker"
 import { useDepositMutation } from "@/api/endpoints/finance"
-import { beginCell } from "@ton/core"
 
 const mockData: TransactionGroup[] = [
   {
@@ -208,24 +207,18 @@ export const ProfilePage: FC = () => {
 
   const handleTopUp = async (value: string) => {
     const { data } = await topUpBalance({ amount: value })
-    if (!data?.payload) return
-    const recipient = "UQA5l8_3Db9mQNaXGJXbenNwPpqbXnmMdvg6ewoNSoemT8mu"
-    const amount = "100000000"
-    const validUntil = Math.floor(Date.now() / 1000) + 300
+    if (!data) return
 
-    const cell = beginCell()
-      .storeUint(0, 32) // можно заменить на другой опкод при необходимости
-      .storeStringTail(data.payload)
-      .endCell()
+    const validUntil = Math.floor(Date.now() / 1000) + 300
 
     const transaction: SendTransactionRequest = {
       validUntil,
-      network: CHAIN.TESTNET, // или CHAIN.TESTNET, если тестируете
+      network: CHAIN.MAINNET, // или CHAIN.TESTNET, если тестируете
       messages: [
         {
-          address: recipient,
-          amount,
-          payload: cell.toBoc().toString("base64"),
+          address: data.address,
+          amount: data.amount,
+          payload: data.payload || "",
         },
       ],
     }
