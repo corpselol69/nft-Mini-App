@@ -20,6 +20,8 @@ import {
 } from "@/slices/cartSlice"
 import { store } from "@/store"
 import formatAmount from "@/helpers/formatAmount"
+import { AvailableBalance } from "@/components/common/AvailableBalance/AvailableBalance"
+import { BalanceTopUpBottomSheet } from "@/components/Modals/BalanceTopUpBottomSheet"
 
 export const CartPage: FC = () => {
   const dispatch = useAppDispatch()
@@ -32,6 +34,8 @@ export const CartPage: FC = () => {
     .reduce((a, i) => a + i.price, 0)
   const selectedItems = items.filter(i => i.selected)
   const totalPrice = selectedItems.reduce((a, i) => a + i.price, 0)
+
+  const isBalanceEnough = totalPrice <= Number(balance)
 
   const setAllSelected = (checked: boolean) => {
     dispatch(selectAll(checked))
@@ -74,17 +78,30 @@ export const CartPage: FC = () => {
   }
 
   const handleOnBuyClick = () => {
-    openSheet(
-      <ConfirmBuyNftBottomSheet
-        nftPrice={totalPrice}
-        onBuy={handleBuyNft}
-        onCancel={closeAll}
-        quantity={selectedItemsLength.toString()}
-      />,
-      {
-        bottomSheetTitle: `${t("buy_nft")}`,
-      }
-    )
+    if (!isBalanceEnough) {
+      openSheet(
+        <BalanceTopUpBottomSheet
+          onClose={closeAll}
+          purchasePrice={totalPrice}
+          availableBalance={formatAmount(balance)}
+        />,
+        {
+          bottomSheetTitle: `${t("top_up_balance")}`,
+        }
+      )
+    } else {
+      openSheet(
+        <ConfirmBuyNftBottomSheet
+          nftPrice={totalPrice}
+          onBuy={handleBuyNft}
+          onCancel={closeAll}
+          quantity={selectedItemsLength.toString()}
+        />,
+        {
+          bottomSheetTitle: `${t("buy_nft")}`,
+        }
+      )
+    }
   }
 
   return (
@@ -111,20 +128,18 @@ export const CartPage: FC = () => {
           ))}
         </div>
         <div className={styles.footerWrapper}>
-          <div className={styles.availableBalanceWrapper}>
-            <span className={styles.availableBalanceText}>
-              Доступный баланс
-            </span>
-            <div className={styles.availableBalanceValue}>
-              <span>{formatAmount(balance)}</span>
-              <Icon src={tonIcon} className={styles.iconTonBalance} />
-            </div>
-          </div>
+          <AvailableBalance balance={formatAmount(balance)} />
           {!!selectedItemsLength && (
             <div className={styles.actionButton}>
               <Button type="primary" size="large" onClick={handleOnBuyClick}>
-                Купить за {totalPrice}
-                <Icon src={tonIcon} />
+                {isBalanceEnough ? (
+                  <>
+                    {t("buttons.buy_for")} {totalPrice}
+                    <Icon src={tonIcon} />
+                  </>
+                ) : (
+                  t("buttons.top_up_and_buy")
+                )}
               </Button>
             </div>
           )}
