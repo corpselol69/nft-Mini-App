@@ -8,6 +8,7 @@ import { Transaction } from "@/types/transaction"
 import { TRANSACTION_GROUP_CONFIG } from "../const"
 import formatAmount from "@/helpers/formatAmount"
 import { Loader } from "../../Loader/Loader"
+import { t } from "i18next"
 
 type Props = {
   transaction: Transaction
@@ -52,7 +53,9 @@ export const TransactionItem: FC<Props> = ({
             [styles.negative]: transaction.state === "failed",
           })}
         >
-          {transaction.direction === "in" ? "Пополнение баланса" : "Вывод"}
+          {transaction.direction === "in"
+            ? t("top_up_balance")
+            : t("withdrawal_of_funds")}
         </div>
         <div className={styles.time}>{formattedTime}</div>
       </div>
