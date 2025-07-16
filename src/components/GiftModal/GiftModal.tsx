@@ -26,6 +26,7 @@ import { AvailableBalance } from "../common/AvailableBalance/AvailableBalance"
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import { removeItem, addToCart } from "@/slices/cartSlice"
 import formatAmount from "@/helpers/formatAmount"
+import { BalanceTopUpBottomSheet } from "../Modals/BalanceTopUpBottomSheet"
 
 const gift = {
   id: "gift1",
@@ -83,19 +84,33 @@ export const GiftModal: FC = () => {
 
   const handleBuy = () => {
     setIsClosing(true)
-    openSheet(
-      <ConfirmBuyNftBottomSheet
-        nftPrice={gift.price}
-        onBuy={async () => {
-          closeAll()
-        }}
-        onCancel={closeAll}
-        quantity="1"
-      />,
-      {
-        bottomSheetTitle: `${t("buy_nft")}`,
-      }
-    )
+    const isBalanceEnough = Number(balance) >= gift.price
+    if (!isBalanceEnough) {
+      openSheet(
+        <BalanceTopUpBottomSheet
+          onClose={closeAll}
+          purchasePrice={gift.price}
+          availableBalance={formatAmount(balance)}
+        />,
+        {
+          bottomSheetTitle: `${t("top_up_balance")}`,
+        }
+      )
+    } else {
+      openSheet(
+        <ConfirmBuyNftBottomSheet
+          nftPrice={gift.price}
+          onBuy={async () => {
+            closeAll()
+          }}
+          onCancel={closeAll}
+          quantity="1"
+        />,
+        {
+          bottomSheetTitle: `${t("buy_nft")}`,
+        }
+      )
+    }
   }
 
   const handleToggleCart = (nft: {

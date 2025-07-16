@@ -14,7 +14,7 @@ import { BalanceUpInput } from "@/components/common/InputWithUnit/BalanceUpInput
 
 type Props = {
   purchasePrice: number
-  availableBalance: number
+  availableBalance: string
   onClose: () => void
 }
 
@@ -27,9 +27,13 @@ export const BalanceTopUpBottomSheet: FC<Props> = ({
   purchasePrice,
   availableBalance,
 }) => {
-  const [topUpPriceValue, setTopUpPriceValue] = useState("")
-
   const { openSheet, closeAll } = useBottomSheet()
+
+  const missingAmount = useMemo(() => {
+    return (Number(purchasePrice) - Number(availableBalance)).toString()
+  }, [purchasePrice, availableBalance])
+
+  const [topUpPriceValue, setTopUpPriceValue] = useState(missingAmount)
 
   const handleTopUp = async () => {
     openSheet(<LoadingTopUpBalanceBottomSheet />, {
@@ -99,10 +103,6 @@ export const BalanceTopUpBottomSheet: FC<Props> = ({
       )
     }
   }
-
-  const missingAmount = useMemo(() => {
-    return (Number(purchasePrice) - Number(availableBalance)).toString()
-  }, [purchasePrice, availableBalance])
 
   const handleClickOnTheMissingAmount = useCallback(() => {
     setTopUpPriceValue(missingAmount)
