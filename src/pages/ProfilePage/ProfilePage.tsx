@@ -51,7 +51,7 @@ export const ProfilePage: FC = () => {
 
   const [unlinkWallet] = useUnlinkWalletMutation()
   const [topUpBalance] = useDepositMutation()
-  const [withdrawBalance, error] = useWithdrawMutation()
+  const [withdrawBalance] = useWithdrawMutation()
 
   const wallet = useAppSelector(state => state.wallet.data)
   const balance = useAppSelector(state => state.finance.balance)
@@ -112,47 +112,51 @@ export const ProfilePage: FC = () => {
   }
 
   const handleWithdraw = async (value: string) => {
-    //логика вывода средств
-    await withdrawBalance({ amount: value, address: userFriendlyAddress })
+    const payload = {
+      amount: value,
+      address: userFriendlyAddress,
+    }
 
-    if (error) {
+    try {
+      await withdrawBalance(payload).unwrap()
+
+      openSheet(
+        <SuccessBuyNftBottomSheet
+          title={t("withdraw_success")}
+          actionButtons={[
+            <Button type="primary" size="large" onClick={closeAll}>
+              {t("buttons.finish")}
+            </Button>,
+          ]}
+        />,
+        {
+          bottomSheetTitle: t("withdrawal_of_funds"),
+        }
+      )
+    } catch (e) {
       openSheet(
         <ErrorBottomSheet
-          errorTitle={"Ошибка вывода"}
+          errorTitle={t("withdraw_error")}
+          errorText={t("withdraw_error_description")}
           actionButtons={[
             <Button
               type="secondary"
               size="large"
               onClick={() => console.log("написал в службу поддержки и че?")}
             >
-              Написать в службу поддержки
+              {t("buttons.contact_support")}
             </Button>,
             <Button
               type="primary"
               size="large"
               onClick={handleOpenWithdrawModal}
             >
-              Повторить попытку
-            </Button>,
-          ]}
-          errorText="При выводе средств произошла ошибка. Повторите попытку или обратитесь в службу поддержки."
-        />,
-        {
-          bottomSheetTitle: "Вывод средств",
-        }
-      )
-    } else {
-      openSheet(
-        <SuccessBuyNftBottomSheet
-          title={"Вывод выполнен"}
-          actionButtons={[
-            <Button type="primary" size="large" onClick={closeAll}>
-              Завершить
+              {t("buttons.retry")}
             </Button>,
           ]}
         />,
         {
-          bottomSheetTitle: `${t("buy_nft")}`,
+          bottomSheetTitle: t("withdrawal_of_funds"),
         }
       )
     }
@@ -222,7 +226,7 @@ export const ProfilePage: FC = () => {
         handleWithdraw={handleWithdraw}
       />,
       {
-        bottomSheetTitle: "Вывод средств",
+        bottomSheetTitle: `${t("withdrawal_of_funds")}`,
         onClose() {
           setValue("")
         },
