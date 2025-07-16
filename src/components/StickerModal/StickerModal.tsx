@@ -52,7 +52,7 @@ export const StickerModal: FC = () => {
   const priceContent = (
     <span className={styles.priceRow}>
       <span>{mockNft.price} TON</span>
-      <PriceTooltip price={mockNft.price} />
+      {isMarket && <PriceTooltip price={mockNft.price} />}
     </span>
   )
 
@@ -125,13 +125,28 @@ export const StickerModal: FC = () => {
   }
 
   const rows = useMemo(() => {
-    return [
-      { label: "Коллекция", value: mockNft.collection },
-      { label: "Номер", value: mockNft.number },
-      { label: "Выпущено", value: mockNft.issued },
-      { label: "Цена", value: priceContent },
-    ]
-  }, [mockNft.collection, mockNft.number, mockNft.issued, mockNft.price])
+    if (isMarket) {
+      return [
+        { label: "Коллекция", value: mockNft.collection },
+        { label: "Номер", value: mockNft.number },
+        { label: "Выпущено", value: mockNft.issued },
+        { label: "Цена", value: priceContent },
+      ]
+    } else {
+      return [
+        { label: "Коллекция", value: mockNft.collection },
+        { label: "Номер", value: mockNft.number },
+        { label: "Выпущено", value: mockNft.issued },
+        { label: "Рыночная цена", value: priceContent },
+      ]
+    }
+  }, [
+    isMarket,
+    mockNft.collection,
+    mockNft.number,
+    mockNft.issued,
+    mockNft.price,
+  ])
 
   return (
     <BottomSheet
@@ -180,7 +195,7 @@ export const StickerModal: FC = () => {
 
       <DetailsTable rows={rows} />
 
-      <AvailableBalance balance={formatAmount(balance)} />
+      {isMarket && <AvailableBalance balance={formatAmount(balance)} />}
     </BottomSheet>
   )
 }

@@ -61,7 +61,7 @@ export const GiftModal: FC = () => {
     () => (
       <span className={styles.priceRow}>
         <span>{gift.price} TON</span>
-        <PriceTooltip price={gift.price} />
+        {isMarket && <PriceTooltip price={gift.price} />}
       </span>
     ),
     [gift.price]
@@ -151,43 +151,77 @@ export const GiftModal: FC = () => {
   }
 
   const rows = useMemo(() => {
-    return [
-      {
-        label: "Модель",
-        value: (
-          <div className={styles.detailTableValueWrapper}>
-            <span className={styles.detailTableValueText}>{gift.model}</span>{" "}
-            <Chip>1,2%</Chip>
-          </div>
-        ),
-      },
-      {
-        label: "Символ",
-        value: (
-          <div className={styles.detailTableValueWrapper}>
-            <span className={styles.detailTableValueText}>{gift.symbol}</span>{" "}
-            <Chip>0,2%</Chip>
-          </div>
-        ),
-      },
-      {
-        label: "Фон",
-        value: (
-          <div className={styles.detailTableValueWrapper}>
-            <span className={styles.detailTableValueText}>
-              {gift.background}
-            </span>{" "}
-            <Chip>1,5%</Chip>
-          </div>
-        ),
-      },
-      {
-        label: "Нижняя цена",
-        value: <span className={styles.priceRow}>{gift.lowestPrice} TON</span>,
-      },
-      { label: "Цена", value: priceContent },
-    ]
-  }, [])
+    if (isMarket) {
+      return [
+        {
+          label: "Модель",
+          value: (
+            <div className={styles.detailTableValueWrapper}>
+              <span className={styles.detailTableValueText}>{gift.model}</span>{" "}
+              <Chip>1,2%</Chip>
+            </div>
+          ),
+        },
+        {
+          label: "Символ",
+          value: (
+            <div className={styles.detailTableValueWrapper}>
+              <span className={styles.detailTableValueText}>{gift.symbol}</span>{" "}
+              <Chip>0,2%</Chip>
+            </div>
+          ),
+        },
+        {
+          label: "Фон",
+          value: (
+            <div className={styles.detailTableValueWrapper}>
+              <span className={styles.detailTableValueText}>
+                {gift.background}
+              </span>{" "}
+              <Chip>1,5%</Chip>
+            </div>
+          ),
+        },
+        {
+          label: "Нижняя цена",
+          value: (
+            <span className={styles.priceRow}>{gift.lowestPrice} TON</span>
+          ),
+        },
+        { label: "Цена", value: priceContent },
+      ]
+    } else {
+      return [
+        {
+          label: "Модель",
+          value: (
+            <div className={styles.detailTableValueWrapper}>
+              <span className={styles.detailTableValueText}>{gift.model}</span>
+            </div>
+          ),
+        },
+        {
+          label: "Символ",
+          value: (
+            <div className={styles.detailTableValueWrapper}>
+              <span className={styles.detailTableValueText}>{gift.symbol}</span>
+            </div>
+          ),
+        },
+        {
+          label: "Фон",
+          value: (
+            <div className={styles.detailTableValueWrapper}>
+              <span className={styles.detailTableValueText}>
+                {gift.background}
+              </span>
+            </div>
+          ),
+        },
+        { label: "Рыночная цена", value: priceContent },
+      ]
+    }
+  }, [isMarket])
 
   return (
     <BottomSheet
@@ -227,7 +261,7 @@ export const GiftModal: FC = () => {
 
       <DetailsTable rows={rows} />
 
-      <AvailableBalance balance={formatAmount(balance)} />
+      {isMarket && <AvailableBalance balance={formatAmount(balance)} />}
     </BottomSheet>
   )
 }
