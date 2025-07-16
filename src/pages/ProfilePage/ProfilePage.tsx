@@ -32,6 +32,7 @@ import { resetWallet } from "@/slices/walletSlice"
 import { useTonWalletLinker } from "@/hooks/useTonWalletLinker"
 import { useDepositMutation } from "@/api/endpoints/finance"
 import formatAmount from "@/helpers/formatAmount"
+import { retrieveLaunchParams } from "@telegram-apps/bridge"
 
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
@@ -50,6 +51,9 @@ export const ProfilePage: FC = () => {
 
   const wallet = useAppSelector(state => state.wallet.data)
   const balance = useAppSelector(state => state.finance.balance)
+
+  const { tgWebAppData } = retrieveLaunchParams()
+  const avatarUrl = tgWebAppData?.user?.photo_url
 
   useTonWalletLinker()
 
@@ -250,7 +254,7 @@ export const ProfilePage: FC = () => {
       <div className={styles.profilePage}>
         <div className={styles.header}>
           <div className={styles.userInfo}>
-            <Avatar />
+            <Avatar src={avatarUrl} />
             <span className={styles.username}>@{user?.username}</span>
           </div>
           <Wallet

@@ -10,6 +10,7 @@ import type { BottomNavigationProps } from "./BottomNavigation.d"
 // Иконки
 import storeIcon from "@/static/icons/store.svg"
 import cardsIcon from "@/static/icons/cards_star.svg"
+import { retrieveLaunchParams } from "@telegram-apps/bridge"
 
 export const BottomNavigation: FC<BottomNavigationProps> = ({
   paddingBottom = 0,
@@ -17,6 +18,9 @@ export const BottomNavigation: FC<BottomNavigationProps> = ({
   const isMarket = !!useMatch({ path: "/market/*" })
   const isMyNft = !!useMatch({ path: "/my-nft/*" })
   const isProfile = !!useMatch({ path: "/profile" })
+
+  const { tgWebAppData } = retrieveLaunchParams()
+  const avatarUrl = tgWebAppData?.user?.photo_url
 
   const handleNavClick = (e: React.MouseEvent, isCurrentPage: boolean) => {
     if (isCurrentPage) {
@@ -53,6 +57,7 @@ export const BottomNavigation: FC<BottomNavigationProps> = ({
       >
         <Avatar
           className={`${styles.avatar} ${isProfile ? styles.active : ""}`}
+          src={avatarUrl || undefined}
         />
         <span>{t("profile")}</span>
       </NavLink>
