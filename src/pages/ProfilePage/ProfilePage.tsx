@@ -176,8 +176,8 @@ export const ProfilePage: FC = () => {
       ],
     }
 
-    const res = await tonConnectUI.sendTransaction(transaction)
-    console.log("Транзакция отправлена:", res)
+    await tonConnectUI.sendTransaction(transaction)
+
     closeAll()
     // dispatch(
     //   addSnackbar({
@@ -193,7 +193,7 @@ export const ProfilePage: FC = () => {
     openSheet(
       <Wallet
         address={userFriendlyAddress}
-        balance={balance}
+        balance={formatAmount(balance)}
         onConnect={handleConnectWallet}
         onCopy={handleCopyWallet}
         isExpanded={true}
