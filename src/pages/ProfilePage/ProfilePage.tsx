@@ -276,7 +276,11 @@ export const ProfilePage: FC = () => {
           <Button
             type="vertical"
             size="large"
-            onClick={() => handleOpenTopUpModal()}
+            onClick={() =>
+              !!userFriendlyAddress
+                ? handleOpenTopUpModal()
+                : handleConnectWallet()
+            }
           >
             <Icon src={imgAddIcon} className={styles.actionIcon} />
             Пополнить
