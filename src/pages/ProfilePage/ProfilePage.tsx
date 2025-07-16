@@ -30,7 +30,10 @@ import { addSnackbar } from "@/slices/snackbarSlice"
 import { useUnlinkWalletMutation } from "@/api/endpoints/wallets.ts"
 import { resetWallet } from "@/slices/walletSlice"
 import { useTonWalletLinker } from "@/hooks/useTonWalletLinker"
-import { useDepositMutation } from "@/api/endpoints/finance"
+import {
+  useDepositMutation,
+  useWithdrawMutation,
+} from "@/api/endpoints/finance"
 import formatAmount from "@/helpers/formatAmount"
 import { retrieveLaunchParams } from "@telegram-apps/bridge"
 
@@ -48,6 +51,7 @@ export const ProfilePage: FC = () => {
 
   const [unlinkWallet] = useUnlinkWalletMutation()
   const [topUpBalance] = useDepositMutation()
+  const [withdrawBalance, error] = useWithdrawMutation()
 
   const wallet = useAppSelector(state => state.wallet.data)
   const balance = useAppSelector(state => state.finance.balance)
@@ -107,27 +111,11 @@ export const ProfilePage: FC = () => {
     }
   }
 
-  const handleWithdraw = async () => {
+  const handleWithdraw = async (value: string) => {
     //логика вывода средств
-    console.log(`выведено ${value}`)
+    await withdrawBalance({ amount: value, address: userFriendlyAddress })
 
-    try {
-      // await api.withdraw()
-      openSheet(
-        <SuccessBuyNftBottomSheet
-          title={"Вывод выполнен"}
-          actionButtons={[
-            <Button type="primary" size="large" onClick={closeAll}>
-              Завершить
-            </Button>,
-          ]}
-        />,
-        {
-          bottomSheetTitle: `${t("buy_nft")}`,
-        }
-      )
-    } catch (e) {
-      console.error(e)
+    if (error) {
       openSheet(
         <ErrorBottomSheet
           errorTitle={"Ошибка вывода"}
@@ -151,6 +139,20 @@ export const ProfilePage: FC = () => {
         />,
         {
           bottomSheetTitle: "Вывод средств",
+        }
+      )
+    } else {
+      openSheet(
+        <SuccessBuyNftBottomSheet
+          title={"Вывод выполнен"}
+          actionButtons={[
+            <Button type="primary" size="large" onClick={closeAll}>
+              Завершить
+            </Button>,
+          ]}
+        />,
+        {
+          bottomSheetTitle: `${t("buy_nft")}`,
         }
       )
     }
@@ -187,10 +189,6 @@ export const ProfilePage: FC = () => {
     // )
   }
 
-  const handleInputChange = (v: string) => {
-    setValue(v)
-  }
-
   const handleToggleWallet = () => {
     openSheet(
       <Wallet
@@ -219,8 +217,7 @@ export const ProfilePage: FC = () => {
     openSheet(
       <WithdrawBottomSheet
         address={userFriendlyAddress}
-        availableWithdrawValue="92"
-        onChange={handleInputChange}
+        availableWithdrawValue={formatAmount(balance)}
         withdrawValue={value}
         handleWithdraw={handleWithdraw}
       />,

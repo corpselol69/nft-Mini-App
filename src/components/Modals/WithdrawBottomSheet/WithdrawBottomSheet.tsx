@@ -10,8 +10,7 @@ import { BalanceUpInput } from "@/components/common/InputWithUnit/BalanceUpInput
 
 type Props = {
   withdrawValue: string
-  onChange: (v: string) => void
-  handleWithdraw: () => void
+  handleWithdraw: (value: string) => void
   availableWithdrawValue: string
   address: string
 }
@@ -20,7 +19,6 @@ const MIN_WITHDRAW_AMOUNT = 0.5
 
 export const WithdrawBottomSheet: FC<Props> = ({
   handleWithdraw: onWithdraw,
-  onChange: onChangeExternal,
   withdrawValue: initialWithdrawValue,
   availableWithdrawValue,
   address,
@@ -30,17 +28,15 @@ export const WithdrawBottomSheet: FC<Props> = ({
 
   const handleAllSumClick = () => {
     setWithdrawValue(availableWithdrawValue)
-    onChangeExternal?.(availableWithdrawValue)
     setError("")
   }
 
   const handleChange = (value: string) => {
     setWithdrawValue(value)
-    onChangeExternal?.(value)
   }
 
   const handleWithdraw = () => {
-    onWithdraw()
+    onWithdraw(withdrawValue)
   }
 
   useEffect(() => {
@@ -48,6 +44,8 @@ export const WithdrawBottomSheet: FC<Props> = ({
       const numValue = parseFloat(withdrawValue)
       if (isNaN(numValue) || numValue < MIN_WITHDRAW_AMOUNT) {
         setError(`Введите сумму более ${MIN_WITHDRAW_AMOUNT} TON`)
+      } else if (numValue > Number(availableWithdrawValue)) {
+        setError("Недостаточно средств для вывода")
       } else {
         setError("")
       }
