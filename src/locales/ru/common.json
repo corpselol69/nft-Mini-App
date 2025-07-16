@@ -7,6 +7,11 @@
   "buy_nft": "Покупка NFT",
   "available_balance": "Доступный баланс",
   "top_up_balance": "Пополнение баланса",
+  "withdrawal_of_funds": "Вывод средств",
+  "withdraw_available": "Сумма вывода",
+  "withdraw_success": "Вывод выполнен",
+  "withdraw_error": "Ошибка вывода",
+  "withdraw_error_description": "При выводе средств произошла ошибка. Повторите попытку или обратитесь в службу поддержки.",
   "your_wallet": "Ваш кошелёк",
   "all": "Все",
   "not_for_sale": "Не в продаже",
@@ -15,6 +20,7 @@
     "cancel": "Отмена",
     "confirm": "Подтвердить",
     "close": "Закрыть",
+    "finish": "Завершить",
     "share": "Поделиться",
     "buy": "Купить",
     "buy_for": "Купить за",
@@ -29,6 +35,8 @@
     "connect_wallet": "Подключить кошелёк",
     "reconnect_wallet": "Переподключить кошелёк",
     "withdraw": "Вывести",
-    "put_on_sale": "Выставить на продажу"
+    "put_on_sale": "Выставить на продажу",
+    "retry": "Повторить попытку",
+    "contact_support": "Написать в службу поддержки"
   }
 }
