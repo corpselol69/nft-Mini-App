@@ -164,6 +164,7 @@ export const ProfilePage: FC = () => {
 
   const handleTopUp = async (value: string) => {
     const { data } = await topUpBalance({ amount: value })
+
     if (!data) return
 
     const validUntil = Math.floor(Date.now() / 1000) + 300
@@ -174,23 +175,51 @@ export const ProfilePage: FC = () => {
       messages: [
         {
           address: data.address,
-          amount: data.amount,
+          amount: value,
           payload: data.payload || "",
         },
       ],
     }
 
-    await tonConnectUI.sendTransaction(transaction)
+    try {
+      await tonConnectUI.sendTransaction(transaction)
+      closeAll()
 
-    closeAll()
-    // dispatch(
-    //   addSnackbar({
-    //     title: "Успешное пополнение",
-    //     description: `Баланс пополнен на ${value} TON`,
-    //     autoHide: true,
-    //     duration: 5000,
-    //   })
-    // )
+      dispatch(
+        addSnackbar({
+          title: "Успешное пополнение",
+          description: `Баланс пополнен на ${value} TON`,
+          autoHide: true,
+          duration: 5000,
+        })
+      )
+    } catch (e: any) {
+      const description = e.message.includes("No enough funds")
+        ? t("no_enough_funds_error")
+        : t("unknown_error")
+
+      openSheet(
+        <ErrorBottomSheet
+          errorTitle={t("top_up_balance_error")}
+          errorText={description}
+          actionButtons={[
+            <Button
+              type="secondary"
+              size="large"
+              onClick={() => console.log("написал в службу поддержки и че?")}
+            >
+              {t("buttons.contact_support")}
+            </Button>,
+            <Button type="primary" size="large" onClick={handleOpenTopUpModal}>
+              {t("buttons.retry")}
+            </Button>,
+          ]}
+        />,
+        {
+          bottomSheetTitle: t("top_up_balance"),
+        }
+      )
+    }
   }
 
   const handleToggleWallet = () => {
