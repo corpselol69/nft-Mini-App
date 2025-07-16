@@ -36,6 +36,7 @@ import {
 } from "@/api/endpoints/finance"
 import formatAmount from "@/helpers/formatAmount"
 import { retrieveLaunchParams } from "@telegram-apps/bridge"
+import { openTelegramLink } from "@telegram-apps/sdk"
 
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
@@ -142,7 +143,9 @@ export const ProfilePage: FC = () => {
             <Button
               type="secondary"
               size="large"
-              onClick={() => console.log("написал в службу поддержки и че?")}
+              onClick={() =>
+                openTelegramLink.ifAvailable("https://t.me/TeleportNFT")
+              }
             >
               {t("buttons.contact_support")}
             </Button>,
@@ -206,7 +209,9 @@ export const ProfilePage: FC = () => {
             <Button
               type="secondary"
               size="large"
-              onClick={() => console.log("написал в службу поддержки и че?")}
+              onClick={() =>
+                openTelegramLink.ifAvailable("https://t.me/TeleportNFT")
+              }
             >
               {t("buttons.contact_support")}
             </Button>,
