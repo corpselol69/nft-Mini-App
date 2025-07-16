@@ -7,6 +7,9 @@ import { ReferralHeader } from "@/components/ReferralPage/ReferralHeader"
 import { Page } from "@/components/Page"
 import { useAppDispatch } from "@/hooks/useRedux"
 import { addSnackbar } from "@/slices/snackbarSlice"
+import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
+import { QrCodeBottomSheet } from "@/components/Modals/QrCodeBottomSheet/QrCodeBottomSheet"
+import qrCode from "@/static/placeholders/qrCode.png"
 
 const mockData = {
   referralLink: "t.me/bot238757=ref17349619",
@@ -23,6 +26,7 @@ const mockData = {
 
 export const ReferralPage: FC = () => {
   const dispatch = useAppDispatch()
+  const { openSheet } = useBottomSheet()
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(mockData.referralLink)
@@ -36,6 +40,19 @@ export const ReferralPage: FC = () => {
     )
   }
 
+  const handleQrCodeClick = () => {
+    openSheet(
+      <QrCodeBottomSheet
+        qrCode={qrCode}
+        link={mockData.referralLink}
+        onCopy={handleCopyLink}
+      />,
+      {
+        bottomSheetTitle: "TeleportNFT",
+      }
+    )
+  }
+
   return (
     <Page back>
       <div className={styles.referralPage}>
@@ -45,7 +62,11 @@ export const ReferralPage: FC = () => {
           totalEarned={"12.4"}
           description={"Вы зарабатываете 1,5% с комиссии ваших рефералов"}
         />
-        <ReferralLink link={mockData.referralLink} onCopy={handleCopyLink} />
+        <ReferralLink
+          link={mockData.referralLink}
+          onCopy={handleCopyLink}
+          onQrCodeClick={handleQrCodeClick}
+        />
 
         <ReferralList invites={mockData.invites} totalCount={3} />
       </div>

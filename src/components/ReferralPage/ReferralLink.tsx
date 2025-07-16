@@ -8,20 +8,27 @@ import qrCodeIcn from "@/static/icons/icn-qr_code.svg"
 interface ReferralLinkProps {
   link: string
   onCopy: () => void
+  onQrCodeClick: () => void
 }
 
-export const ReferralLink: FC<ReferralLinkProps> = ({ link, onCopy }) => {
+export const ReferralLink: FC<ReferralLinkProps> = ({
+  link,
+  onCopy,
+  onQrCodeClick,
+}) => {
   return (
     <div className={styles.referralLink}>
       <div className={styles.label}>Пригласительная ссылка</div>
       <div className={styles.linkContainer}>
-        <span className={styles.link}>{link}</span>
+        <span className={styles.link} onClick={onCopy}>
+          {link}
+        </span>
         <div className={styles.actions}>
           <Button onClick={onCopy} type="icon">
             <Icon src={copyIcn} className={styles.icn} />
           </Button>
           <div className={styles.separator}></div>
-          <Button type="icon">
+          <Button type="icon" onClick={onQrCodeClick}>
             <Icon src={qrCodeIcn} className={styles.icn} />
           </Button>
         </div>
