@@ -37,7 +37,6 @@ export const TransactionBlock: FC<TransactionHistoryProps> = ({
   }
 
   const groupedTransactions = groupTransactionsByDate(data || [])
-  console.log("TransactionBlock data", groupedTransactions)
 
   return (
     <div className={styles.content}>
