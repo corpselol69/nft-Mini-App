@@ -1,28 +1,14 @@
-import { forwardRef, InputHTMLAttributes, useEffect, useRef } from "react"
+import { forwardRef, useEffect, useImperativeHandle, useRef } from "react"
 import clsx from "classnames"
 
 import styles from "./Checkbox.module.scss"
+import { CheckboxProps } from "./Checkbox.d"
 
-type Props = {
-  indeterminate?: boolean
-  label?: React.ReactNode
-  className?: string
-} & InputHTMLAttributes<HTMLInputElement>
-
-export const Checkbox = forwardRef<HTMLInputElement, Props>(
-  ({ indeterminate = false, label, className, ...rest }, ref) => {
+export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
+  ({ indeterminate = false, label, className, ...rest }, forwardedRef) => {
     const internalRef = useRef<HTMLInputElement>(null)
 
-    useEffect(() => {
-      if (ref) {
-        if (typeof ref === "function") {
-          ref(internalRef.current)
-        } else {
-          ;(ref as React.MutableRefObject<HTMLInputElement | null>).current =
-            internalRef.current
-        }
-      }
-    }, [ref])
+    useImperativeHandle(forwardedRef, () => internalRef.current!, [])
 
     useEffect(() => {
       if (internalRef.current) {

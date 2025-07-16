@@ -14,32 +14,34 @@
     width: 24px;
     height: 24px;
     border-radius: 4px;
-    background: transparent;
     position: relative;
-    transition: border-color 0.2s, background 0.2s;
-    border: 2px solid $bg-modal;
-
     display: inline-block;
-    vertical-align: middle;
     box-sizing: border-box;
+    vertical-align: middle;
+
+    background: transparent;
+    border: 2px solid $bg-modal;
+    transition: border-color 0.2s, background 0.2s;
 
     &::after {
       content: "";
-      display: none;
+
       position: absolute;
       left: 50%;
       top: 50%;
+      transform: translate(-50%, -50%);
       width: 25px;
       height: 25px;
       background: url("@/static/icons/icn_m_check_small.svg") center/contain
         no-repeat;
-      transform: translate(-50%, -50%);
+      display: none;
     }
   }
 
   input[type="checkbox"]:checked + .checkboxCustom {
     background: $colors-accent;
     border: none;
+
     &::after {
       display: block;
     }
@@ -48,12 +50,10 @@
   .checkboxCustom.indeterminate {
     background: $colors-accent;
     border: none;
-    border-radius: 4px;
 
     &::after {
       display: block;
-      background: url("../../static/icons/icn_minus_check_small.svg")
-        center/contain no-repeat;
+      background: url("@/static/icons/icn_minus.svg") center/contain no-repeat;
       width: 20px;
       height: 20px;
     }
