@@ -147,7 +147,7 @@ export const BalanceTopUpBottomSheet: FC<Props> = ({
             <span className={styles.balanceInfoRowValueBlue}>
               {missingAmount}
             </span>
-            <Icon src={tonSrc} pathColor="#278FFF" />
+            <Icon src={tonSrc} className={styles.tonIcn} />
           </div>
         </div>
       </div>
