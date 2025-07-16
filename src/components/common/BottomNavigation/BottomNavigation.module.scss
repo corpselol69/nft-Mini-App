@@ -39,14 +39,6 @@
 }
 
 .avatar {
-  display: flex;
-  width: 24px;
-  height: 24px;
-  padding: 2px;
-  align-items: center;
-  border-radius: 999px;
-  background: $bg-glass;
-
   &.active {
     border: 1px solid $colors-accent;
   }
