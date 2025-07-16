@@ -22,6 +22,7 @@ import { t } from "i18next"
 import { Button } from "@/components/common/Button/Button"
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import { addToCart, removeItem } from "@/slices/cartSlice"
+import formatAmount from "@/helpers/formatAmount"
 
 // Пример данных для карточек
 const mockNfts: {
@@ -54,6 +55,8 @@ export const StickersPage: FC<IStickersPageProps> = () => {
 
   const cartItems = useAppSelector(state => state.cart.items)
   const isInCart = (id: string) => cartItems.some(item => item.id === id)
+
+  const balance = useAppSelector(state => state.finance.balance)
 
   const onCardClick = (cardId: string) => {
     navigate(`${cardId}`)
@@ -117,20 +120,23 @@ export const StickersPage: FC<IStickersPageProps> = () => {
     price: number
     url: string
   }) => {
-    openSheet(<BuyNftBottomSheet {...nft} availableBalance={95} />, {
-      bottomSheetTitle: `${t("buy_nft")}`,
-      buttons: (
-        <ModalButtonsWrapper
-          variant={isMarket ? "buy" : "remove from sale"}
-          price={nft.price}
-          balance={100}
-          isInCart={isInCart(nft.id)}
-          onMainClick={handleBuy}
-          onSecondaryClick={handleViewCart}
-          onCartClick={() => handleToggleCart(nft)}
-        />
-      ),
-    })
+    openSheet(
+      <BuyNftBottomSheet {...nft} availableBalance={formatAmount(balance)} />,
+      {
+        bottomSheetTitle: `${t("buy_nft")}`,
+        buttons: (
+          <ModalButtonsWrapper
+            variant={isMarket ? "buy" : "remove from sale"}
+            price={nft.price}
+            balance={formatAmount(balance)}
+            isInCart={isInCart(nft.id)}
+            onMainClick={handleBuy}
+            onSecondaryClick={handleViewCart}
+            onCartClick={() => handleToggleCart(nft)}
+          />
+        ),
+      }
+    )
   }
 
   return (

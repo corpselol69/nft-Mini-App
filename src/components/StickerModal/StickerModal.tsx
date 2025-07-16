@@ -19,6 +19,7 @@ import { AvailableBalance } from "../common/AvailableBalance/AvailableBalance"
 import { t } from "i18next"
 import { removeItem, addToCart } from "@/slices/cartSlice"
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
+import formatAmount from "@/helpers/formatAmount"
 
 // Пример данных для карточек
 const mockNft = {
@@ -39,9 +40,11 @@ export const StickerModal: FC = () => {
   const { id } = useParams<{ id: string }>()
 
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
-  const cartItems = useAppSelector(state => state.cart.items)
 
+  const cartItems = useAppSelector(state => state.cart.items)
   const isInCart = cartItems.some(item => item.id === id)
+
+  const balance = useAppSelector(state => state.finance.balance)
 
   const [isClosing, setIsClosing] = useState(false)
 
@@ -140,7 +143,7 @@ export const StickerModal: FC = () => {
         <ModalButtonsWrapper
           variant={isMarket ? "buy" : "remove from sale"}
           price={90}
-          balance={100}
+          balance={formatAmount(balance)}
           isInCart={isInCart}
           onMainClick={isMarket ? handleBuy : handleWithdraw}
           onSecondaryClick={
@@ -162,7 +165,7 @@ export const StickerModal: FC = () => {
 
       <DetailsTable rows={rows} />
 
-      <AvailableBalance balance={100} />
+      <AvailableBalance balance={formatAmount(balance)} />
     </BottomSheet>
   )
 }

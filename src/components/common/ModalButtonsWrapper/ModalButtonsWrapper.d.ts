@@ -3,7 +3,7 @@ import React from "react"
 export interface ModalButtonsWrapperProps {
   variant?: "buy" | "sale" | "remove from sale"
   price: number
-  balance: number
+  balance: string
   isInCart?: boolean
 
   onMainClick?: () => void

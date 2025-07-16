@@ -8,7 +8,7 @@ type Props = {
   title: string
   id: string
   price: number
-  availableBalance: number
+  availableBalance: string
 }
 
 export const BuyNftBottomSheet: FC<Props> = ({

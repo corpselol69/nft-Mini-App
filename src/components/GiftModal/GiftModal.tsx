@@ -25,6 +25,7 @@ import { ConfirmBuyNftBottomSheet } from "../Modals/ConfirmBuyNftBottomSheet/Con
 import { AvailableBalance } from "../common/AvailableBalance/AvailableBalance"
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import { removeItem, addToCart } from "@/slices/cartSlice"
+import formatAmount from "@/helpers/formatAmount"
 
 const gift = {
   id: "gift1",
@@ -47,9 +48,11 @@ export const GiftModal: FC = () => {
   const { id } = useParams<{ id: string }>()
 
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
-  const cartItems = useAppSelector(state => state.cart.items)
 
+  const cartItems = useAppSelector(state => state.cart.items)
   const isInCart = cartItems.some(item => item.id === id)
+
+  const balance = useAppSelector(state => state.finance.balance)
 
   const [isClosing, setIsClosing] = useState(false)
 
@@ -180,7 +183,7 @@ export const GiftModal: FC = () => {
         <ModalButtonsWrapper
           variant={isMarket ? "buy" : "remove from sale"}
           price={90}
-          balance={100}
+          balance={formatAmount(balance)}
           isInCart={isInCart}
           onMainClick={isMarket ? handleBuy : handleWithdraw}
           onSecondaryClick={
@@ -209,7 +212,7 @@ export const GiftModal: FC = () => {
 
       <DetailsTable rows={rows} />
 
-      <AvailableBalance balance={100} />
+      <AvailableBalance balance={formatAmount(balance)} />
     </BottomSheet>
   )
 }

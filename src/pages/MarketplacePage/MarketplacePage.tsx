@@ -10,12 +10,15 @@ import Icon from "@/components/common/Icon/Icon"
 import tonIcon from "@/static/icons/icn-S_ton.svg"
 import shoppingCart from "@/static/icons/shopping_cart.svg"
 import { useAppSelector } from "@/hooks/useRedux"
+import formatAmount from "@/helpers/formatAmount"
 
 export const MarketplacePage: FC = () => {
   const navigate = useNavigate()
 
   const cartItems = useAppSelector(state => state.cart.items)
   const cartCount = cartItems.length
+
+  const balance = useAppSelector(state => state.finance.balance)
 
   return (
     <div className={styles.root}>
@@ -28,7 +31,7 @@ export const MarketplacePage: FC = () => {
             onClick={() => navigate("/profile")}
           >
             <div className={styles.button_content}>
-              95.4
+              {formatAmount(balance)}
               <Icon src={tonIcon} color="active" />
             </div>
           </Button>

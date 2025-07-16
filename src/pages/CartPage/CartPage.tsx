@@ -19,10 +19,12 @@ import {
   restoreItem,
 } from "@/slices/cartSlice"
 import { store } from "@/store"
+import formatAmount from "@/helpers/formatAmount"
 
 export const CartPage: FC = () => {
   const dispatch = useAppDispatch()
   const items = useAppSelector(state => state.cart.items)
+  const balance = useAppSelector(state => state.finance.balance)
 
   const totalCount = items.length
   const totalValue = items
@@ -88,7 +90,7 @@ export const CartPage: FC = () => {
   return (
     <Page back={true}>
       <div className={styles.pageWrapper}>
-        <CartHeader totalCount={totalCount} totalValue={totalValue} />
+        <CartHeader totalCount={totalCount} balance={formatAmount(balance)} />
         <div className={styles.contentWrapper}>
           <div className={styles.contentHeader}>
             <CartSelectAll items={items} onSelectAll={setAllSelected} />
@@ -114,7 +116,7 @@ export const CartPage: FC = () => {
               Доступный баланс
             </span>
             <div className={styles.availableBalanceValue}>
-              <span>95,4</span>
+              <span>{formatAmount(balance)}</span>
               <Icon src={tonIcon} className={styles.iconTonBalance} />
             </div>
           </div>
