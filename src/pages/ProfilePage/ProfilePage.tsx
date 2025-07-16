@@ -175,7 +175,7 @@ export const ProfilePage: FC = () => {
       messages: [
         {
           address: data.address,
-          amount: value,
+          amount: data.amount,
           payload: data.payload || "",
         },
       ],
