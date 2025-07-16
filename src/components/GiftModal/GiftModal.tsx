@@ -9,7 +9,7 @@ import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvi
 
 import bdayImg from "@/static/placeholders/bday.png"
 
-import { GiftImageWithText } from "@/pages/GiftPage/ui/GiftImageWithText/GiftImageWithText"
+import { GiftImageWithText } from "./GiftImageWithText/GiftImageWithText"
 import { t } from "i18next"
 import Icon from "../common/Icon/Icon"
 import telegramIcon from "@/static/icons/telegramIcon.svg"
