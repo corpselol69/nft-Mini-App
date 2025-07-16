@@ -14,8 +14,6 @@ export function CartSelectAll({
     inStockItems.length > 0 && inStockItems.every(i => i.selected)
   const someSelected = items.some(i => i.selected)
 
-  console.log(!!allSelected)
-
   return (
     <div className={styles.contentHeader}>
       <Checkbox
