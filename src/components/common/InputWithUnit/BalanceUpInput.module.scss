@@ -19,7 +19,9 @@
   border: none;
   outline: none;
   @include typography.amount-main-sf;
-  width: 100px;
+
+  width: 50%;
+
   text-align: right;
   padding: 0 5px 0 0;
   caret-color: $typography-white;
@@ -27,6 +29,7 @@
 }
 
 .unit {
+  width: 50%;
   color: $typography-secondary;
   @include typography.amount-sub-sf;
 }
