@@ -8,21 +8,14 @@ import { EnvUnsupported } from "@/components/EnvUnsupported.tsx"
 import { init } from "@/init.ts"
 import { initI18n } from "@/i18n"
 
-import {
-  initDataAuthDate,
-  initDataHash,
-  initDataUser,
-  retrieveLaunchParams,
-  retrieveRawInitData,
-  retrieveRawLaunchParams,
-} from "@telegram-apps/sdk"
+import { retrieveLaunchParams } from "@telegram-apps/sdk"
 
 import "./mockEnv.ts"
 
 try {
   const launchParams = retrieveLaunchParams()
-  const initDataRaw = retrieveRawInitData()
-  const webapp = retrieveRawLaunchParams()
+  // const initDataRaw = retrieveRawInitData()
+  // const webapp = retrieveRawLaunchParams()
 
   const { tgWebAppPlatform: platform } = launchParams
 
@@ -40,12 +33,12 @@ try {
     initI18n(), // ждём локализацию
   ])
 
-  console.log("initDataQueryId", initDataRaw)
-  console.log("launchParams", launchParams)
-  console.log("webapp", webapp)
-  console.log("initDataHash", initDataHash())
-  console.log("initDataUser", initDataUser())
-  console.log("initDataAuth", initDataAuthDate()?.getTime())
+  // console.log("initDataQueryId", initDataRaw)
+  // console.log("launchParams", launchParams)
+  // console.log("webapp", webapp)
+  // console.log("initDataHash", initDataHash())
+  // console.log("initDataUser", initDataUser())
+  // console.log("initDataAuth", initDataAuthDate()?.getTime())
 
   const root = ReactDOM.createRoot(document.getElementById("root")!)
 
