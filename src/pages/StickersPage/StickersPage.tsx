@@ -23,6 +23,7 @@ import { Button } from "@/components/common/Button/Button"
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import { addToCart, removeItem } from "@/slices/cartSlice"
 import formatAmount from "@/helpers/formatAmount"
+import { BalanceTopUpBottomSheet } from "@/components/Modals/BalanceTopUpBottomSheet"
 
 // Пример данных для карточек
 const mockNfts: {
@@ -63,8 +64,25 @@ export const StickersPage: FC<IStickersPageProps> = () => {
   }
   const [value, setValue] = useState("")
 
-  const handleBuy = useCallback(async () => {
-    try {
+  const handleBuy = (nft: {
+    id: string
+    title: string
+    price: number
+    url: string
+  }) => {
+    const isBalanceEnough = Number(balance) >= nft.price
+    if (!isBalanceEnough) {
+      openSheet(
+        <BalanceTopUpBottomSheet
+          onClose={closeAll}
+          purchasePrice={nft.price}
+          availableBalance={formatAmount(balance)}
+        />,
+        {
+          bottomSheetTitle: `${t("top_up_balance")}`,
+        }
+      )
+    } else {
       openSheet(
         <SuccessBuyNftBottomSheet
           title={"NFT успешно куплен"}
@@ -79,10 +97,8 @@ export const StickersPage: FC<IStickersPageProps> = () => {
           bottomSheetTitle: `${t("buy_nft")}`,
         }
       )
-    } catch (e) {
-      console.error(e)
     }
-  }, [])
+  }
 
   const handleToggleCart = (nft: {
     id: string
@@ -130,7 +146,7 @@ export const StickersPage: FC<IStickersPageProps> = () => {
             price={nft.price}
             balance={formatAmount(balance)}
             isInCart={isInCart(nft.id)}
-            onMainClick={handleBuy}
+            onMainClick={() => handleBuy(nft)}
             onSecondaryClick={handleViewCart}
             onCartClick={() => handleToggleCart(nft)}
           />

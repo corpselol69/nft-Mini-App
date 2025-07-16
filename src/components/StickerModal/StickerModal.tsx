@@ -20,6 +20,7 @@ import { t } from "i18next"
 import { removeItem, addToCart } from "@/slices/cartSlice"
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import formatAmount from "@/helpers/formatAmount"
+import { BalanceTopUpBottomSheet } from "../Modals/BalanceTopUpBottomSheet"
 
 // Пример данных для карточек
 const mockNft = {
@@ -57,19 +58,33 @@ export const StickerModal: FC = () => {
 
   const handleBuy = () => {
     setIsClosing(true)
-    openSheet(
-      <ConfirmBuyNftBottomSheet
-        nftPrice={mockNft.price}
-        onBuy={async () => {
-          closeAll()
-        }}
-        onCancel={closeAll}
-        quantity="1"
-      />,
-      {
-        bottomSheetTitle: `${t("buy_nft")}`,
-      }
-    )
+    const isBalanceEnough = Number(balance) >= mockNft.price
+    if (!isBalanceEnough) {
+      openSheet(
+        <BalanceTopUpBottomSheet
+          onClose={closeAll}
+          purchasePrice={mockNft.price}
+          availableBalance={formatAmount(balance)}
+        />,
+        {
+          bottomSheetTitle: `${t("top_up_balance")}`,
+        }
+      )
+    } else {
+      openSheet(
+        <ConfirmBuyNftBottomSheet
+          nftPrice={mockNft.price}
+          onBuy={async () => {
+            closeAll()
+          }}
+          onCancel={closeAll}
+          quantity="1"
+        />,
+        {
+          bottomSheetTitle: `${t("buy_nft")}`,
+        }
+      )
+    }
   }
 
   const handleToggleCart = (nft: {
