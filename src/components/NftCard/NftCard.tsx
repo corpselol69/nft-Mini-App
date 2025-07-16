@@ -55,19 +55,11 @@ export const NftCard: React.FC<NftCardProps> = ({
               </Button>
             </>
           ) : status === "sell" ? (
-            <Button
-              type="card-price"
-              style={{ flex: 1 }}
-              onClick={onMainAction}
-            >
+            <Button type="card-price" style={{ flex: 1 }} onClick={onClick}>
               {t("buttons.sell")}
             </Button>
           ) : status === "on sale" ? (
-            <Button
-              type="card-price"
-              style={{ flex: 1 }}
-              onClick={onMainAction}
-            >
+            <Button type="card-price" style={{ flex: 1 }} onClick={onClick}>
               <div className={styles.onSale}>
                 {t("for_sale")}
                 <div className={styles.price}>
