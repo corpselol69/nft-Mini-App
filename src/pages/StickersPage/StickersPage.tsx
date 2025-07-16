@@ -7,7 +7,7 @@ import { Select } from "@/components/common/Select/Select"
 import { Input } from "@/components/common/Input/Input"
 import { SELECT_DATA } from "@/constants/stickerFilter"
 import searchIcon from "@/static/icons/searchIcon.svg"
-import { NftGrid } from "@/components/NftGrid/NftGrid"
+import { NftGrid } from "@/components/common/NftGrid/NftGrid"
 import monkey from "@/static/placeholders/monkey.png"
 
 import Icon from "@/components/common/Icon/Icon"

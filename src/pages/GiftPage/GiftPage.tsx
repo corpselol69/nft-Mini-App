@@ -10,7 +10,7 @@ import { SELECT_DATA } from "@/constants/stickerFilter"
 
 import Icon from "@/components/common/Icon/Icon"
 import { Outlet, useNavigate, useOutletContext } from "react-router-dom"
-import { NftGrid } from "@/components/NftGrid/NftGrid"
+import { NftGrid } from "@/components/common/NftGrid/NftGrid"
 import bdayImg from "@/static/placeholders/bday.png"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { IGiftPageProps } from "./GiftPage.d"

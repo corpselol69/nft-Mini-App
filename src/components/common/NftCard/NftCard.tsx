@@ -5,7 +5,7 @@ import removeIcon from "@/static/icons/icn-red-cart.svg"
 
 import styles from "./NftCard.module.scss"
 import { Button } from "@/components/common/Button/Button"
-import Icon from "../common/Icon/Icon"
+import Icon from "../Icon/Icon"
 import { t } from "i18next"
 
 import { NftCardProps } from "./NftCard.d"
