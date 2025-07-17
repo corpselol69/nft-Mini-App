@@ -1,4 +1,4 @@
-import { FC, InputHTMLAttributes, useId, useRef } from "react"
+import { FC, InputHTMLAttributes, useEffect, useId, useRef } from "react"
 import classnames from "classnames"
 import styles from "./BalanceUpInput.module.scss"
 
@@ -22,6 +22,16 @@ export const BalanceUpInput: FC<Props> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value)
   }
+
+  useEffect(() => {
+    const input = inputRef.current
+    if (input) {
+      input.focus()
+
+      const event = new Event("touchstart", { bubbles: true })
+      input.dispatchEvent(event)
+    }
+  }, [])
 
   return (
     <div className={styles.wrapper}>
