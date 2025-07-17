@@ -2,18 +2,35 @@ import {
   Children,
   cloneElement,
   isValidElement,
-  ReactNode,
   useEffect,
   useRef,
   useState,
 } from "react"
+import type { ReactElement } from "react"
+
 import { NavLink, useLocation } from "react-router-dom"
-import type { TabProps } from "./Tabs.d"
+import type { TabProps, TabsProps } from "./Tabs.d"
 import cs from "classnames"
 
 import styles from "./Tabs.module.scss"
 
-export function Tab({ to, children }: TabProps) {
+export function Tab({
+  to = "",
+  children,
+  type = "nav",
+  selected,
+  onClick,
+}: TabProps) {
+  if (type === "select") {
+    return (
+      <div
+        className={cs(styles.tab, selected && styles.active)}
+        onClick={onClick}
+      >
+        {children}
+      </div>
+    )
+  }
   return (
     <NavLink
       to={to}
@@ -24,10 +41,15 @@ export function Tab({ to, children }: TabProps) {
   )
 }
 
-export function Tabs({ children }: { children: ReactNode }) {
+export function Tabs({
+  type = "nav",
+  children,
+  selected,
+  onSelect,
+}: TabsProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [indicatorStyle, setIndicatorStyle] = useState({})
-  const location = useLocation()
+  const location = type === "nav" ? useLocation() : undefined
 
   useEffect(() => {
     const container = containerRef.current
@@ -40,13 +62,29 @@ export function Tabs({ children }: { children: ReactNode }) {
         transform: `translateX(${active.offsetLeft}px)`,
       })
     }
-  }, [location.pathname, children])
+  }, [type === "nav" ? location?.pathname : selected, , children])
   return (
-    <div className={styles.tabs} ref={containerRef}>
+    <div
+      className={cs(styles.tabs, type === "select" && styles.select)}
+      ref={containerRef}
+    >
       <span className={styles.indicator} style={indicatorStyle} />
-      {Children.map(children, child =>
-        isValidElement(child) ? cloneElement(child) : child
-      )}
+      {Children.map(children, child => {
+        if (!isValidElement(child)) return child
+
+        const key = child.props.to
+
+        const extraProps =
+          type === "select"
+            ? {
+                type,
+                selected: key === selected,
+                onClick: () => onSelect?.(key),
+              }
+            : { type }
+
+        return cloneElement(child as ReactElement<TabProps>, extraProps)
+      })}
     </div>
   )
 }

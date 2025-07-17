@@ -13,6 +13,10 @@
   margin-bottom: 8px;
 
   @include typography.button-m-rt;
+
+  &.select {
+    background: $bg-base-component;
+  }
 }
 
 .tab {
