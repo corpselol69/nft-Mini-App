@@ -12,9 +12,9 @@ type Props = {
   list: string[]
 }
 
-export const AddNftsBottomSheet: FC<Props> = ({ list }) => {
+export const AddNftsBottomSheet: FC<Props> = () => {
   const [selected, setSelected] = useState("stickers")
-  const [value, setValue] = useState("")
+  // const [value, setValue] = useState("")
 
   return (
     <div className={styles.container}>
