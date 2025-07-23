@@ -19,6 +19,7 @@
   "all": "Все",
   "not_for_sale": "Не в продаже",
   "for_sale": "На продаже",
+  "adding_nfts": "Добавление NFT",
   "buttons": {
     "cancel": "Отмена",
     "confirm": "Подтвердить",
