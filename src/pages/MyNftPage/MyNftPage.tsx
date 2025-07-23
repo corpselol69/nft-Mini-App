@@ -16,7 +16,7 @@ export const MyNftPage: FC = () => {
       bottomSheetTitle: t("adding_nfts"),
       buttons: (
         <div className={styles.actionButtonsWrapper}>
-          <Button type="secondary" size="large">
+          <Button type="secondary" size="large" onClick={closeAll}>
             Отменить
           </Button>
           <Button size="large">Выбрать</Button>
