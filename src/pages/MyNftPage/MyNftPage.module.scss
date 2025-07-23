@@ -17,3 +17,10 @@
     @include typography.title-l-sf;
   }
 }
+
+.actionButtonsWrapper {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+  margin-top: 24px;
+}

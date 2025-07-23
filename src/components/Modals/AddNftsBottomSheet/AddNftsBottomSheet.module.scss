@@ -1,0 +1,12 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input {
+  background: $bg-base-component !important;
+}
