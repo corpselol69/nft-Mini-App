@@ -1,15 +1,7 @@
 // components/common/DetailsTable/DetailsTable.tsx
-import React, { ReactNode } from "react"
+import React from "react"
 import styles from "./DetailsTable.module.scss"
-
-type DetailRow = {
-  label: string
-  value: ReactNode
-}
-
-type DetailsTableProps = {
-  rows: DetailRow[]
-}
+import { DetailsTableProps } from "./DetailsTable.d"
 
 export const DetailsTable: React.FC<DetailsTableProps> = ({ rows }) => {
   return (

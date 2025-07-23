@@ -1,12 +1,9 @@
-import React, { ReactNode } from "react"
+import React from "react"
 import styles from "./PriceTooltip.module.scss"
 import { Tooltip } from "@/components/common/Tooltip/Tooltip"
 import questionMarkIcon from "@/static/icons/question_mark.svg"
 import Icon from "../Icon/Icon"
-
-type PriceTooltipProps = {
-  price: ReactNode
-}
+import { PriceTooltipProps } from "./PriceTooltip.d"
 
 export const PriceTooltip: React.FC<PriceTooltipProps> = ({ price }) => (
   <Tooltip

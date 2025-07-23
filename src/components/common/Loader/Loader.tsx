@@ -1,9 +1,6 @@
 import { LoadingOutlined } from "@ant-design/icons"
 import { Spin } from "antd"
-
-interface LoaderProps {
-  size?: "small" | "default" | "large"
-}
+import { LoaderProps } from "./Loader.d"
 
 export const Loader = ({ size = "default" }: LoaderProps) => {
   return <Spin indicator={<LoadingOutlined spin />} size={size} />

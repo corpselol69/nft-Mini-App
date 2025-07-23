@@ -1,15 +1,9 @@
-import { FC, InputHTMLAttributes, useEffect, useId, useRef } from "react"
+import { FC, useEffect, useId, useRef } from "react"
 import classnames from "classnames"
 import styles from "./BalanceUpInput.module.scss"
+import { BalanceUpInputProps } from "./BalanceUpInput.d"
 
-type Props = {
-  unit?: string
-  className?: string
-  value?: string
-  onChange: (value: string) => void
-} & Omit<InputHTMLAttributes<HTMLInputElement>, "onChange" | "value">
-
-export const BalanceUpInput: FC<Props> = ({
+export const BalanceUpInput: FC<BalanceUpInputProps> = ({
   unit = "TON",
   className,
   value,
