@@ -40,6 +40,8 @@
 .arrow {
   display: flex;
   transition: transform 0.2s;
+  width: 16px;
+  height: 16px;
 }
 
 .arrowOpen {

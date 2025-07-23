@@ -2,8 +2,8 @@ import { FC, useEffect, useRef, useState } from "react"
 import { ISelectProps } from "./Select.d"
 import clsx from "classnames"
 import styles from "./Select.module.scss"
-import { ExpandIcon } from "./ExpandIcon"
 import unionIcon from "@/static/icons/union.svg"
+import expandIcon from "@/static/icons/expand_all.svg"
 import Icon from "../Icon/Icon"
 
 export const Select: FC<ISelectProps> = ({
@@ -61,9 +61,8 @@ export const Select: FC<ISelectProps> = ({
         >
           {selectedOption?.label || placeholder}
         </span>
-        <span className={clsx(styles.arrow)}>
-          <ExpandIcon />
-        </span>
+
+        <Icon src={expandIcon} className={clsx(styles.arrow)} />
       </div>
       {open && (
         <div className={styles.dropdown}>
