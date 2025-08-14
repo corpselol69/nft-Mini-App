@@ -1,7 +1,7 @@
 services:
   nft:
     build: .
-    image: registry.git.plus-link.ru/nft/nft:latest
+    image: registry.git.plus-link.ru/nft/frontend:latest
     container_name: nft
     networks:
       - main_network

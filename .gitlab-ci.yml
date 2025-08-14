@@ -26,6 +26,7 @@ build:
     - docker tag  "$IMAGE_SHA" "$IMAGE_LATEST"
     - docker push "$IMAGE_SHA"
     - docker push "$IMAGE_LATEST"
+    - echo "CI_REGISTRY_IMAGE=$CI_REGISTRY_IMAGE"
 
 # ─── DEPLOY ───────────────────────────────────────────────────────────
 deploy:
@@ -46,9 +47,10 @@ deploy:
         "$DEPLOY_USER@$DEPLOY_HOST" \
         "echo '$REGISTRY_PASS' | docker login registry.git.plus-link.ru \
          -u '$REGISTRY_USER' --password-stdin && \
+        docker pull registry.git.plus-link.ru/nft/frontend:latest && \
         cd ~/nft/front && \
         docker compose pull nft && \
-        docker compose up -d nft && \
+        docker compose up -d --no-build nft && \
         docker image prune -f --filter 'until=24h'"
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
