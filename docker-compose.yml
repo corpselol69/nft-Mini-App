@@ -1,0 +1,18 @@
+services:
+  nft:
+    build: .
+    image: registry.git.plus-link.ru/nft/nft:latest
+    container_name: nft
+    networks:
+      - main_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nft.rule=Host(`nft.plus-link.ru`)"
+      - "traefik.http.routers.nft.entrypoints=websecure"
+      - "traefik.http.routers.nft.tls.certresolver=myresolver"
+      - "traefik.http.services.nft.loadbalancer.server.port=3002"
+      - "traefik.http.middlewares.nft-compress.compress=true"
+      - "traefik.http.routers.nft.middlewares=nft-compress"
+networks:
+  main_network:
+    external: true
