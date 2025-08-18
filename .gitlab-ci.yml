@@ -1,0 +1,57 @@
+image: docker:25                        # здесь уже есть docker-cli
+
+services:
+  - name: docker:25-dind                # демон Docker
+    command: ["--host=tcp://0.0.0.0:2375", "--tls=false"]
+
+variables:
+  DOCKER_HOST: tcp://docker:2375        # dind без TLS
+  DOCKER_TLS_CERTDIR: ""
+  IMAGE_SHA:    "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+  IMAGE_LATEST: "$CI_REGISTRY_IMAGE:latest"
+
+before_script:
+  - docker info
+  - echo "$CI_JOB_TOKEN" | docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" --password-stdin
+
+stages: [build, deploy]
+
+# ─── BUILD ────────────────────────────────────────────────────────────
+build:
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  script:
+    - docker build -t "$IMAGE_SHA" .
+    - docker tag  "$IMAGE_SHA" "$IMAGE_LATEST"
+    - docker push "$IMAGE_SHA"
+    - docker push "$IMAGE_LATEST"
+    - echo "CI_REGISTRY_IMAGE=$CI_REGISTRY_IMAGE"
+
+# ─── DEPLOY ───────────────────────────────────────────────────────────
+deploy:
+  stage: deploy
+  needs: [build]                       # выполняем только если build ✔
+  environment:
+    name: production
+    url: https://nft.plus-link.ru
+  variables:
+    GIT_SSH_COMMAND: "ssh -i $SSH_KEY -p 225 -o StrictHostKeyChecking=no"
+  script:
+    - echo "$SSH_KEY_B64" | base64 -d > /tmp/ci_key
+    - chmod 600 /tmp/ci_key
+    - |
+      ssh -i /tmp/ci_key -p 225 \
+        -o StrictHostKeyChecking=no \
+        -o UserKnownHostsFile=/dev/null \
+        "$DEPLOY_USER@$DEPLOY_HOST" \
+        "echo '$REGISTRY_PASS' | docker login registry.git.plus-link.ru \
+         -u '$REGISTRY_USER' --password-stdin && \
+        docker pull registry.git.plus-link.ru/nft/frontend:latest && \
+        cd ~/nft/front && \
+        docker compose pull nft && \
+        docker compose up -d --no-build nft && \
+        docker image prune -f --filter 'until=24h'"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - when: on_success
