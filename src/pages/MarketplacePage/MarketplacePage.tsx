@@ -47,10 +47,10 @@ export const MarketplacePage: FC = () => {
           </Button>
         </div>
       </div>
-      <Tabs>
+      {/* <Tabs>
         <Tab to="/market/stickers">{t("stickers")}</Tab>
         <Tab to="/market/gifts">{t("gifts")}</Tab>
-      </Tabs>
+      </Tabs> */}
       <Outlet context={{ isMarket: true }} />
     </div>
   )

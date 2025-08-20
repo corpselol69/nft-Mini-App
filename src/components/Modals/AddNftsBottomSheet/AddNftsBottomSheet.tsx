@@ -19,10 +19,10 @@ export const AddNftsBottomSheet: FC<Props> = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <Tabs type="select" selected={selected} onSelect={setSelected}>
+        {/* <Tabs type="select" color='secondary' selected={selected} onSelect={setSelected}>
           <Tabs.Tab to="stickers">{t("stickers")}</Tabs.Tab>
           <Tabs.Tab to="gifts">{t("gifts")}</Tabs.Tab>
-        </Tabs>
+        </Tabs> */}
         <Input
           icon={<Icon src={searchIcon} />}
           placeholder="Поиск по названию или ID"

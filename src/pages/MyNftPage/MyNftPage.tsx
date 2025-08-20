@@ -30,10 +30,10 @@ export const MyNftPage: FC = () => {
         <p className={styles.title}>{t("my_nft")}</p>
         <Button onClick={handleSellNft}>{t("buttons.sell_nft")}</Button>
       </div>
-      <Tabs>
+      {/* <Tabs>
         <Tab to="/my-nft/stickers">{t("stickers")}</Tab>
         <Tab to="/my-nft/gifts">{t("gifts")}</Tab>
-      </Tabs>
+      </Tabs> */}
       <Outlet context={{ isMarket: false }} />
     </div>
   )
