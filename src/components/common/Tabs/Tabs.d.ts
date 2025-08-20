@@ -14,6 +14,7 @@ export interface TabProps {
 type TabsProps = {
   children: ReactNode
   type?: TabsType
+  color?: "primary" | "secondary"
   selected?: string
   onSelect?: (key: string) => void
 }

@@ -43,6 +43,7 @@ export function Tab({
 
 export function Tabs({
   type = "nav",
+  color = "primary",
   children,
   selected,
   onSelect,
@@ -64,10 +65,7 @@ export function Tabs({
     }
   }, [type === "nav" ? location?.pathname : selected, , children])
   return (
-    <div
-      className={cs(styles.tabs, type === "select" && styles.select)}
-      ref={containerRef}
-    >
+    <div className={cs(styles.tabs, styles[color])} ref={containerRef}>
       <span className={styles.indicator} style={indicatorStyle} />
       {Children.map(children, child => {
         if (!isValidElement(child)) return child
