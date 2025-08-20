@@ -19,7 +19,7 @@ export const router = createHashRouter([
         path: "market",
         element: <MarketplacePage />,
         children: [
-          { index: true, element: <Navigate to="stickers" replace /> },
+          { index: true, element: <Navigate to="gifts" replace /> },
           {
             path: "stickers",
             element: <StickersPage />,
@@ -27,7 +27,7 @@ export const router = createHashRouter([
           },
           { path: "gifts", element: <GiftsCollectionGrid /> },
           {
-            path: "gifts/:key",
+            path: "gifts/:model_id",
             element: <GiftPage />,
             children: [{ path: ":id", element: <GiftModal /> }],
           },
@@ -38,7 +38,7 @@ export const router = createHashRouter([
         path: "my-nft",
         element: <MyNftPage />,
         children: [
-          { index: true, element: <Navigate to="stickers" replace /> },
+          { index: true, element: <Navigate to="gifts" replace /> },
           {
             path: "stickers",
             element: <StickersPage />,
