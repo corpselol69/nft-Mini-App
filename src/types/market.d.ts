@@ -1,3 +1,5 @@
+import { Gift } from "./gift"
+
 export type AttrType = string
 
 export type MarketSort = price_asc | price_desc | newest
@@ -64,10 +66,8 @@ export interface MarketItemRead {
   price: string
   seller_id: string
   created_at: string
-  gift_id: string
-  model_title: string
-  rarity: 20
-  preview_emoji: string
+  state: string
+  gift: Gift
 }
 
 export interface Facets {
@@ -81,14 +81,15 @@ export interface Facets {
 
 export type NftListItem = {
   id: string
+  number?: string
   title: string
   price: number
   rarity?: number
-  previewEmoji?: string // есть только в маркете
-  // поля мои нфт
+  previewEmoji?: string
+  preview?: string
+  background: string
   locked?: boolean
   isTransferred?: boolean
   canTransferAt?: string
-
   source: "market" | "profile"
 }
