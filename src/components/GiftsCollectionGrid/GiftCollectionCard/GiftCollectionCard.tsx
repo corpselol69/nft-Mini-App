@@ -3,18 +3,19 @@ import styles from "./GiftCollectionCard.module.scss"
 import { Button } from "@/components/common/Button/Button"
 import tonIcon from "@/static/icons/icn-S_ton.svg"
 import snowImg from "@/static/placeholders/snow.png"
-import { IGiftCard } from "../types"
 import Icon from "@/components/common/Icon/Icon"
 import { NavLink } from "react-router-dom"
+import { MarketCollectionRead } from "@/types/market"
+import formatAmount from "@/helpers/formatAmount"
 
 type TProps = {
-  item: IGiftCard
+  item: MarketCollectionRead
   link: string
 }
 
-export const GiftCollectionCard: React.FC<TProps> = ({ item, link }) => {
+export const GiftCollectionCard: React.FC<TProps> = ({ item }) => {
   return (
-    <NavLink to={`${link}/gifts/${item.id}`} className={styles.root}>
+    <NavLink to={`/market/gifts/${item.model_id}`} className={styles.root}>
       <div
         className={styles.pic}
         style={{
@@ -24,11 +25,11 @@ export const GiftCollectionCard: React.FC<TProps> = ({ item, link }) => {
       />
       <div className={styles.content}>
         <div className={styles.textBlock}>
-          <div className={styles.title}>{item.name}</div>
+          <div className={styles.title}>{item.model_title}</div>
         </div>
         <div className={styles.actions}>
           <Button type="secondary">
-            от {item.price}
+            от {formatAmount(item.price_min)}
             <Icon src={tonIcon} color="active" style={{ width: "16px" }} />
           </Button>
         </div>
