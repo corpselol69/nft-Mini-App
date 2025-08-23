@@ -9,6 +9,8 @@ import Icon from "../Icon/Icon"
 import { t } from "i18next"
 
 import { NftCardProps } from "./NftCard.d"
+import SkeletonNode from "antd/es/skeleton/Node"
+import { NftPreview } from "../NftPreview/NftPreview"
 
 export const NftCard: React.FC<NftCardProps> = ({
   data,
@@ -18,19 +20,25 @@ export const NftCard: React.FC<NftCardProps> = ({
   onCartClick,
   isInCart,
 }) => {
-  const { title, id, price, url, status } = data
-
   return (
-    <div className={styles.root}>
-      <div
-        className={styles.pic}
-        style={{ backgroundImage: `url(${url})` }}
-        onClick={onClick}
-      />
+    <div className={styles.root} onClick={onClick}>
+      {!data.preview ? (
+        <SkeletonNode
+          active
+          className={styles.patternSvg}
+          style={{ width: "100%", height: 163, borderRadius: 12 }}
+        />
+      ) : (
+        <NftPreview
+          preview_url={data.preview}
+          background_url={data.background}
+        />
+      )}
+
       <div className={styles.content}>
         <div className={styles.textBlock}>
-          <div className={styles.title}>{title}</div>
-          <div className={styles.id}>#{id}</div>
+          <div className={styles.title}>{data.title}</div>
+          <div className={styles.id}>#{data.number}</div>
         </div>
         <div className={styles.actions}>
           {isMarket ? (
@@ -38,17 +46,25 @@ export const NftCard: React.FC<NftCardProps> = ({
               <Button
                 color="accent"
                 style={{ flex: 1 }}
-                onClick={onMainAction}
+                onClick={e => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onMainAction?.()
+                }}
                 className={
                   isInCart ? styles.priceButtonCompact : styles.priceButton
                 }
               >
-                {price}
+                {data.price}
                 <Icon src={tonIcon} className={styles.tonIcon} />
               </Button>
               <Button
                 type="secondary"
-                onClick={onCartClick}
+                onClick={e => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onCartClick?.()
+                }}
                 className={isInCart ? styles.cartButtonWide : styles.cartButton}
               >
                 <img src={isInCart ? removeIcon : addIcon} alt="Add to cart" />
@@ -63,7 +79,7 @@ export const NftCard: React.FC<NftCardProps> = ({
               <div className={styles.onSale}>
                 {t("for_sale")}
                 <div className={styles.price}>
-                  {price}
+                  {data.price}
                   <Icon src={tonIcon} className={styles.tonIcon} />
                 </div>
               </div>

@@ -10,17 +10,8 @@
   display: flex;
   flex-direction: column;
   padding: 8px;
+  gap: 8px;
   box-sizing: border-box;
-}
-
-.pic {
-  aspect-ratio: 163/163;
-  width: 100%;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  border-radius: 12px;
-  margin-bottom: 8px;
 }
 
 .content {
