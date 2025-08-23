@@ -30,6 +30,14 @@ export const listingsApi = api.injectEndpoints({
       }),
     }),
 
+    // GET /listings/gift/{giftId} — получить листинг
+    getListingByGiftId: builder.query<ListingRead, string>({
+      query: giftId => ({
+        url: `${endpoint}/gift/${giftId}`,
+        method: "GET",
+      }),
+    }),
+
     // PATCH /listings/{listing_id} — обновить (цену)
     updateListing: builder.mutation<
       ListingRead,
@@ -59,6 +67,8 @@ export const {
   useLazyGetMyListingsQuery,
   useGetListingByIdQuery,
   useLazyGetListingByIdQuery,
+  useGetListingByGiftIdQuery,
+  useLazyGetListingByGiftIdQuery,
   useUpdateListingMutation,
   useCancelListingMutation,
 } = listingsApi
