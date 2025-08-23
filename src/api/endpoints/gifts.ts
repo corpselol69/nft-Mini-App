@@ -1,13 +1,13 @@
 // src/api/gifts.ts
 import { api } from "@/api/api"
-import type { GiftRead, GiftWebhookIn } from "@/types/gift"
+import type { Gift } from "@/types/gift"
 
 const endpoint = "/gifts"
 
 export const giftsApi = api.injectEndpoints({
   endpoints: builder => ({
     // GET /gifts — мои подарки
-    getMyGifts: builder.query<GiftRead[], void>({
+    getMyGifts: builder.query<Gift[], void>({
       query: () => ({
         url: `${endpoint}/`,
         method: "GET",
@@ -15,28 +15,26 @@ export const giftsApi = api.injectEndpoints({
     }),
 
     // GET /gifts/{gift_id} — один подарок
-    getGiftById: builder.query<GiftRead, string>({
+    getGiftById: builder.query<Gift, string>({
       query: giftId => ({
         url: `${endpoint}/${giftId}`,
         method: "GET",
       }),
     }),
 
+    getGiftByIdPublic: builder.query<Gift, string>({
+      query: giftId => ({
+        url: `${endpoint}/public/${giftId}`,
+        method: "GET",
+      }),
+    }),
+
     // POST /gifts/{gift_id}/lock?lock=true|false — залочить/разлочить подарок
-    lockGift: builder.mutation<GiftRead, { giftId: string; lock?: boolean }>({
+    lockGift: builder.mutation<Gift, { giftId: string; lock?: boolean }>({
       query: ({ giftId, lock = true }) => ({
         url: `${endpoint}/${giftId}/lock`,
         method: "POST",
         params: { lock },
-      }),
-    }),
-
-    // POST /gifts/webhook — вебхук от телеги
-    giftsWebhook: builder.mutation<void, GiftWebhookIn>({
-      query: payload => ({
-        url: `${endpoint}/webhook`,
-        method: "POST",
-        data: payload,
       }),
     }),
   }),
@@ -47,6 +45,7 @@ export const {
   useLazyGetMyGiftsQuery,
   useGetGiftByIdQuery,
   useLazyGetGiftByIdQuery,
+  useGetGiftByIdPublicQuery,
+  useLazyGetGiftByIdPublicQuery,
   useLockGiftMutation,
-  useGiftsWebhookMutation,
 } = giftsApi
