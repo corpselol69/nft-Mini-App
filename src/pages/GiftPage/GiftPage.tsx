@@ -16,7 +16,7 @@ import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvi
 import { IGiftPageProps } from "./GiftPage.d"
 import { BuyNftBottomSheet } from "@/components/Modals/BuyNftBottomSheet/BuyNftBottomSheet"
 import { ModalButtonsWrapper } from "@/components/common/ModalButtonsWrapper/ModalButtonsWrapper"
-import { SuccessBuyNftBottomSheet } from "@/components/Modals/SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
+import { SuccessBottomSheet } from "@/components/Modals/SuccessBottomSheet/SuccessBottomSheet"
 import { t } from "i18next"
 import { Button } from "@/components/common/Button/Button"
 import { removeItem, addToCart } from "@/slices/cartSlice"
@@ -78,7 +78,7 @@ export const GiftPage: FC<IGiftPageProps> = () => {
       )
     } else {
       openSheet(
-        <SuccessBuyNftBottomSheet
+        <SuccessBottomSheet
           title={"NFT успешно куплен"}
           subTitle="Мы уже отправили NFT к вам в профиль"
           actionButtons={[

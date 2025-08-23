@@ -7,7 +7,7 @@ import styles from "./BalanceTopUpBottomSheet.module.scss"
 import { Button } from "@/components/common/Button/Button"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { LoadingTopUpBalanceBottomSheet } from "../LoadingTopUpBalanceBottomSheet/LoadingTopUpBalanceBottomSheet"
-import { SuccessBuyNftBottomSheet } from "../SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
+import { SuccessBottomSheet } from "../SuccessBottomSheet/SuccessBottomSheet"
 import { ErrorBottomSheet } from "../ErrorBottomSheet/ErrorBottomSheet"
 import { t } from "i18next"
 import { BalanceUpInput } from "@/components/common/InputWithUnit/BalanceUpInput"
@@ -43,7 +43,7 @@ export const BalanceTopUpBottomSheet: FC<Props> = ({
     try {
       await doTopUp()
       openSheet(
-        <SuccessBuyNftBottomSheet
+        <SuccessBottomSheet
           title={"NFT успешно куплен"}
           subTitle="Мы уже отправили NFT к вам в профиль"
           actionButtons={[

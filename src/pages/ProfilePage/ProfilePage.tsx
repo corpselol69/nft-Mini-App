@@ -20,7 +20,7 @@ import {
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { t } from "i18next"
 import { WithdrawBottomSheet } from "@/components/Modals/WithdrawBottomSheet/WithdrawBottomSheet"
-import { SuccessBuyNftBottomSheet } from "@/components/Modals/SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
+import { SuccessBottomSheet } from "@/components/Modals/SuccessBottomSheet/SuccessBottomSheet"
 import { TopUpBottomSheet } from "@/components/Modals/TopUpBottomSheet/TopUpBottomSheet"
 
 import { TransactionBlock } from "@/components/common/Transactions/TransactionsBlock/TransactionsBlock"
@@ -122,7 +122,7 @@ export const ProfilePage: FC = () => {
       await withdrawBalance(payload).unwrap()
 
       openSheet(
-        <SuccessBuyNftBottomSheet
+        <SuccessBottomSheet
           title={t("withdraw_success")}
           actionButtons={[
             <Button type="primary" size="large" onClick={closeAll}>

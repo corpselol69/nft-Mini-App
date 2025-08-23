@@ -4,7 +4,7 @@ import styles from "./ConfirmBuyNftBottomSheet.module.scss"
 
 import questionMarkImg from "@/static/icons/question_mark.svg"
 import { Button } from "@/components/common/Button/Button"
-import { SuccessBuyNftBottomSheet } from "../SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
+import { SuccessBottomSheet } from "../SuccessBottomSheet/SuccessBottomSheet"
 import Icon from "@/components/common/Icon/Icon"
 import { t } from "i18next"
 
@@ -27,7 +27,7 @@ export const ConfirmBuyNftBottomSheet: FC<Props> = ({
     try {
       await onBuy()
       openSheet(
-        <SuccessBuyNftBottomSheet
+        <SuccessBottomSheet
           title="NFT успешно куплен"
           subTitle="Мы уже отправили NFT к вам в профиль"
           actionButtons={[

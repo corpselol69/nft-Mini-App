@@ -17,7 +17,7 @@ import { useOutletContext } from "react-router-dom"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 import { BuyNftBottomSheet } from "@/components/Modals/BuyNftBottomSheet/BuyNftBottomSheet"
 import { ModalButtonsWrapper } from "@/components/common/ModalButtonsWrapper/ModalButtonsWrapper"
-import { SuccessBuyNftBottomSheet } from "@/components/Modals/SuccessBuyNftBottomSheet/SuccessBuyNftBottomSheet"
+import { SuccessBottomSheet } from "@/components/Modals/SuccessBottomSheet/SuccessBottomSheet"
 import { t } from "i18next"
 import { Button } from "@/components/common/Button/Button"
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
@@ -84,7 +84,7 @@ export const StickersPage: FC<IStickersPageProps> = () => {
       )
     } else {
       openSheet(
-        <SuccessBuyNftBottomSheet
+        <SuccessBottomSheet
           title={"NFT успешно куплен"}
           subTitle="Мы уже отправили NFT к вам в профиль"
           actionButtons={[

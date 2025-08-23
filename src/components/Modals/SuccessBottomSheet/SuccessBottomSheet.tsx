@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react"
-import styles from "./SuccessBuyNftBottomSheet.module.scss"
+import styles from "./SuccessBottomSheet.module.scss"
 
 import checkSmallImg from "@/static/icons/check_small.svg"
 
@@ -9,7 +9,7 @@ type Props = {
   actionButtons?: ReactNode[]
 }
 
-export const SuccessBuyNftBottomSheet: FC<Props> = ({
+export const SuccessBottomSheet: FC<Props> = ({
   subTitle,
   title,
   actionButtons,
