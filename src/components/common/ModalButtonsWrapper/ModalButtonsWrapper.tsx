@@ -79,7 +79,7 @@ export const ModalButtonsWrapper: React.FC<ModalButtonsWrapperProps> = ({
             type="secondary"
             size="large"
             className={styles.secondaryCartButton}
-            onClick={onSecondaryClick}
+            onClick={onMainClick}
           >
             {t("buttons.withdraw")}
           </Button>
@@ -88,7 +88,7 @@ export const ModalButtonsWrapper: React.FC<ModalButtonsWrapperProps> = ({
             type="primary"
             size="large"
             className={styles.mainCartButton}
-            onClick={onMainClick}
+            onClick={onSecondaryClick}
           >
             {t("buttons.put_on_sale")}
           </Button>
