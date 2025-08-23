@@ -26,7 +26,15 @@ import { removeItem, addToCart } from "@/slices/cartSlice"
 import formatAmount from "@/helpers/formatAmount"
 import { BalanceTopUpBottomSheet } from "@/components/Modals/BalanceTopUpBottomSheet"
 import { useGetGiftByIdPublicQuery } from "@/api/endpoints/gifts"
-import { useGetListingByGiftIdQuery } from "@/api/endpoints/listings"
+import {
+  useCancelListingMutation,
+  useCreateListingMutation,
+  useGetListingByGiftIdQuery,
+} from "@/api/endpoints/listings"
+import { SuccessBottomSheet } from "@/components/Modals/SuccessBottomSheet/SuccessBottomSheet"
+import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
+import { ListingCreate } from "@/types/listing"
+import { SellNftModal } from "@/components/Modals/SellNftModal/SellNftModal"
 
 export const GiftModal: FC = () => {
   const navigate = useNavigate()
@@ -43,6 +51,8 @@ export const GiftModal: FC = () => {
   const balance = useAppSelector(state => state.finance.balance)
 
   const { data: listingData } = useGetListingByGiftIdQuery(id!, { skip: !id })
+  const [createListing, { isLoading: isCreating }] = useCreateListingMutation()
+  const [cancelListing, { isLoading: isCanceling }] = useCancelListingMutation()
 
   const {
     data: giftData,
@@ -66,7 +76,7 @@ export const GiftModal: FC = () => {
       pattern_rarity: giftData?.pattern?.rarity ?? 0,
       variant_name: giftData?.variant?.name ?? "",
       variant_rarity: giftData?.variant?.rarity ?? 0,
-
+      preview: giftData?.preview_url ?? "",
       animation_url: giftData?.animation_url ?? "",
 
       model: giftData?.model?.title ?? "",
@@ -163,12 +173,58 @@ export const GiftModal: FC = () => {
     navigate("/cart")
   }
 
-  const handleWithdraw = () => {
+  const handleWithdraw = async () => {
+    // логика вывода стикера из прилы
+  }
+
+  const handleWithdrawFromSale = async () => {
+    const listingId = listingData?.id
+    if (!listingId) return
     // логика снятия с продажи
+
+    try {
+      await cancelListing(listingId).unwrap()
+      openSheet(
+        <SuccessBottomSheet
+          title={"NFT успешно снят с продажи"}
+          actionButtons={[
+            <Button type="primary" size="large">
+              Готово
+            </Button>,
+          ]}
+        />,
+        {
+          bottomSheetTitle: `${t("withdraw_nft", "Снятие с продажи")}`,
+        }
+      )
+    } catch (error) {
+      openSheet(
+        <ErrorBottomSheet
+          errorTitle={"Ошибка снятия с продажи"}
+          errorText={"Не удалось снять NFT с продажи. Попробуйте ещё раз."}
+        />,
+        {
+          bottomSheetTitle: "Снятие с продажи",
+        }
+      )
+      console.error("Ошибка при снятии с продажи", error)
+    }
   }
 
   const handlePutOnSale = () => {
     // логика выставления на продажу
+
+    const nft = {
+      id: gift.id,
+      title: gift.title,
+      price: gift.price || 0,
+      preview: gift.preview,
+      background: gift.background_url,
+      number: String(gift.number || ""),
+    }
+    openSheet(<SellNftModal nfts={Array(nft)} />, {
+      bottomSheetTitle: `${t("sell_nft", "Продажа NFT")}`,
+    })
   }
 
   const handleEditPrice = () => {
@@ -289,7 +345,13 @@ export const GiftModal: FC = () => {
           price={90}
           balance={formatAmount(balance)}
           isInCart={isInCart}
-          onMainClick={isMarket ? handleBuy : handleWithdraw}
+          onMainClick={
+            isMarket
+              ? handleBuy
+              : gift.locked
+              ? handleWithdrawFromSale
+              : handleWithdraw
+          }
           onSecondaryClick={
             isMarket && isInCart ? handleViewCart : handlePutOnSale
           }
