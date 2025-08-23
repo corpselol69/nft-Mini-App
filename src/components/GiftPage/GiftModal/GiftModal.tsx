@@ -1,17 +1,15 @@
 import { useMemo, useState, type FC } from "react"
 
-import { BottomSheet } from "../common/BottomSheet/BottomSheet"
+import { BottomSheet } from "@/components/common/BottomSheet/BottomSheet"
 
 import { Button } from "@/components/common/Button/Button"
 import { useNavigate, useOutletContext, useParams } from "react-router-dom"
 import { PriceTooltip } from "@/components/common/PriceTooltip/PriceTooltip"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 
-import bdayImg from "@/static/placeholders/bday.png"
-
 import { GiftImageWithText } from "./GiftImageWithText/GiftImageWithText"
 import { t } from "i18next"
-import Icon from "../common/Icon/Icon"
+import Icon from "@/components/common/Icon/Icon"
 import telegramIcon from "@/static/icons/telegramIcon.svg"
 import statusIcon from "@/static/icons/statusIcon.svg"
 import shareIcon from "@/static/icons/shareIcon.svg"
@@ -19,27 +17,16 @@ import { openTelegramLink, setEmojiStatus, shareURL } from "@telegram-apps/sdk"
 
 import styles from "./GiftModal.module.scss"
 import { Chip } from "@/components/common/Chip/Chip"
-import { DetailsTable } from "../common/DetailsTable/DetailsTable"
-import { ModalButtonsWrapper } from "../common/ModalButtonsWrapper/ModalButtonsWrapper"
-import { ConfirmBuyNftBottomSheet } from "../Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
-import { AvailableBalance } from "../common/AvailableBalance/AvailableBalance"
+import { DetailsTable } from "@/components/common/DetailsTable/DetailsTable"
+import { ModalButtonsWrapper } from "@/components/common/ModalButtonsWrapper/ModalButtonsWrapper"
+import { ConfirmBuyNftBottomSheet } from "@/components/Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
+import { AvailableBalance } from "@/components/common/AvailableBalance/AvailableBalance"
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import { removeItem, addToCart } from "@/slices/cartSlice"
 import formatAmount from "@/helpers/formatAmount"
-import { BalanceTopUpBottomSheet } from "../Modals/BalanceTopUpBottomSheet"
-
-const gift = {
-  id: "gift1",
-  title: "Bored Monkey",
-  url: "/assets/gifts/monkey.png",
-  price: 150,
-  model: "2024A",
-  symbol: "Royal Crown",
-  background: "#ffe480",
-  lowestPrice: "120",
-  sellPrice: "160",
-  status: "on sale", // или "sold out"
-}
+import { BalanceTopUpBottomSheet } from "@/components/Modals/BalanceTopUpBottomSheet"
+import { useGetGiftByIdPublicQuery } from "@/api/endpoints/gifts"
+import { useGetListingByGiftIdQuery } from "@/api/endpoints/listings"
 
 export const GiftModal: FC = () => {
   const navigate = useNavigate()
@@ -55,41 +42,75 @@ export const GiftModal: FC = () => {
 
   const balance = useAppSelector(state => state.finance.balance)
 
+  const { data: listingData } = useGetListingByGiftIdQuery(id!, { skip: !id })
+
+  const {
+    data: giftData,
+    isLoading,
+    isError,
+  } = useGetGiftByIdPublicQuery(id!, { skip: !id })
+
+  const gift = useMemo(() => {
+    return {
+      id: giftData?.id ?? id ?? "",
+      title: giftData?.model?.title ?? "",
+      tg_name: giftData?.model?.name ?? "",
+      url: giftData?.background_url ?? "",
+      price: giftData?.price ?? 0,
+      tg_gift_id: giftData?.tg_gift_id ?? "",
+      number: giftData?.number ?? null,
+      background_name: giftData?.background?.name ?? "",
+      background_rarity: giftData?.background?.rarity ?? 0,
+      background_url: giftData?.background_url ?? "",
+      pattern_name: giftData?.pattern?.name ?? "",
+      pattern_rarity: giftData?.pattern?.rarity ?? 0,
+      variant_name: giftData?.variant?.name ?? "",
+      variant_rarity: giftData?.variant?.rarity ?? 0,
+
+      animation_url: giftData?.animation_url ?? "",
+
+      model: giftData?.model?.title ?? "",
+      locked: giftData?.locked ?? false,
+    }
+  }, [isMarket, giftData, id])
+  console.log(listingData)
   const [isClosing, setIsClosing] = useState(false)
 
   const priceContent = useMemo(
     () => (
       <span className={styles.priceRow}>
-        <span>{gift.price} TON</span>
-        {isMarket && <PriceTooltip price={gift.price} />}
+        <span>{formatAmount(listingData?.price || "")} TON</span>
+        {isMarket && (
+          <PriceTooltip price={formatAmount(listingData?.price || "")} />
+        )}
       </span>
     ),
-    [gift.price]
+    [listingData]
   )
 
   const showEmodjiStatus = async () => {
-    openTelegramLink.ifAvailable("https://t.me/nft/HypnoLollipop-18289") //сюда айди эмоджи
+    openTelegramLink.ifAvailable(`https://t.me/nft/${gift.tg_name}`)
   }
 
   const setEmodjiStatus = async () => {
     if (setEmojiStatus.isAvailable()) {
-      await setEmojiStatus("5361800828313167608") //сюда айди эмоджи
+      await setEmojiStatus(gift.tg_gift_id)
     }
   }
 
   const shareEmodjiStatus = async () => {
-    const url = `https://t.me/d33sf0mebot/mytest/#/market/stickers/${id}` //заменить url из .env
-    shareURL.ifAvailable(url, `Смотри этот гифт #${id}`)
+    const url = `https://t.me/d33sf0mebot/mytest/#/market/gifts/${id}?startapp=command` //заменить url из .env
+    shareURL.ifAvailable(url, `Смотри этот гифт ${gift.tg_name}`)
   }
 
   const handleBuy = () => {
     setIsClosing(true)
-    const isBalanceEnough = Number(balance) >= gift.price
+    const isBalanceEnough = Number(balance) >= Number(listingData?.price)
     if (!isBalanceEnough) {
       openSheet(
         <BalanceTopUpBottomSheet
           onClose={closeAll}
-          purchasePrice={gift.price}
+          purchasePrice={Number(formatAmount(listingData?.price || ""))}
           availableBalance={formatAmount(balance)}
         />,
         {
@@ -99,7 +120,7 @@ export const GiftModal: FC = () => {
     } else {
       openSheet(
         <ConfirmBuyNftBottomSheet
-          nftPrice={gift.price}
+          nftPrice={Number(formatAmount(listingData?.price || ""))}
           onBuy={async () => {
             closeAll()
           }}
@@ -150,6 +171,10 @@ export const GiftModal: FC = () => {
     // логика выставления на продажу
   }
 
+  const handleEditPrice = () => {
+    // логика снятия с продажи
+  }
+
   const rows = useMemo(() => {
     if (isMarket) {
       return [
@@ -157,8 +182,10 @@ export const GiftModal: FC = () => {
           label: "Модель",
           value: (
             <div className={styles.detailTableValueWrapper}>
-              <span className={styles.detailTableValueText}>{gift.model}</span>{" "}
-              <Chip>1,2%</Chip>
+              <span className={styles.detailTableValueText}>
+                {gift.variant_name}
+              </span>{" "}
+              <Chip>{gift.variant_rarity}%</Chip>
             </div>
           ),
         },
@@ -166,8 +193,10 @@ export const GiftModal: FC = () => {
           label: "Символ",
           value: (
             <div className={styles.detailTableValueWrapper}>
-              <span className={styles.detailTableValueText}>{gift.symbol}</span>{" "}
-              <Chip>0,2%</Chip>
+              <span className={styles.detailTableValueText}>
+                {gift.pattern_name}
+              </span>{" "}
+              <Chip>{gift.pattern_rarity}%</Chip>
             </div>
           ),
         },
@@ -176,27 +205,48 @@ export const GiftModal: FC = () => {
           value: (
             <div className={styles.detailTableValueWrapper}>
               <span className={styles.detailTableValueText}>
-                {gift.background}
+                {gift.background_name}
               </span>{" "}
-              <Chip>1,5%</Chip>
+              <Chip>{gift.background_rarity}%</Chip>
             </div>
           ),
         },
         {
           label: "Нижняя цена",
           value: (
-            <span className={styles.priceRow}>{gift.lowestPrice} TON</span>
+            <span className={styles.priceRow}>
+              {formatAmount(listingData?.price || "")} TON
+            </span>
           ),
         },
         { label: "Цена", value: priceContent },
       ]
     } else {
+      const yourPriceContent = (
+        <span className={styles.priceRow}>
+          <span className={styles.price}>
+            {formatAmount(listingData?.price || "")} TON{" "}
+            <PriceTooltip price={formatAmount(listingData?.price || "")} />
+          </span>
+
+          <Button
+            size="small"
+            className={styles.editButton}
+            onClick={handleEditPrice}
+          >
+            {t("edit", "Изменить")}
+          </Button>
+        </span>
+      )
+
       return [
         {
           label: "Модель",
           value: (
             <div className={styles.detailTableValueWrapper}>
-              <span className={styles.detailTableValueText}>{gift.model}</span>
+              <span className={styles.detailTableValueText}>
+                {gift.variant_name}
+              </span>
             </div>
           ),
         },
@@ -204,7 +254,9 @@ export const GiftModal: FC = () => {
           label: "Символ",
           value: (
             <div className={styles.detailTableValueWrapper}>
-              <span className={styles.detailTableValueText}>{gift.symbol}</span>
+              <span className={styles.detailTableValueText}>
+                {gift.pattern_name}
+              </span>
             </div>
           ),
         },
@@ -213,15 +265,18 @@ export const GiftModal: FC = () => {
           value: (
             <div className={styles.detailTableValueWrapper}>
               <span className={styles.detailTableValueText}>
-                {gift.background}
+                {gift.background_name}
               </span>
             </div>
           ),
         },
         { label: "Рыночная цена", value: priceContent },
+        ...(gift.locked
+          ? [{ label: "Ваша цена", value: yourPriceContent }]
+          : []),
       ]
     }
-  }, [isMarket])
+  }, [isMarket, gift, listingData])
 
   return (
     <BottomSheet
@@ -242,7 +297,12 @@ export const GiftModal: FC = () => {
         />
       }
     >
-      <GiftImageWithText imgSrc={bdayImg} name={gift.title} id={gift.id} />
+      <GiftImageWithText
+        background_url={gift.background_url}
+        animation_url={gift.animation_url}
+        name={gift.title}
+        number={gift.number || 0}
+      />
 
       <div className={styles.detailGiftSheetActions}>
         <Button type="vertical" size="large" onClick={showEmodjiStatus}>
