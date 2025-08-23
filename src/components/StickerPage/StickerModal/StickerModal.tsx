@@ -1,26 +1,26 @@
 import { useMemo, useState, type FC } from "react"
 
-import { BottomSheet } from "../common/BottomSheet/BottomSheet"
+import { BottomSheet } from "@/components/common/BottomSheet/BottomSheet"
 
 import shareIcon from "@/static/icons/shareIcon.svg"
 import { shareURL } from "@telegram-apps/sdk"
-import Icon from "../common/Icon/Icon"
+import Icon from "@/components/common/Icon/Icon"
 import { Button } from "@/components/common/Button/Button"
 import { useNavigate, useOutletContext, useParams } from "react-router-dom"
 
 import styles from "./StickerModal.module.scss"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
-import { ModalButtonsWrapper } from "../common/ModalButtonsWrapper/ModalButtonsWrapper"
+import { ModalButtonsWrapper } from "@/components/common/ModalButtonsWrapper/ModalButtonsWrapper"
 import monkeyImg from "@/static/placeholders/monkey.png"
-import { PriceTooltip } from "../common/PriceTooltip/PriceTooltip"
-import { DetailsTable } from "../common/DetailsTable/DetailsTable"
-import { ConfirmBuyNftBottomSheet } from "../Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
-import { AvailableBalance } from "../common/AvailableBalance/AvailableBalance"
+import { PriceTooltip } from "@/components/common/PriceTooltip/PriceTooltip"
+import { DetailsTable } from "@/components/common/DetailsTable/DetailsTable"
+import { ConfirmBuyNftBottomSheet } from "@/components/Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
+import { AvailableBalance } from "@/components/common/AvailableBalance/AvailableBalance"
 import { t } from "i18next"
 import { removeItem, addToCart } from "@/slices/cartSlice"
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import formatAmount from "@/helpers/formatAmount"
-import { BalanceTopUpBottomSheet } from "../Modals/BalanceTopUpBottomSheet"
+import { BalanceTopUpBottomSheet } from "@/components/Modals/BalanceTopUpBottomSheet"
 
 // Пример данных для карточек
 const mockNft = {
