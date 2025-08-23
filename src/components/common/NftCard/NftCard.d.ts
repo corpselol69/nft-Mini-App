@@ -1,7 +1,7 @@
-import { NftData } from "@/types/nft"
+import { NftListItem } from "@/types/market"
 
 export interface NftCardProps {
-  data: NftData
+  data: NftListItem
   isMarket: boolean
   onClick?: () => void
   onMainAction?: () => void // Купить / Продавать
