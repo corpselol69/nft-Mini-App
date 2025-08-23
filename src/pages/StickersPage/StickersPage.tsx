@@ -142,7 +142,6 @@ export const StickersPage: FC<IStickersPageProps> = () => {
         bottomSheetTitle: `${t("buy_nft")}`,
         buttons: (
           <ModalButtonsWrapper
-            variant={isMarket ? "buy" : "remove from sale"}
             price={nft.price}
             balance={formatAmount(balance)}
             isInCart={isInCart(nft.id)}

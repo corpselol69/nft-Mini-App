@@ -1,7 +1,7 @@
 import React from "react"
 
 export interface ModalButtonsWrapperProps {
-  variant?: "buy" | "sale" | "remove from sale"
+  variant?: "buy" | "sell" | "withdraw"
   price: number
   balance: string
   isInCart?: boolean

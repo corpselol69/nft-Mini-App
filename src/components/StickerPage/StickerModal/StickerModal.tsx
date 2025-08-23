@@ -171,7 +171,7 @@ export const StickerModal: FC = () => {
       }
       buttons={
         <ModalButtonsWrapper
-          variant={isMarket ? "buy" : "remove from sale"}
+          variant={isMarket ? "buy" : "sell"}
           price={90}
           balance={formatAmount(balance)}
           isInCart={isInCart}

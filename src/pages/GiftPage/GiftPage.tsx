@@ -136,7 +136,6 @@ export const GiftPage: FC<IGiftPageProps> = () => {
         bottomSheetTitle: `${t("buy_nft")}`,
         buttons: (
           <ModalButtonsWrapper
-            variant={isMarket ? "buy" : "remove from sale"}
             price={nft.price}
             balance={formatAmount(balance)}
             isInCart={isInCart(nft.id)}

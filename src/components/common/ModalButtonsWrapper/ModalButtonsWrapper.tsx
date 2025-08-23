@@ -73,7 +73,7 @@ export const ModalButtonsWrapper: React.FC<ModalButtonsWrapperProps> = ({
         </>
       )}
 
-      {variant === "sale" && (
+      {variant === "sell" && (
         <>
           <Button
             type="secondary"
@@ -95,7 +95,7 @@ export const ModalButtonsWrapper: React.FC<ModalButtonsWrapperProps> = ({
         </>
       )}
 
-      {variant === "remove from sale" && (
+      {variant === "withdraw" && (
         <Button
           type="secondary"
           size="large"

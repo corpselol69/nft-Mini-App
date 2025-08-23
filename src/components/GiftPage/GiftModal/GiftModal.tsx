@@ -285,7 +285,7 @@ export const GiftModal: FC = () => {
       onClose={() => navigate(-1)}
       buttons={
         <ModalButtonsWrapper
-          variant={isMarket ? "buy" : "remove from sale"}
+          variant={isMarket ? "buy" : gift.locked ? "withdraw" : "sell"}
           price={90}
           balance={formatAmount(balance)}
           isInCart={isInCart}
