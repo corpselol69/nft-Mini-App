@@ -1,24 +1,23 @@
-import { FC, useEffect } from "react"
+import { FC, useEffect, useRef } from "react"
 import { TransactionHistoryProps } from "./index"
 import styles from "./TransactionsBlock.module.scss"
 import { TransactionDateGroup } from "../TransactionDateGroup/TransactionDateGroup"
 import { useLazyGetMyTransactionsQuery } from "@/api/endpoints/transactions"
 import { groupTransactionsByDate } from "@/helpers/groupTransactionsByDate"
-import { useAppSelector } from "@/hooks/useRedux"
 
 export const TransactionBlock: FC<TransactionHistoryProps> = ({
   onTransactionClick,
 }) => {
-  const token = useAppSelector(state => state.auth.token)
+  const didFetch = useRef(false)
 
   const [fetchTransactions, { data, isLoading }] =
     useLazyGetMyTransactionsQuery()
 
   useEffect(() => {
-    if (token) {
-      fetchTransactions()
-    }
-  }, [token])
+    if (didFetch.current) return
+    didFetch.current = true
+    fetchTransactions()
+  }, [fetchTransactions])
 
   if (isLoading) {
     return <div className={styles.content}>загружаем историю транзакций...</div>

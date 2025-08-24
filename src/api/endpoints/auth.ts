@@ -1,4 +1,3 @@
-import { setToken, setUser } from "@/slices/authSlice"
 import { setWallet, setWalletError } from "@/slices/walletSlice"
 import { api } from "../api"
 import type { TelegramWebAppLoginPayload, Token } from "@/types/auth"
@@ -7,6 +6,7 @@ import { walletApi } from "./wallets"
 import { usersAPI } from "./users"
 import { financeApi } from "./finance"
 import { setUserBalance } from "@/slices/financeSlice"
+import { tokenStorage } from "../apiClient"
 
 const endpoint = "/auth"
 
@@ -23,8 +23,8 @@ export const authAPI = api.injectEndpoints({
           const { data: tokenData } = await queryFulfilled
 
           // 1. Сохраняем токен
-          dispatch(setToken(tokenData.access_token))
           setAccessToken(tokenData.access_token) // 👈 для axios
+          tokenStorage.save(tokenData)
 
           // 2. Получаем пользователя
           dispatch(
