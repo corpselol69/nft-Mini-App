@@ -11,6 +11,7 @@ import tonIcon from "@/static/icons/icn-S_ton.svg"
 import shoppingCart from "@/static/icons/shopping_cart.svg"
 import { useAppSelector } from "@/hooks/useRedux"
 import formatAmount from "@/helpers/formatAmount"
+import { useGetBalanceQuery } from "@/api/endpoints/finance"
 
 export const MarketplacePage: FC = () => {
   const navigate = useNavigate()
@@ -18,8 +19,14 @@ export const MarketplacePage: FC = () => {
   const cartItems = useAppSelector(state => state.cart.items)
   const cartCount = cartItems.length
 
-  const balance = useAppSelector(state => state.finance.balance)
-
+  const { data: balance, isLoading: isBalLoading } = useGetBalanceQuery(
+    undefined,
+    {
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+      // pollingInterval: 10_000,
+    }
+  )
   return (
     <div className={styles.root}>
       <div className={styles.header}>
@@ -31,7 +38,7 @@ export const MarketplacePage: FC = () => {
             onClick={() => navigate("/profile")}
           >
             <div className={styles.button_content}>
-              {formatAmount(balance)}
+              {formatAmount(balance?.available || "0")}
               <Icon src={tonIcon} color="active" />
             </div>
           </Button>
