@@ -16,14 +16,7 @@ export const financeApi = api.injectEndpoints({
         url: `${endpoint}/balance`,
         method: "GET",
       }),
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled
-          dispatch(setUserBalance(data.available))
-        } catch (e) {
-          dispatch(setFinanceError("Не удалось получить баланс"))
-        }
-      },
+      providesTags: ["Balance"],
     }),
 
     deposit: builder.mutation<DepositResponse, DepositPayload>({
@@ -32,6 +25,7 @@ export const financeApi = api.injectEndpoints({
         method: "POST",
         data: payload,
       }),
+      invalidatesTags: ["Balance", "Transactions"],
     }),
 
     withdraw: builder.mutation<void, WithdrawalPayload>({
@@ -40,29 +34,7 @@ export const financeApi = api.injectEndpoints({
         method: "POST",
         data: payload,
       }),
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled
-
-          // 1. Обновляем баланс
-          dispatch(
-            financeApi.endpoints.getBalance.initiate(undefined, {
-              forceRefetch: true,
-            })
-          )
-
-          // 2. Обновляем список транзакций
-          const { transactionsApi } = await import("./transactions") // динамически импортируем чтобы избежать циклической зависимости
-
-          dispatch(
-            transactionsApi.endpoints.getMyTransactions.initiate(undefined, {
-              forceRefetch: true,
-            })
-          )
-        } catch (e) {
-          dispatch(setFinanceError("Ошибка при выполнении вывода средств"))
-        }
-      },
+      invalidatesTags: ["Balance", "Transactions"],
     }),
   }),
 })

@@ -10,6 +10,7 @@ export const transactionsApi = api.injectEndpoints({
         url: `${endpoint}/me`,
         method: "GET",
       }),
+      providesTags: ["Transactions"],
     }),
 
     createOutgoingTx: builder.mutation<Transaction, OutgoingCreatePayload>({
