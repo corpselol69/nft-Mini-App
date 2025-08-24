@@ -37,10 +37,11 @@ export const authAPI = api.injectEndpoints({
             })
           )
 
-          const balance = await dispatch(
-            financeApi.endpoints.getBalance.initiate()
+          dispatch(
+            financeApi.endpoints.getBalance.initiate(undefined, {
+              forceRefetch: true,
+            })
           ).unwrap()
-          dispatch(setUserBalance(balance.available))
         } catch (error) {
           console.error("Ошибка после логина:", error)
         }
