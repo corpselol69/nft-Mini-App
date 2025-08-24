@@ -2,7 +2,7 @@ import { FC, useEffect, useRef } from "react"
 import { TransactionHistoryProps } from "./index"
 import styles from "./TransactionsBlock.module.scss"
 import { TransactionDateGroup } from "../TransactionDateGroup/TransactionDateGroup"
-import { useLazyGetMyTransactionsQuery } from "@/api/endpoints/transactions"
+import { useGetMyTransactionsQuery } from "@/api/endpoints/transactions"
 import { groupTransactionsByDate } from "@/helpers/groupTransactionsByDate"
 
 export const TransactionBlock: FC<TransactionHistoryProps> = ({
@@ -10,14 +10,17 @@ export const TransactionBlock: FC<TransactionHistoryProps> = ({
 }) => {
   const didFetch = useRef(false)
 
-  const [fetchTransactions, { data, isLoading }] =
-    useLazyGetMyTransactionsQuery()
+  const { data, isLoading, refetch } = useGetMyTransactionsQuery(undefined, {
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+    // pollingInterval: 10_000,
+  })
 
   useEffect(() => {
     if (didFetch.current) return
     didFetch.current = true
-    fetchTransactions()
-  }, [fetchTransactions])
+    refetch()
+  }, [refetch])
 
   if (isLoading) {
     return <div className={styles.content}>загружаем историю транзакций...</div>
