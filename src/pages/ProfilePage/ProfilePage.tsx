@@ -37,6 +37,7 @@ import {
 import formatAmount from "@/helpers/formatAmount"
 import { retrieveLaunchParams } from "@telegram-apps/bridge"
 import { openTelegramLink } from "@telegram-apps/sdk"
+import { useGetMeQuery } from "@/api/endpoints/users"
 
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
@@ -45,7 +46,10 @@ export const ProfilePage: FC = () => {
 
   const [value, setValue] = useState("")
 
-  const user = useAppSelector(state => state.auth.user)
+  const { data: user, isLoading } = useGetMeQuery(undefined, {
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  })
 
   const userFriendlyAddress = useTonAddress()
   const [tonConnectUI] = useTonConnectUI()

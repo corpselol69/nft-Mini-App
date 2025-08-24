@@ -27,10 +27,9 @@ export const authAPI = api.injectEndpoints({
           setAccessToken(tokenData.access_token) // 👈 для axios
 
           // 2. Получаем пользователя
-          const user = await dispatch(
-            usersAPI.endpoints.getMe.initiate()
-          ).unwrap()
-          dispatch(setUser(user))
+          dispatch(
+            usersAPI.endpoints.getMe.initiate(undefined, { forceRefetch: true })
+          )
 
           // 3. Получаем кошелёк
           const wallet = await dispatch(
