@@ -25,7 +25,7 @@ import { TopUpBottomSheet } from "@/components/Modals/TopUpBottomSheet/TopUpBott
 
 import { TransactionBlock } from "@/components/common/Transactions/TransactionsBlock/TransactionsBlock"
 import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
-import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
+import { useAppDispatch } from "@/hooks/useRedux"
 import { addSnackbar } from "@/slices/snackbarSlice"
 import {
   useGetWalletQuery,
@@ -34,6 +34,7 @@ import {
 import { useTonWalletLinker } from "@/hooks/useTonWalletLinker"
 import {
   useDepositMutation,
+  useGetBalanceQuery,
   useWithdrawMutation,
 } from "@/api/endpoints/finance"
 import formatAmount from "@/helpers/formatAmount"
@@ -56,14 +57,21 @@ export const ProfilePage: FC = () => {
   const { data: wallets, isLoading: isWalletLoading } = useGetWalletQuery()
   const wallet = useMemo(() => wallets?.[0], [wallets])
 
+  const { data: balance, isLoading: isBalLoading } = useGetBalanceQuery(
+    undefined,
+    {
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+      // pollingInterval: 10_000,
+    }
+  )
+
   const userFriendlyAddress = useTonAddress()
   const [tonConnectUI] = useTonConnectUI()
 
   const [unlinkWallet] = useUnlinkWalletMutation()
   const [topUpBalance] = useDepositMutation()
   const [withdrawBalance] = useWithdrawMutation()
-
-  const balance = useAppSelector(state => state.finance.balance)
 
   const { tgWebAppData } = retrieveLaunchParams()
   const avatarUrl = tgWebAppData?.user?.photo_url
@@ -238,7 +246,7 @@ export const ProfilePage: FC = () => {
     openSheet(
       <Wallet
         address={userFriendlyAddress}
-        balance={formatAmount(balance)}
+        balance={formatAmount(balance?.available || "0")}
         onConnect={handleConnectWallet}
         onCopy={handleCopyWallet}
         isExpanded={true}
@@ -262,7 +270,7 @@ export const ProfilePage: FC = () => {
     openSheet(
       <WithdrawBottomSheet
         address={userFriendlyAddress}
-        availableWithdrawValue={formatAmount(balance)}
+        availableWithdrawValue={formatAmount(balance?.available || "0")}
         withdrawValue={value}
         handleWithdraw={handleWithdraw}
       />,
@@ -301,7 +309,7 @@ export const ProfilePage: FC = () => {
           </div>
           <Wallet
             address={userFriendlyAddress}
-            balance={formatAmount(balance)}
+            balance={formatAmount(balance?.available || "0")}
             onConnect={handleConnectWallet}
             onCopy={handleCopyWallet}
             onToggle={handleToggleWallet}
@@ -312,7 +320,7 @@ export const ProfilePage: FC = () => {
           <span className={styles.balanceLabel}>Баланс</span>
           <span className={styles.balanceValue}>
             <span className={styles.balanceAmount}>
-              {formatAmount(balance)}
+              {formatAmount(balance?.available || "0")}
             </span>
             <span className={styles.balanceCurrency}> TON</span>
           </span>
