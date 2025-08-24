@@ -1,35 +1,51 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
-import { useAppSelector } from "@/hooks/useRedux"
-import { useLinkWalletMutation } from "@/api/endpoints/wallets"
+import {
+  useGetWalletQuery,
+  useLinkWalletMutation,
+} from "@/api/endpoints/wallets"
 
 export const useTonWalletLinker = () => {
   const [linkWallet] = useLinkWalletMutation()
+  const { data: wallets } = useGetWalletQuery()
+  const currentWallet = wallets?.[0]
   const address = useTonAddress()
   const [tonConnectUI] = useTonConnectUI()
 
-  const wallet = useAppSelector(state => state.wallet.data)
+  const onceRef = useRef(false)
 
   useEffect(() => {
-    if (!tonConnectUI.connected || !address || wallet?.address) return
+    if (!tonConnectUI.connected || !address || currentWallet?.address) return
+    if (onceRef.current) return
+    onceRef.current = true
+
+    const connected = tonConnectUI.account
+    if (!connected) return
+
+    const payload = {
+      account: {
+        address: connected.address,
+        network: connected.chain,
+        public_key: connected.publicKey ?? "",
+        wallet_state_init: connected.walletStateInit || null,
+      },
+      connector_session: "1",
+    }
 
     const handle = async () => {
-      const connected = tonConnectUI.account
-      if (!connected) return
-
-      const payload = {
-        account: {
-          address: connected.address,
-          network: connected.chain,
-          public_key: connected.publicKey ?? "",
-          wallet_state_init: connected.walletStateInit || null,
-        },
-        connector_session: "1",
+      try {
+        await linkWallet(payload).unwrap()
+      } finally {
+        onceRef.current = false
       }
-
-      await linkWallet(payload)
     }
 
     handle()
-  }, [tonConnectUI.connected, address])
+  }, [
+    tonConnectUI.connected,
+    address,
+    currentWallet?.address,
+    linkWallet,
+    tonConnectUI.account,
+  ])
 }

@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { Page } from "@/components/Page.tsx"
 import styles from "./ProfilePage.module.scss"
 import Icon from "@/components/common/Icon/Icon"
@@ -27,8 +27,10 @@ import { TransactionBlock } from "@/components/common/Transactions/TransactionsB
 import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import { addSnackbar } from "@/slices/snackbarSlice"
-import { useUnlinkWalletMutation } from "@/api/endpoints/wallets.ts"
-import { resetWallet } from "@/slices/walletSlice"
+import {
+  useGetWalletQuery,
+  useUnlinkWalletMutation,
+} from "@/api/endpoints/wallets.ts"
 import { useTonWalletLinker } from "@/hooks/useTonWalletLinker"
 import {
   useDepositMutation,
@@ -51,6 +53,9 @@ export const ProfilePage: FC = () => {
     refetchOnReconnect: true,
   })
 
+  const { data: wallets, isLoading: isWalletLoading } = useGetWalletQuery()
+  const wallet = useMemo(() => wallets?.[0], [wallets])
+
   const userFriendlyAddress = useTonAddress()
   const [tonConnectUI] = useTonConnectUI()
 
@@ -58,7 +63,6 @@ export const ProfilePage: FC = () => {
   const [topUpBalance] = useDepositMutation()
   const [withdrawBalance] = useWithdrawMutation()
 
-  const wallet = useAppSelector(state => state.wallet.data)
   const balance = useAppSelector(state => state.finance.balance)
 
   const { tgWebAppData } = retrieveLaunchParams()
@@ -89,7 +93,6 @@ export const ProfilePage: FC = () => {
         wallet_id: wallet.id,
       }).unwrap()
       await tonConnectUI.disconnect()
-      dispatch(resetWallet())
       closeAll()
     } catch (e) {
       console.error("Ошибка при анлинке кошелька:", e)
