@@ -23,7 +23,6 @@ import { ModalButtonsWrapper } from "@/components/common/ModalButtonsWrapper/Mod
 import { SuccessBottomSheet } from "@/components/Modals/SuccessBottomSheet/SuccessBottomSheet"
 import { t } from "i18next"
 import { Button } from "@/components/common/Button/Button"
-import { removeItem, addToCart } from "@/slices/cartSlice"
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import formatAmount from "@/helpers/formatAmount"
 import { BalanceTopUpBottomSheet } from "@/components/Modals/BalanceTopUpBottomSheet"
@@ -33,6 +32,12 @@ import { Tabs, Tab } from "@/components/common/Tabs/Tabs"
 import { useGetCollectionItemsByModelIdQuery } from "@/api/endpoints/market"
 import { MarketItemRead, NftListItem } from "@/types/market"
 import { fromMarket, fromProfile } from "@/adapters/nftItemAdapter"
+import { useGetBalanceQuery } from "@/api/endpoints/finance"
+import {
+  useGetMyCartQuery,
+  useAddToCartMutation,
+  useRemoveFromCartMutation,
+} from "@/api/endpoints/cart"
 
 type Filters = {
   search?: string
@@ -54,10 +59,22 @@ export const GiftPage: FC<IGiftPageProps> = () => {
   const { openSheet, closeAll } = useBottomSheet()
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
 
-  const cartItems = useAppSelector(state => state.cart.items)
-  const isInCart = (id: string) => cartItems.some(item => item.id === id)
+  const { data: cart } = useGetMyCartQuery()
+  const [addToCart] = useAddToCartMutation()
+  const [removeFromCart] = useRemoveFromCartMutation()
 
-  const balance = useAppSelector(state => state.finance.balance)
+  const isInCart = (listingId: string) =>
+    !!cart?.items?.some(
+      (it: any) => it.listing_id === listingId || it.id === listingId
+    )
+
+  const { data: balance, isFetching: isBalFetching } = useGetBalanceQuery(
+    undefined,
+    {
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+    }
+  )
 
   const [priceFilter, setPriceFilter] = useState("")
   // активная вкладка (только для профиля)
@@ -155,28 +172,26 @@ export const GiftPage: FC<IGiftPageProps> = () => {
     }
   }
 
-  const handleToggleCart = (nft: {
-    id: string
-    title: string
-    price: number
-    url: string
-  }) => {
-    if (isInCart(nft.id)) {
-      dispatch(removeItem(nft.id))
+  const handleToggleCart = async (listing_id: string) => {
+    try {
+      if (isInCart(listing_id)) {
+        try {
+          await removeFromCart(listing_id).unwrap()
+        } catch (e) {
+          throw e
+        }
     } else {
-      dispatch(
-        addToCart({
-          id: nft.id,
-          title: nft.title,
-          number: `#${nft.id}`,
-          price: nft.price,
-          inStock: true,
-          selected: true,
-        })
-      )
+        try {
+          await addToCart({ listing_id }).unwrap()
+        } catch (e) {
+          throw e
+        }
+      }
+      closeAll()
+    } catch (e) {
+      console.error("cart toggle failed", e)
+      // снэкбар
     }
-
-    closeAll()
   }
 
   const handleViewCart = () => {
@@ -187,7 +202,10 @@ export const GiftPage: FC<IGiftPageProps> = () => {
 
   const onBuyButtonClick = (nft: NftListItem) => {
     openSheet(
-      <BuyNftBottomSheet nft={nft} availableBalance={formatAmount(balance)} />,
+      <BuyNftBottomSheet
+        nft={nft}
+        availableBalance={formatAmount(balance?.available || "0")}
+      />,
       {
         bottomSheetTitle: `${t("buy_nft")}`,
         buttons: (
@@ -331,7 +349,7 @@ export const GiftPage: FC<IGiftPageProps> = () => {
           onCardClick={onCardClick}
           onMainAction={onBuyButtonClick}
           onCartClick={handleToggleCart}
-          isInCart={id => cartItems.some(item => item.id === id)}
+          isInCart={id => !!cart?.items.some(item => item.listing_id === id)}
         />
 
         <Outlet context={{ isMarket: isMarket }} />

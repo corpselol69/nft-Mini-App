@@ -4,6 +4,6 @@ export interface NftGridProps {
   isMarket: boolean
   onCardClick?: (id: string) => void
   onMainAction?: (nft: NftListItem) => void
-  onCartClick?: (nft: NftListItem) => void
+  onCartClick?: (listing_id: string) => void
   isInCart?: (id: string) => boolean
 }

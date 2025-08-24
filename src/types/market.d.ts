@@ -81,6 +81,7 @@ export interface Facets {
 
 export type NftListItem = {
   id: string
+  listing_id?: string
   number?: string
   title: string
   price: number

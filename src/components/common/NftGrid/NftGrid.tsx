@@ -20,8 +20,8 @@ export const NftGrid: React.FC<NftGridProps> = ({
           isMarket={isMarket}
           onClick={() => onCardClick?.(nft.id)}
           onMainAction={() => onMainAction?.(nft)}
-          onCartClick={() => onCartClick?.(nft)}
-          isInCart={isInCart?.(nft.id)}
+          onCartClick={() => onCartClick?.(nft.listing_id || "")}
+          isInCart={isInCart?.(nft.listing_id || "")}
         />
       ))}
     </div>
