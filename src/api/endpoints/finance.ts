@@ -1,5 +1,4 @@
 import { api } from "@/api/api"
-import { setFinanceError, setUserBalance } from "@/slices/financeSlice"
 import type {
   BalanceRead,
   DepositPayload,
