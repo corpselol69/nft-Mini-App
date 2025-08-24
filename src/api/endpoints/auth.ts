@@ -1,4 +1,3 @@
-import { setWallet, setWalletError } from "@/slices/walletSlice"
 import { api } from "../api"
 import type { TelegramWebAppLoginPayload, Token } from "@/types/auth"
 import { setAccessToken } from "../apiClient"
@@ -32,10 +31,11 @@ export const authAPI = api.injectEndpoints({
           )
 
           // 3. Получаем кошелёк
-          const wallet = await dispatch(
-            walletApi.endpoints.getWallet.initiate()
-          ).unwrap()
-          dispatch(setWallet(wallet[0]))
+          dispatch(
+            walletApi.endpoints.getWallet.initiate(undefined, {
+              forceRefetch: true,
+            })
+          )
 
           const balance = await dispatch(
             financeApi.endpoints.getBalance.initiate()
@@ -43,7 +43,6 @@ export const authAPI = api.injectEndpoints({
           dispatch(setUserBalance(balance.available))
         } catch (error) {
           console.error("Ошибка после логина:", error)
-          dispatch(setWalletError("Не удалось загрузить профиль или кошелек"))
         }
       },
     }),
