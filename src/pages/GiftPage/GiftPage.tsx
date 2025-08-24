@@ -186,7 +186,6 @@ export const GiftPage: FC<IGiftPageProps> = () => {
   }
 
   const onBuyButtonClick = (nft: NftListItem) => {
-    console.log(nft.price)
     openSheet(
       <BuyNftBottomSheet nft={nft} availableBalance={formatAmount(balance)} />,
       {
