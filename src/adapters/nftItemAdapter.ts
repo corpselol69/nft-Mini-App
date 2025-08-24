@@ -8,6 +8,7 @@ const toNumber = (v: unknown) => {
 
 export const fromMarket = (it: MarketItemRead): NftListItem => ({
   id: it.gift.id,
+  listing_id: it.id,
   title: it.gift.model.title,
   number: String(it.gift.number),
   price: toNumber(it.price),
