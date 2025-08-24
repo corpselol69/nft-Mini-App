@@ -18,7 +18,7 @@ export const ModalButtonsWrapper: React.FC<ModalButtonsWrapperProps> = ({
   onSecondaryClick,
   onCartClick,
 }) => {
-  const isBalanceEnough = Number(balance) >= price
+  const isBalanceEnough = Number(balance) >= Number(price)
 
   const getCartButtonText = () =>
     isInCart
