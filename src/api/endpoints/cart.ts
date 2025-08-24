@@ -1,4 +1,3 @@
-// src/api/cart.ts
 import { api } from "@/api/api"
 import type {
   CartAddItem,
@@ -21,6 +20,7 @@ export const cartApi = api.injectEndpoints({
       }),
       // если бэк может вернуть null — позволяем RTK Query кэшировать null
       transformResponse: (res: CartRead | null) => res ?? null,
+      providesTags: ["Cart"],
     }),
 
     // POST /cart/items — добавить в корзину
@@ -30,16 +30,18 @@ export const cartApi = api.injectEndpoints({
         method: "POST",
         data: payload,
       }),
+      invalidatesTags: ["Cart", "CartPreview"],
     }),
 
     // DELETE /cart/items/{item_id} — удалить из корзины
     removeFromCart: builder.mutation<CartRead | null, string>({
-      query: itemId => ({
-        url: `${endpoint}/items/${itemId}`,
+      query: listing_id => ({
+        url: `${endpoint}/items?listing_id=${listing_id}`,
         method: "DELETE",
       }),
       // ответ по схеме: CartRead | null
       transformResponse: (res: CartRead | null) => res ?? null,
+      invalidatesTags: ["Cart", "CartPreview"],
     }),
 
     // GET /cart/refresh — актуализировать корзину (цены/наличие)
@@ -48,6 +50,7 @@ export const cartApi = api.injectEndpoints({
         url: `${endpoint}/refresh`,
         method: "GET",
       }),
+      providesTags: ["CartPreview"],
     }),
 
     // POST /cart/confirm — подтвердить корзину (перед чекаутом)
@@ -57,6 +60,7 @@ export const cartApi = api.injectEndpoints({
         method: "POST",
         data: payload,
       }),
+      invalidatesTags: ["Cart", "CartPreview"],
     }),
 
     // POST /cart/checkout — оформить заказ
@@ -65,14 +69,7 @@ export const cartApi = api.injectEndpoints({
         url: `${endpoint}/checkout`,
         method: "POST",
       }),
-    }),
-
-    // GET /ping — ping сервера (полезно для healthcheck)
-    pingServer: builder.query<unknown, void>({
-      query: () => ({
-        url: `/ping`,
-        method: "GET",
-      }),
+      invalidatesTags: ["Cart", "Balance", "Transactions", "Orders"],
     }),
   }),
   overrideExisting: false,
@@ -87,6 +84,4 @@ export const {
   useLazyRefreshCartQuery,
   useCartConfirmMutation,
   useCartCheckoutMutation,
-  usePingServerQuery,
-  useLazyPingServerQuery,
 } = cartApi
