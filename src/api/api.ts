@@ -4,7 +4,15 @@ import { axiosBaseQuery } from "./axiosBaseQuery"
 export const api = createApi({
   reducerPath: "api",
   baseQuery: axiosBaseQuery(),
-  tagTypes: ["Me", "Wallet", "Transactions", "Balance"] as const, // 👈 вот это важно
+  tagTypes: [
+    "Me",
+    "Wallet",
+    "Transactions",
+    "Balance",
+    "Cart",
+    "CartPreview",
+    "Orders",
+  ] as const,
 
-  endpoints: () => ({}), // будет расширяться
+  endpoints: () => ({}),
 })
