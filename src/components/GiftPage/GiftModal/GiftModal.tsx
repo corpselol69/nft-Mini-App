@@ -35,6 +35,7 @@ import { SuccessBottomSheet } from "@/components/Modals/SuccessBottomSheet/Succe
 import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
 import { ListingCreate } from "@/types/listing"
 import { SellNftModal } from "@/components/Modals/SellNftModal/SellNftModal"
+import { useGetBalanceQuery } from "@/api/endpoints/finance"
 
 export const GiftModal: FC = () => {
   const navigate = useNavigate()
@@ -48,8 +49,14 @@ export const GiftModal: FC = () => {
   const cartItems = useAppSelector(state => state.cart.items)
   const isInCart = cartItems.some(item => item.id === id)
 
-  const balance = useAppSelector(state => state.finance.balance)
-
+  const { data: balance, isLoading: isBalLoading } = useGetBalanceQuery(
+    undefined,
+    {
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+      // pollingInterval: 10_000,
+    }
+  )
   const { data: listingData } = useGetListingByGiftIdQuery(id!, { skip: !id })
   const [createListing, { isLoading: isCreating }] = useCreateListingMutation()
   const [cancelListing, { isLoading: isCanceling }] = useCancelListingMutation()
@@ -89,10 +96,12 @@ export const GiftModal: FC = () => {
   const priceContent = useMemo(
     () => (
       <span className={styles.priceRow}>
-        <span>{formatAmount(listingData?.price || "")} TON</span>
-        {isMarket && (
-          <PriceTooltip price={formatAmount(listingData?.price || "")} />
-        )}
+        <span className={styles.price}>
+          {formatAmount(listingData?.price || "")} TON
+          {isMarket && (
+            <PriceTooltip price={formatAmount(listingData?.price || "")} />
+          )}
+        </span>
       </span>
     ),
     [listingData]
@@ -115,13 +124,14 @@ export const GiftModal: FC = () => {
 
   const handleBuy = () => {
     setIsClosing(true)
-    const isBalanceEnough = Number(balance) >= Number(listingData?.price)
+    const isBalanceEnough =
+      Number(balance?.available) >= Number(listingData?.price)
     if (!isBalanceEnough) {
       openSheet(
         <BalanceTopUpBottomSheet
           onClose={closeAll}
           purchasePrice={Number(formatAmount(listingData?.price || ""))}
-          availableBalance={formatAmount(balance)}
+          availableBalance={formatAmount(balance?.available || "0")}
         />,
         {
           bottomSheetTitle: `${t("top_up_balance")}`,
@@ -342,8 +352,8 @@ export const GiftModal: FC = () => {
       buttons={
         <ModalButtonsWrapper
           variant={isMarket ? "buy" : gift.locked ? "withdraw" : "sell"}
-          price={90}
-          balance={formatAmount(balance)}
+          price={formatAmount(listingData?.price || "")}
+          balance={formatAmount(balance?.available || "0")}
           isInCart={isInCart}
           onMainClick={
             isMarket
@@ -383,7 +393,9 @@ export const GiftModal: FC = () => {
 
       <DetailsTable rows={rows} />
 
-      {isMarket && <AvailableBalance balance={formatAmount(balance)} />}
+      {isMarket && (
+        <AvailableBalance balance={formatAmount(balance?.available || "0")} />
+      )}
     </BottomSheet>
   )
 }
