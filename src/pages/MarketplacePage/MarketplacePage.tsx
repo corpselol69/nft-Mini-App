@@ -9,15 +9,15 @@ import { Button } from "@/components/common/Button/Button"
 import Icon from "@/components/common/Icon/Icon"
 import tonIcon from "@/static/icons/icn-S_ton.svg"
 import shoppingCart from "@/static/icons/shopping_cart.svg"
-import { useAppSelector } from "@/hooks/useRedux"
 import formatAmount from "@/helpers/formatAmount"
 import { useGetBalanceQuery } from "@/api/endpoints/finance"
+import { useGetMyCartQuery } from "@/api/endpoints/cart"
 
 export const MarketplacePage: FC = () => {
   const navigate = useNavigate()
 
-  const cartItems = useAppSelector(state => state.cart.items)
-  const cartCount = cartItems.length
+  const { data: cart } = useGetMyCartQuery()
+  const cartCount = cart?.items.length || 0
 
   const { data: balance, isLoading: isBalLoading } = useGetBalanceQuery(
     undefined,
