@@ -70,12 +70,12 @@ export const NftCard: React.FC<NftCardProps> = ({
                 <img src={isInCart ? removeIcon : addIcon} alt="Add to cart" />
               </Button>
             </>
-          ) : status === "sell" ? (
-            <Button type="card-price" style={{ flex: 1 }} onClick={onClick}>
+          ) : !data.locked ? (
+            <Button type="card-price" style={{ flex: 1 }}>
               {t("buttons.sell")}
             </Button>
-          ) : status === "on sale" ? (
-            <Button type="card-price" style={{ flex: 1 }} onClick={onClick}>
+          ) : data.locked ? (
+            <Button type="card-price" style={{ flex: 1 }}>
               <div className={styles.onSale}>
                 {t("for_sale")}
                 <div className={styles.price}>
