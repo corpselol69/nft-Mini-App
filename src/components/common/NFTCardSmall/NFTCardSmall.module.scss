@@ -1,0 +1,168 @@
+@use "@/styles/variables" as *;
+@use "@/styles/typography";
+
+.root {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  overflow-x: visible;
+
+  &.outOfStock {
+    opacity: 0.5;
+  }
+
+  &.isDeleting {
+    //  добавить эффекты при удалении
+  }
+}
+
+.buttonIconClose {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: $bg-glass;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  padding: 8px;
+  width: 32px;
+  height: 32px;
+}
+
+.absolute {
+  position: absolute;
+  top: -10px;
+  right: -14px;
+}
+
+.mediaWrapper {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  overflow: visible;
+
+  .media {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+  }
+}
+
+.meta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: visible;
+}
+
+.titles {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.title {
+  @include typography.title-s-sf;
+  color: $typography-primary;
+}
+
+.subtitle {
+  @include typography.caption-s-sf;
+  color: $typography-secondary;
+}
+
+.restore {
+  @include typography.button-m-sf;
+  color: $colors-accent;
+  cursor: pointer;
+}
+
+.priceBlock {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.oldPrice {
+  text-decoration: line-through;
+  color: $typography-secondary;
+  @include typography.caption-m-sf;
+  margin-right: 8px;
+}
+
+.trendRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: $colors-orange;
+
+  .trendIcon {
+    width: 16px;
+    height: 16px;
+    margin-right: 2px;
+  }
+
+  .priceText {
+    color: $colors-orange;
+    margin-right: 4px;
+  }
+
+  .priceIcon {
+    height: 16px;
+
+    path {
+      fill: $colors-orange;
+    }
+  }
+}
+
+.priceRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  overflow: visible;
+}
+
+.priceText {
+  color: $colors-accent;
+  @include typography.caption-l-sf;
+  margin-right: 4px;
+}
+
+.priceIcon {
+  height: 16px;
+
+  path {
+    fill: $colors-accent;
+  }
+}
+
+.priceInput {
+  inline-size: max-content;
+  min-width: 3ch;
+  max-width: 100px;
+  flex: 0 0 auto;
+
+  background: $bg-base-component;
+
+  input {
+    color: $colors-accent;
+  }
+}
+
+.endSlot {
+  margin-left: auto;
+}
+
+.disabled {
+  opacity: 0.5;
+}
