@@ -3,10 +3,10 @@
 
 .preview {
   width: 100%;
-  height: 163px;
+  aspect-ratio: 1 / 1;
   position: relative;
   border-radius: 12px;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 }
