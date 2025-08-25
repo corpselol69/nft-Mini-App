@@ -111,3 +111,11 @@
   overflow-y: auto;
   min-height: 0;
 }
+
+.inactiveOverlay {
+  visibility: hidden;
+}
+
+.inactiveSheet {
+  transform: translateY(100vh);
+}

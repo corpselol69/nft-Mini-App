@@ -17,6 +17,7 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
   leftButton,
   buttons,
   doCloseAnimation = false,
+  keepMounted = true,
 }) => {
   const [dragY, setDragY] = useState(0)
   const [closing, setClosing] = useState(false)
@@ -66,15 +67,27 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
     }
   }, [])
 
-  if (!open && !closing) return null
+  const hidden = !open && !closing
 
   const content = (
     <div
-      className={clsx(styles.overlay, closing && styles.hidden)}
-      onClick={doClose}
+      className={clsx(
+        styles.overlay,
+        closing && styles.hidden,
+        hidden && styles.inactiveOverlay
+      )}
+      onClick={open ? doClose : undefined}
+      aria-hidden={hidden}
+      style={{
+        pointerEvents: hidden ? "none" : "auto", // не перехватывать события
+      }}
     >
       <div
-        className={clsx(styles.sheet, closing && styles.closing)}
+        className={clsx(
+          styles.sheet,
+          closing && styles.closing,
+          hidden && styles.inactiveSheet
+        )}
         style={{
           transform: dragY > 0 ? `translateY(${dragY}px)` : undefined,
           transition: dragY > 0 ? "none" : "transform 0.3s ease",
@@ -104,6 +117,8 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
       </div>
     </div>
   )
+
+  if (!keepMounted && !open && !closing) return null
 
   return ReactDOM.createPortal(content, document.body)
 }

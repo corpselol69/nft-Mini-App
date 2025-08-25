@@ -9,4 +9,5 @@ export interface IBottomSheetProps extends PropsWithChildren {
   backgroundColor?: string
   blur?: string
   doCloseAnimation?: boolean
+  keepMounted?: boolean
 }
