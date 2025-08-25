@@ -7,6 +7,19 @@
   gap: 16px;
 }
 
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .input {
   background: $bg-base-component !important;
+}
+
+.actionButtonsWrapper {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+  margin-top: 24px;
 }

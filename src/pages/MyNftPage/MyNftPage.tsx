@@ -12,16 +12,8 @@ export const MyNftPage: FC = () => {
   const { openSheet, closeAll } = useBottomSheet()
 
   const handleSellNft = () => {
-    openSheet(<AddNftsBottomSheet list={[]} />, {
+    openSheet(<AddNftsBottomSheet onConfirm={() => console.log("d")} />, {
       bottomSheetTitle: t("adding_nfts"),
-      buttons: (
-        <div className={styles.actionButtonsWrapper}>
-          <Button type="secondary" size="large" onClick={closeAll}>
-            Отменить
-          </Button>
-          <Button size="large">Выбрать</Button>
-        </div>
-      ),
     })
   }
   return (
