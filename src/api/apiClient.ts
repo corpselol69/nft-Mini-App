@@ -56,7 +56,7 @@ async function silentRelogin(): Promise<string | null> {
 
       // используем тот же apiClient, но без авторизации
       const res = await axios.post<TokenBundle>(
-        `${import.meta.env.VITE_API_URL}/auth/login/webapp`,
+        `${import.meta.env.VITE_API_URL}auth/login/webapp`,
         { init_data },
         { headers: { "Content-Type": "application/json" } }
       )
