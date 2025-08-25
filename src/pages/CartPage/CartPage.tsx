@@ -10,9 +10,8 @@ import { t } from "i18next"
 import { CartHeader } from "@/components/CartPage/CartHeader/CartHeader"
 import { CartSelectAll } from "@/components/CartPage/CartSelectAll/CartSelectAll"
 import { CartItem } from "@/components/CartPage/CartItem/CartItem"
-import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
+import { useAppDispatch } from "@/hooks/useRedux"
 import {
-  removeItem,
   setItemDeleting,
   selectAll,
   toggleSelectItem,
@@ -22,11 +21,40 @@ import { store } from "@/store"
 import formatAmount from "@/helpers/formatAmount"
 import { AvailableBalance } from "@/components/common/AvailableBalance/AvailableBalance"
 import { BalanceTopUpBottomSheet } from "@/components/Modals/BalanceTopUpBottomSheet"
+import { useGetBalanceQuery } from "@/api/endpoints/finance"
+import {
+  useRemoveFromCartMutation,
+  useCartConfirmMutation,
+  useCartCheckoutMutation,
+  useGetMyCartQuery,
+} from "@/api/endpoints/cart"
 
 export const CartPage: FC = () => {
+  const { openSheet, closeAll } = useBottomSheet()
+
   const dispatch = useAppDispatch()
-  const items = useAppSelector(state => state.cart.items)
-  const balance = useAppSelector(state => state.finance.balance)
+
+  const [removeItem] = useRemoveFromCartMutation()
+  const [cartConfirm] = useCartConfirmMutation()
+  const [cartCheckout] = useCartCheckoutMutation()
+
+  const {
+    data: cart,
+    isFetching: isCartFetching,
+    refetch: refetchCart,
+  } = useGetMyCartQuery(undefined, {
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  })
+  const items = cart?.items ?? []
+
+  const { data: balance, isFetching: isBalFetching } = useGetBalanceQuery(
+    undefined,
+    {
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+    }
+  )
 
   const totalCount = items.length
   const totalValue = items
@@ -35,7 +63,7 @@ export const CartPage: FC = () => {
   const selectedItems = items.filter(i => i.selected)
   const totalPrice = selectedItems.reduce((a, i) => a + i.price, 0)
 
-  const isBalanceEnough = totalPrice <= Number(balance)
+  const isBalanceEnough = totalPrice <= Number(balance?.available)
 
   const setAllSelected = (checked: boolean) => {
     dispatch(selectAll(checked))
@@ -71,8 +99,6 @@ export const CartPage: FC = () => {
     dispatch(restoreItem(id))
   }
 
-  const { openSheet, closeAll } = useBottomSheet()
-
   const handleBuyNft = async () => {
     //api.buyNft(id)
   }
@@ -83,7 +109,7 @@ export const CartPage: FC = () => {
         <BalanceTopUpBottomSheet
           onClose={closeAll}
           purchasePrice={totalPrice}
-          availableBalance={formatAmount(balance)}
+          availableBalance={formatAmount(balance?.available || "0")}
         />,
         {
           bottomSheetTitle: `${t("top_up_balance")}`,
@@ -107,7 +133,10 @@ export const CartPage: FC = () => {
   return (
     <Page back={true}>
       <div className={styles.pageWrapper}>
-        <CartHeader totalCount={totalCount} balance={formatAmount(balance)} />
+        <CartHeader
+          totalCount={totalCount}
+          balance={formatAmount(balance?.available || "0")}
+        />
         <div className={styles.contentWrapper}>
           <div className={styles.contentHeader}>
             <CartSelectAll items={items} onSelectAll={setAllSelected} />
@@ -128,7 +157,7 @@ export const CartPage: FC = () => {
           ))}
         </div>
         <div className={styles.footerWrapper}>
-          <AvailableBalance balance={formatAmount(balance)} />
+          <AvailableBalance balance={formatAmount(balance?.available || "0")} />
           {!!selectedItemsLength && (
             <div className={styles.actionButton}>
               <Button type="primary" size="large" onClick={handleOnBuyClick}>
