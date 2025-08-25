@@ -4,7 +4,7 @@ export type NFTCardVariant = "cart" | "grid" | "list"
 export type NFTCardSize = "s" | "m"
 
 export interface NFTCardSmallProps {
-  imageSrc: string
+  preview: ReactDOMElement
   title: string
   subtitle?: string
 

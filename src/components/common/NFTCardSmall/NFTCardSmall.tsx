@@ -13,7 +13,7 @@ import upwardIcon from "@/static/icons/arrow_upward_alt.svg"
 import { Input } from "../Input/Input"
 
 export const NFTCardSmall: React.FC<NFTCardSmallProps> = ({
-  imageSrc,
+  preview,
   title,
   subtitle,
   price,
@@ -70,14 +70,15 @@ export const NFTCardSmall: React.FC<NFTCardSmallProps> = ({
           checked={!!selected}
           disabled={!inStock}
           onChange={e => onSelect?.(e.target.checked)}
-          className={[styles.checkbox, !inStock ? styles.disabled : ""].join(
-            " "
-          )}
+          className={[
+            styles.checkboxCustom,
+            !inStock ? styles.disabled : "",
+          ].join(" ")}
         />
       )}
 
       <div className={styles.mediaWrapper}>
-        <img src={imageSrc} alt={title} className={styles.media} />
+        {preview}
         {deletable && inStock && !isDeleting && (
           <Button
             className={[styles.buttonIconClose, styles.absolute].join(" ")}

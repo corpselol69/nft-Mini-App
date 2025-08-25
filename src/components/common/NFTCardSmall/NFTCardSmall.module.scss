@@ -38,18 +38,16 @@
   right: -14px;
 }
 
+.checkboxCustom {
+  border: 2px solid $colors-accent !important;
+}
+
 .mediaWrapper {
   position: relative;
   width: 64px;
   height: 64px;
   flex-shrink: 0;
   overflow: visible;
-
-  .media {
-    width: 100%;
-    border-radius: 8px;
-    display: block;
-  }
 }
 
 .meta {
