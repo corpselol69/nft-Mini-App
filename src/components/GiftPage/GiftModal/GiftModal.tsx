@@ -90,7 +90,7 @@ export const GiftModal: FC = () => {
       locked: giftData?.locked ?? false,
     }
   }, [isMarket, giftData, id])
-  console.log(listingData)
+
   const [isClosing, setIsClosing] = useState(false)
 
   const priceContent = useMemo(
