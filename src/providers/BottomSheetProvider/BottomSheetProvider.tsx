@@ -73,7 +73,7 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
           open={idx === stack.length - 1}
           onClose={() => {
             sheet.onClose?.()
-            closeAll()
+            closeSheet()
           }}
           title={sheet.bottomSheetTitle}
           leftButton={sheet.leftButton}
