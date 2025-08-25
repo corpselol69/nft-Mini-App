@@ -37,7 +37,10 @@ import {
   useGetMyCartQuery,
   useAddToCartMutation,
   useRemoveFromCartMutation,
+  useCartCheckoutMutation,
+  useCartConfirmMutation,
 } from "@/api/endpoints/cart"
+import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
 
 type Filters = {
   search?: string
@@ -60,13 +63,19 @@ export const GiftPage: FC<IGiftPageProps> = () => {
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
 
   const { data: cart } = useGetMyCartQuery()
-  const [addToCart] = useAddToCartMutation()
+  const [addToCart, { isLoading: adding }] = useAddToCartMutation()
+  const [cartConfirm, { isLoading: confirming }] = useCartConfirmMutation()
+  const [cartCheckout, { isLoading: checkingOut }] = useCartCheckoutMutation()
   const [removeFromCart] = useRemoveFromCartMutation()
+
+  const isProcessing = adding || confirming || checkingOut
 
   const isInCart = (listingId: string) =>
     !!cart?.items?.some(
       (it: any) => it.listing_id === listingId || it.id === listingId
     )
+  const findCartItemId = (listingId: string) =>
+    cart?.items?.find(i => i.listing_id === listingId)?.id
 
   const { data: balance, isFetching: isBalFetching } = useGetBalanceQuery(
     undefined,
@@ -110,6 +119,7 @@ export const GiftPage: FC<IGiftPageProps> = () => {
     data: marketCollectionRaw,
     isLoading: marketLoading,
     isError: marketError,
+    refetch: refetchMarket,
   } = useGetCollectionItemsByModelIdQuery(
     {
       model_id: model_id ?? "",
@@ -136,32 +146,55 @@ export const GiftPage: FC<IGiftPageProps> = () => {
     navigate(`${cardId}`)
   }
 
-  const handleBuy = (nft: {
-    id: string
-    title: string
+  const handleBuy = async ({
+    listing_id,
+    price,
+  }: {
+    listing_id: string
     price: number
-    url: string
   }) => {
-    const isBalanceEnough = Number(balance) >= nft.price
-    if (!isBalanceEnough) {
-      openSheet(
-        <BalanceTopUpBottomSheet
-          onClose={closeAll}
-          purchasePrice={nft.price}
-          availableBalance={formatAmount(balance)}
-        />,
-        {
-          bottomSheetTitle: `${t("top_up_balance")}`,
-        }
-      )
-    } else {
+    try {
+      const isBalanceEnough = Number(balance?.available) >= price
+      if (!isBalanceEnough) {
+        openSheet(
+          <BalanceTopUpBottomSheet
+            onClose={closeAll}
+            purchasePrice={price}
+            availableBalance={formatAmount(balance?.available || "0")}
+          />,
+          {
+            bottomSheetTitle: `${t("top_up_balance")}`,
+          }
+        )
+        return
+      }
+
+      let cartItemId = findCartItemId(listing_id)
+      if (!cartItemId) {
+        const added = await addToCart({ listing_id }).unwrap()
+        cartItemId = added.items.find(i => i.listing_id === listing_id)?.id
+      }
+      if (!cartItemId)
+        throw new Error("Не удалось получить id позиции в корзине")
+
+      await cartConfirm({
+        item_ids: [cartItemId],
+        accept_all: true, // принять изменения для выбранных item_ids
+        remove_unavailable: true, // если внезапно пропал — сервер удалит, а checkout не пройдет
+      }).unwrap()
+      await cartCheckout().unwrap()
+
+      if (isMarket && model_id) {
+        await refetchMarket()
+      }
+
       openSheet(
         <SuccessBottomSheet
           title={"NFT успешно куплен"}
           subTitle="Мы уже отправили NFT к вам в профиль"
           actionButtons={[
             <Button type="primary" size="large" onClick={closeAll}>
-              Готово
+              {t("buttons.done")}
             </Button>,
           ]}
         />,
@@ -169,6 +202,21 @@ export const GiftPage: FC<IGiftPageProps> = () => {
           bottomSheetTitle: `${t("buy_nft")}`,
         }
       )
+    } catch (e) {
+      console.error("buy failed", e)
+      openSheet(
+        <ErrorBottomSheet
+          errorTitle={t("buy_error")}
+          errorText={t("buy_error_text")}
+          actionButtons={[
+            <Button type="primary" size="large" onClick={closeAll}>
+              {t("buttons.ok")}
+            </Button>,
+          ]}
+        />,
+        { bottomSheetTitle: t("buy_nft") }
+      )
+      // снэкбар
     }
   }
 
@@ -180,7 +228,7 @@ export const GiftPage: FC<IGiftPageProps> = () => {
         } catch (e) {
           throw e
         }
-    } else {
+      } else {
         try {
           await addToCart({ listing_id }).unwrap()
         } catch (e) {
@@ -210,12 +258,14 @@ export const GiftPage: FC<IGiftPageProps> = () => {
         bottomSheetTitle: `${t("buy_nft")}`,
         buttons: (
           <ModalButtonsWrapper
-            price={nft.price}
-            balance={formatAmount(balance)}
-            isInCart={isInCart(nft.id)}
-            onMainClick={() => handleBuy(nft)}
+            price={nft.price.toString()}
+            balance={formatAmount(balance?.available || "0")}
+            isInCart={isInCart(nft.listing_id || "")}
+            onMainClick={() =>
+              handleBuy({ listing_id: nft.listing_id || "", price: nft.price })
+            }
             onSecondaryClick={handleViewCart}
-            onCartClick={() => handleToggleCart(nft)}
+            onCartClick={() => handleToggleCart(nft.listing_id || "")}
           />
         ),
       }
