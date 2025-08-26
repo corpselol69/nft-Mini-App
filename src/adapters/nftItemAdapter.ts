@@ -22,7 +22,7 @@ export const fromProfile = (g: Gift): NftListItem => ({
   id: g.id,
   number: String(g.number),
   title: g.model.title,
-  price: toNumber(g.price),
+  price: toNumber(g.listings?.[0]?.price) || 0,
   rarity: g.model.base_rarity,
   locked: g.locked,
   preview: g.preview_url,
