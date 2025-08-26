@@ -2,11 +2,11 @@ import React from "react"
 import styles from "./GiftCollectionCard.module.scss"
 import { Button } from "@/components/common/Button/Button"
 import tonIcon from "@/static/icons/icn-S_ton.svg"
-import snowImg from "@/static/placeholders/snow.png"
 import Icon from "@/components/common/Icon/Icon"
 import { NavLink } from "react-router-dom"
 import { MarketCollectionRead } from "@/types/market"
 import formatAmount from "@/helpers/formatAmount"
+import { NftPreview } from "../../NftPreview/NftPreview"
 
 type TProps = {
   item: MarketCollectionRead
@@ -16,13 +16,8 @@ type TProps = {
 export const GiftCollectionCard: React.FC<TProps> = ({ item }) => {
   return (
     <NavLink to={`/market/gifts/${item.model_id}`} className={styles.root}>
-      <div
-        className={styles.pic}
-        style={{
-          backgroundImage: `url(${snowImg})`,
-          backgroundSize: "165px",
-        }}
-      />
+      <NftPreview preview_url={item.preview_url} background_url="" />
+
       <div className={styles.content}>
         <div className={styles.textBlock}>
           <div className={styles.title}>{item.model_title}</div>
