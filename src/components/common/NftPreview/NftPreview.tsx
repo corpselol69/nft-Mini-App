@@ -13,7 +13,12 @@ export const NftPreview: FC<NftPreviewProps> = ({
       className={cs(styles.preview, className)}
       style={{ backgroundImage: `url(${background_url})` }}
     >
-      <img className={styles.pic} src={preview_url} alt={"nft preview"} />
+      <img
+        className={styles.pic}
+        src={preview_url}
+        alt={"nft preview"}
+        draggable="false"
+      />
     </div>
   )
 }

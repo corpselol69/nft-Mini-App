@@ -18,4 +18,7 @@
   transform: translate(-50%, -50%);
   aspect-ratio: 1/1;
   max-width: 80%;
+  user-select: none; // тоже отключаем выделение
+  -webkit-user-drag: none; // 🔑 не даём браузеру «таскать» картинку
+  pointer-events: none;
 }
