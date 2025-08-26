@@ -45,7 +45,7 @@ export const CartPage: FC = () => {
       refetchOnReconnect: true,
     }
   )
-
+  console.log("")
   const {
     data: cart,
     isFetching: _isCartFetching,
