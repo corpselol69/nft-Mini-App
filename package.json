@@ -12,7 +12,9 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "preview": "vite preview",
-    "predeploy": "yarn build"
+    "predeploy": "yarn build",
+    "dev:tunnel": "cross-env VITE_HTTPS=off vite --host 0.0.0.0 --port 3002",
+    "tunnel": "cloudflared tunnel --url http://localhost:3002"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
