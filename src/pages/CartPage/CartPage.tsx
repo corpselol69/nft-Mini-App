@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { FC, useEffect, useRef, useState } from "react"
 import styles from "./CartPage.module.scss"
 import { Button } from "@/components/common/Button/Button"
 import Icon from "@/components/common/Icon/Icon"
@@ -9,15 +9,8 @@ import { ConfirmBuyNftBottomSheet } from "@/components/Modals/ConfirmBuyNftBotto
 import { t } from "i18next"
 import { CartHeader } from "@/components/CartPage/CartHeader/CartHeader"
 import { CartSelectAll } from "@/components/CartPage/CartSelectAll/CartSelectAll"
-import { CartItem } from "@/components/CartPage/CartItem/CartItem"
 import { useAppDispatch } from "@/hooks/useRedux"
-import {
-  setItemDeleting,
-  selectAll,
-  toggleSelectItem,
-  restoreItem,
-} from "@/slices/cartSlice"
-import { store } from "@/store"
+import { selectAll, toggleSelectItem } from "@/slices/cartSlice"
 import formatAmount from "@/helpers/formatAmount"
 import { AvailableBalance } from "@/components/common/AvailableBalance/AvailableBalance"
 import { BalanceTopUpBottomSheet } from "@/components/Modals/BalanceTopUpBottomSheet"
@@ -27,16 +20,28 @@ import {
   useCartConfirmMutation,
   useCartCheckoutMutation,
   useGetMyCartQuery,
+  useLazyRefreshCartQuery,
+  cartApi,
 } from "@/api/endpoints/cart"
+import { NFTCardSmall } from "@/components/common/NFTCardSmall/NFTCardSmall"
+import { NftPreview } from "@/components/common/NftPreview/NftPreview"
+import { CartDiff } from "@/types/cart"
+
+type UndoHandle = {
+  undo: () => void
+  timer: number
+}
 
 export const CartPage: FC = () => {
   const { openSheet, closeAll } = useBottomSheet()
 
   const dispatch = useAppDispatch()
 
-  const [removeItem] = useRemoveFromCartMutation()
+  const [removeFromCart] = useRemoveFromCartMutation()
   const [cartConfirm] = useCartConfirmMutation()
   const [cartCheckout] = useCartCheckoutMutation()
+
+  const [diffs, setDiffs] = useState<CartDiff[]>([])
 
   const {
     data: cart,
@@ -46,6 +51,19 @@ export const CartPage: FC = () => {
     refetchOnFocus: true,
     refetchOnReconnect: true,
   })
+
+  const [triggerRefresh] = useLazyRefreshCartQuery()
+
+  useEffect(() => {
+    triggerRefresh()
+      .unwrap()
+      .then(preview => {
+        setDiffs(preview.diffs ?? [])
+        return refetchCart()
+      })
+      .catch(() => {})
+  }, [triggerRefresh, refetchCart])
+
   const items = cart?.items ?? []
 
   const { data: balance, isFetching: isBalFetching } = useGetBalanceQuery(
@@ -57,9 +75,7 @@ export const CartPage: FC = () => {
   )
 
   const totalCount = items.length
-  const totalValue = items
-    .filter(i => i.inStock)
-    .reduce((a, i) => a + i.price, 0)
+  const totalValue = items.reduce((a, i) => a + Number(i.listing.price), 0)
   const selectedItems = items.filter(i => i.selected)
   const totalPrice = selectedItems.reduce((a, i) => a + i.price, 0)
 
@@ -73,32 +89,63 @@ export const CartPage: FC = () => {
   }
   const selectedItemsLength = items.filter(el => el.selected).length
 
+  // удаление с возможностью отмены
+  const undoMap = useRef<Record<string, UndoHandle>>({})
+  const [pendingUndoId, setPendingUndoId] = useState<string | null>(null)
+
   const handleRemove = (id: string) => {
-    const item = items.find(i => i.id === id)
+    const item = cart?.items.find(i => i.id === id)
     if (!item) return
 
-    if (!item.inStock) {
-      dispatch(removeItem(id)) // удаляем сразу
-      return
-    }
+    let time = 5000
 
-    dispatch(setItemDeleting({ id, isDeleting: true }))
+    if (item.listing.state !== "active") time = 0
 
-    setTimeout(() => {
-      // Проверим, не был ли восстановлен
-      const stillDeleting = store
-        .getState()
-        .cart.items.find(i => i.id === id)?.isDeleting
-      if (stillDeleting) {
-        dispatch(removeItem(id))
+    const listingId = item.listing?.id ?? item.listing_id
+
+    setPendingUndoId(id)
+
+    const timer = window.setTimeout(async () => {
+      const patch = dispatch(
+        cartApi.util.updateQueryData("getMyCart", undefined, draft => {
+          if (!draft) return
+          draft.items = draft.items.filter((i: any) => i.id !== id)
+        })
+      )
+      delete undoMap.current[id]
+      setPendingUndoId(prev => (prev === id ? null : prev))
+
+      try {
+        await removeFromCart(listingId).unwrap()
+      } catch (e) {
+        patch.undo()
       }
-    }, 5000)
+    }, time)
+
+    undoMap.current[id] = {
+      undo: () => {
+        window.clearTimeout(timer)
+        // patch.undo()
+        delete undoMap.current[id]
+        setPendingUndoId(prev => (prev === id ? null : prev))
+      },
+      timer,
+    }
   }
 
-  const handleRestore = (id: string) => {
-    dispatch(restoreItem(id))
+  const handleRestore = () => {
+    if (!pendingUndoId) return
+    undoMap.current[pendingUndoId]?.undo()
   }
 
+  useEffect(() => {
+    return () => {
+      Object.values(undoMap.current).forEach(h => window.clearTimeout(h.timer))
+      undoMap.current = {}
+    }
+  }, [])
+
+  // покупка
   const handleBuyNft = async () => {
     //api.buyNft(id)
   }
@@ -141,18 +188,41 @@ export const CartPage: FC = () => {
           <div className={styles.contentHeader}>
             <CartSelectAll items={items} onSelectAll={setAllSelected} />
             <span className={styles.totalPriceText}>
-              <span>{totalValue}</span>
+              {totalValue}
               <Icon src={tonIcon} className={styles.iconTonBalance} />
             </span>
           </div>
           {items.map(item => (
-            <CartItem
+            <NFTCardSmall
               key={item.id}
-              item={item}
-              isDeleting={!!item.isDeleting}
+              preview={
+                <NftPreview
+                  background_url={item.listing.gift.background_url}
+                  preview_url={item.listing.gift.preview_url}
+                />
+              }
+              title={item.listing.gift.model.title}
+              subtitle={
+                item.listing.state === "active"
+                  ? `#${item.listing.gift.number}`
+                  : "Нет в наличии"
+              }
+              price={Number(formatAmount(item.listing.price))}
+              oldPrice={
+                Number(
+                  formatAmount(
+                    diffs.find(d => d.item_id === item.id)?.old_price || "0"
+                  )
+                ) || null
+              }
+              inStock={item.inStock}
+              isDeleting={pendingUndoId === item.id}
+              selected={selectedItems.some(i => i.id === item.id)}
+              showCheckbox
+              deletable
               onRemove={() => handleRemove(item.id)}
               onSelect={(checked: boolean) => setItemSelected(item.id, checked)}
-              onRestore={() => handleRestore(item.id)}
+              onRestore={handleRestore}
             />
           ))}
         </div>
