@@ -2,14 +2,14 @@ import type { FC } from "react"
 
 import styles from "./MyNftPage.module.scss"
 import { Button } from "@/components/common/Button/Button"
-import { Tabs, Tab } from "@/components/common/Tabs/Tabs"
+// import { Tabs, Tab } from "@/components/common/Tabs/Tabs"
 import { t } from "i18next"
 import { Outlet } from "react-router-dom"
 import { AddNftsBottomSheet } from "@/components/Modals/AddNftsBottomSheet/AddNftsBottomSheet"
 import { useBottomSheet } from "@/providers/BottomSheetProvider/BottomSheetProvider"
 
 export const MyNftPage: FC = () => {
-  const { openSheet, closeAll } = useBottomSheet()
+  const { openSheet } = useBottomSheet()
 
   const handleSellNft = () => {
     openSheet(<AddNftsBottomSheet onConfirm={() => console.log("d")} />, {

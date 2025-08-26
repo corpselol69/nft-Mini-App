@@ -4,7 +4,6 @@ import { setAccessToken } from "../apiClient"
 import { walletApi } from "./wallets"
 import { usersAPI } from "./users"
 import { financeApi } from "./finance"
-import { setUserBalance } from "@/slices/financeSlice"
 import { tokenStorage } from "../apiClient"
 
 const endpoint = "/auth"

@@ -1,7 +1,7 @@
 import { FC, useEffect, useMemo, useState } from "react"
 
 import styles from "./AddNftsBottomSheet.module.scss"
-import { Tabs } from "@/components/common/Tabs/Tabs"
+// import { Tabs } from "@/components/common/Tabs/Tabs"
 import { t } from "i18next"
 import searchIcon from "@/static/icons/searchIcon.svg"
 

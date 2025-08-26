@@ -10,15 +10,12 @@ import { t } from "i18next"
 import { CartHeader } from "@/components/CartPage/CartHeader/CartHeader"
 import { CartSelectAll } from "@/components/CartPage/CartSelectAll/CartSelectAll"
 import { useAppDispatch } from "@/hooks/useRedux"
-import { selectAll, toggleSelectItem } from "@/slices/cartSlice"
 import formatAmount from "@/helpers/formatAmount"
 import { AvailableBalance } from "@/components/common/AvailableBalance/AvailableBalance"
 import { BalanceTopUpBottomSheet } from "@/components/Modals/BalanceTopUpBottomSheet"
 import { useGetBalanceQuery } from "@/api/endpoints/finance"
 import {
   useRemoveFromCartMutation,
-  useCartConfirmMutation,
-  useCartCheckoutMutation,
   useGetMyCartQuery,
   useLazyRefreshCartQuery,
   cartApi,
@@ -38,10 +35,10 @@ export const CartPage: FC = () => {
   const dispatch = useAppDispatch()
 
   const [removeFromCart] = useRemoveFromCartMutation()
-  const [cartConfirm] = useCartConfirmMutation()
-  const [cartCheckout] = useCartCheckoutMutation()
+  // const [cartConfirm] = useCartConfirmMutation()
+  // const [cartCheckout] = useCartCheckoutMutation()
 
-  const { data: balance, isFetching: isBalFetching } = useGetBalanceQuery(
+  const { data: balance, isFetching: _isBalFetching } = useGetBalanceQuery(
     undefined,
     {
       refetchOnFocus: true,
@@ -51,7 +48,7 @@ export const CartPage: FC = () => {
 
   const {
     data: cart,
-    isFetching: isCartFetching,
+    isFetching: _isCartFetching,
     refetch: refetchCart,
   } = useGetMyCartQuery(undefined, {
     refetchOnFocus: true,

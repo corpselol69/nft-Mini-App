@@ -49,15 +49,15 @@ export const ProfilePage: FC = () => {
 
   const [value, setValue] = useState("")
 
-  const { data: user, isLoading } = useGetMeQuery(undefined, {
+  const { data: user, isLoading: _userLoading } = useGetMeQuery(undefined, {
     refetchOnFocus: true,
     refetchOnReconnect: true,
   })
 
-  const { data: wallets, isLoading: isWalletLoading } = useGetWalletQuery()
+  const { data: wallets, isLoading: _isWalletLoading } = useGetWalletQuery()
   const wallet = useMemo(() => wallets?.[0], [wallets])
 
-  const { data: balance, isLoading: isBalLoading } = useGetBalanceQuery(
+  const { data: balance, isLoading: _isBalLoading } = useGetBalanceQuery(
     undefined,
     {
       refetchOnFocus: true,

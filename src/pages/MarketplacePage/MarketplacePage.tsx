@@ -1,4 +1,4 @@
-import { Tabs, Tab } from "@/components/common/Tabs/Tabs"
+// import { Tabs, Tab } from "@/components/common/Tabs/Tabs"
 import { type FC } from "react"
 import styles from "./MarketplacePage.module.scss"
 
@@ -19,7 +19,7 @@ export const MarketplacePage: FC = () => {
   const { data: cart } = useGetMyCartQuery()
   const cartCount = cart?.items.length || 0
 
-  const { data: balance, isLoading: isBalLoading } = useGetBalanceQuery(
+  const { data: balance, isLoading: _isBalLoading } = useGetBalanceQuery(
     undefined,
     {
       refetchOnFocus: true,

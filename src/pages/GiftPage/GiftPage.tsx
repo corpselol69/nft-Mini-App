@@ -23,7 +23,6 @@ import { ModalButtonsWrapper } from "@/components/common/ModalButtonsWrapper/Mod
 import { SuccessBottomSheet } from "@/components/Modals/SuccessBottomSheet/SuccessBottomSheet"
 import { t } from "i18next"
 import { Button } from "@/components/common/Button/Button"
-import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import formatAmount from "@/helpers/formatAmount"
 import { BalanceTopUpBottomSheet } from "@/components/Modals/BalanceTopUpBottomSheet"
 
@@ -55,7 +54,6 @@ type Filters = {
 
 export const GiftPage: FC<IGiftPageProps> = () => {
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
 
   const { model_id } = useParams<{ model_id: string }>()
 
@@ -63,12 +61,12 @@ export const GiftPage: FC<IGiftPageProps> = () => {
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
 
   const { data: cart } = useGetMyCartQuery()
-  const [addToCart, { isLoading: adding }] = useAddToCartMutation()
-  const [cartConfirm, { isLoading: confirming }] = useCartConfirmMutation()
-  const [cartCheckout, { isLoading: checkingOut }] = useCartCheckoutMutation()
+  const [addToCart, { isLoading: _adding }] = useAddToCartMutation()
+  const [cartConfirm, { isLoading: _confirming }] = useCartConfirmMutation()
+  const [cartCheckout, { isLoading: _checkingOut }] = useCartCheckoutMutation()
   const [removeFromCart] = useRemoveFromCartMutation()
 
-  const isProcessing = adding || confirming || checkingOut
+  // const isProcessing = adding || confirming || checkingOut
 
   const isInCart = (listingId: string) =>
     !!cart?.items?.some(
@@ -77,7 +75,7 @@ export const GiftPage: FC<IGiftPageProps> = () => {
   const findCartItemId = (listingId: string) =>
     cart?.items?.find(i => i.listing_id === listingId)?.id
 
-  const { data: balance, isFetching: isBalFetching } = useGetBalanceQuery(
+  const { data: balance, isFetching: _isBalFetching } = useGetBalanceQuery(
     undefined,
     {
       refetchOnFocus: true,
@@ -92,20 +90,20 @@ export const GiftPage: FC<IGiftPageProps> = () => {
   >("all")
 
   // выбранные фильтры цены
-  const [priceMin, setPriceMin] = useState<number | undefined>(undefined)
-  const [priceMax, setPriceMax] = useState<number | undefined>(undefined)
+  const [priceMin, _setPriceMin] = useState<number | undefined>(undefined)
+  const [priceMax, _setPriceMax] = useState<number | undefined>(undefined)
 
   // выбранные фильтры по редкости
-  const [rarityMin, setRarityMin] = useState<number | undefined>(undefined)
-  const [rarityMax, setRarityMax] = useState<number | undefined>(undefined)
+  const [rarityMin, _setRarityMin] = useState<number | undefined>(undefined)
+  const [rarityMax, _setRarityMax] = useState<number | undefined>(undefined)
 
   // выбранные фоны (только для маркета)
-  const [selectedBackgrounds, setSelectedBackgrounds] = useState<string[]>([])
+  const [selectedBackgrounds, _setSelectedBackgrounds] = useState<string[]>([])
 
   // выбранные узоры (только для маркета)
-  const [selectedPatterns, setSelectedPatterns] = useState<string[]>([])
+  const [selectedPatterns, _setSelectedPatterns] = useState<string[]>([])
 
-  const [search, setSearch] = useState("")
+  const [search, _setSearch] = useState("")
 
   const {
     data: myGifts,
@@ -299,12 +297,12 @@ export const GiftPage: FC<IGiftPageProps> = () => {
     }
     return true
   }
-  const facets = useMemo(() => {
-    if (!marketCollectionRaw) return undefined
-    return Array.isArray(marketCollectionRaw)
-      ? marketCollectionRaw[0]?.facets
-      : marketCollectionRaw.facets
-  }, [marketCollectionRaw])
+  // const facets = useMemo(() => {
+  //   if (!marketCollectionRaw) return undefined
+  //   return Array.isArray(marketCollectionRaw)
+  //     ? marketCollectionRaw[0]?.facets
+  //     : marketCollectionRaw.facets
+  // }, [marketCollectionRaw])
 
   const matchesMarketFacets = (
     _n: NftListItem,

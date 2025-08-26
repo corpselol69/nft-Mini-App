@@ -28,12 +28,10 @@ import { BalanceTopUpBottomSheet } from "@/components/Modals/BalanceTopUpBottomS
 import { useGetGiftByIdPublicQuery } from "@/api/endpoints/gifts"
 import {
   useCancelListingMutation,
-  useCreateListingMutation,
   useGetListingByGiftIdQuery,
 } from "@/api/endpoints/listings"
 import { SuccessBottomSheet } from "@/components/Modals/SuccessBottomSheet/SuccessBottomSheet"
 import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
-import { ListingCreate } from "@/types/listing"
 import { SellNftModal } from "@/components/Modals/SellNftModal/SellNftModal"
 import { useGetBalanceQuery } from "@/api/endpoints/finance"
 
@@ -49,7 +47,7 @@ export const GiftModal: FC = () => {
   const cartItems = useAppSelector(state => state.cart.items)
   const isInCart = cartItems.some(item => item.id === id)
 
-  const { data: balance, isLoading: isBalLoading } = useGetBalanceQuery(
+  const { data: balance, isLoading: _isBalLoading } = useGetBalanceQuery(
     undefined,
     {
       refetchOnFocus: true,
@@ -58,12 +56,13 @@ export const GiftModal: FC = () => {
     }
   )
   const { data: listingData } = useGetListingByGiftIdQuery(id!, { skip: !id })
-  const [cancelListing, { isLoading: isCanceling }] = useCancelListingMutation()
+  const [cancelListing, { isLoading: _isCanceling }] =
+    useCancelListingMutation()
 
   const {
     data: giftData,
-    isLoading,
-    isError,
+    isLoading: _isGiftLoading,
+    isError: _isGiftError,
   } = useGetGiftByIdPublicQuery(id!, { skip: !id })
 
   const gift = useMemo(() => {
