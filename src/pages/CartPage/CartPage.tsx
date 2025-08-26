@@ -41,7 +41,13 @@ export const CartPage: FC = () => {
   const [cartConfirm] = useCartConfirmMutation()
   const [cartCheckout] = useCartCheckoutMutation()
 
-  const [diffs, setDiffs] = useState<CartDiff[]>([])
+  const { data: balance, isFetching: isBalFetching } = useGetBalanceQuery(
+    undefined,
+    {
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+    }
+  )
 
   const {
     data: cart,
@@ -51,7 +57,9 @@ export const CartPage: FC = () => {
     refetchOnFocus: true,
     refetchOnReconnect: true,
   })
+  const items = cart?.items ?? []
 
+  const [diffs, setDiffs] = useState<CartDiff[]>([]) // для отображения изменений цен
   const [triggerRefresh] = useLazyRefreshCartQuery()
 
   useEffect(() => {
@@ -64,30 +72,58 @@ export const CartPage: FC = () => {
       .catch(() => {})
   }, [triggerRefresh, refetchCart])
 
-  const items = cart?.items ?? []
-
-  const { data: balance, isFetching: isBalFetching } = useGetBalanceQuery(
-    undefined,
-    {
-      refetchOnFocus: true,
-      refetchOnReconnect: true,
-    }
-  )
-
   const totalCount = items.length
-  const totalValue = items.reduce((a, i) => a + Number(i.listing.price), 0)
-  const selectedItems = items.filter(i => i.selected)
-  const totalPrice = selectedItems.reduce((a, i) => a + i.price, 0)
 
-  const isBalanceEnough = totalPrice <= Number(balance?.available)
+  // выбор нфт для покупки
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+
+  useEffect(() => {
+    if (!items.length) {
+      if (selectedIds.size) setSelectedIds(new Set())
+      return
+    }
+    const valid = new Set<string>()
+    for (const it of items) {
+      const isActive = it.listing.state === "active"
+      if (isActive && selectedIds.has(it.id)) valid.add(it.id)
+    }
+    if (valid.size !== selectedIds.size) setSelectedIds(valid)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items])
 
   const setAllSelected = (checked: boolean) => {
-    dispatch(selectAll(checked))
+    if (!checked) {
+      setSelectedIds(new Set())
+      return
+    }
+    // выбираем только доступные
+    const next = new Set<string>()
+    items.forEach(i => {
+      if (i.listing.state === "active") next.add(i.id)
+    })
+    setSelectedIds(next)
   }
+
   const setItemSelected = (id: string, checked: boolean) => {
-    dispatch(toggleSelectItem({ id, selected: checked }))
+    setSelectedIds(prev => {
+      const next = new Set(prev)
+      if (checked) next.add(id)
+      else next.delete(id)
+      return next
+    })
   }
-  const selectedItemsLength = items.filter(el => el.selected).length
+
+  const selectedItems = items.filter(i => selectedIds.has(i.id))
+  const selectedItemsLength = selectedItems.length
+  const totalPrice = selectedItems.reduce(
+    (a, i) => a + Number(formatAmount(i.listing.price)),
+    0
+  )
+  const totalCartPrice = items
+    .filter(i => i.listing.state === "active")
+    .reduce((a, i) => a + Number(i.listing.price), 0)
+
+  const isBalanceEnough = totalPrice <= Number(balance?.available)
 
   // удаление с возможностью отмены
   const undoMap = useRef<Record<string, UndoHandle>>({})
@@ -112,6 +148,15 @@ export const CartPage: FC = () => {
           draft.items = draft.items.filter((i: any) => i.id !== id)
         })
       )
+
+      // убираем из локального выбора
+      setSelectedIds(prev => {
+        if (!prev.has(id)) return prev
+        const next = new Set(prev)
+        next.delete(id)
+        return next
+      })
+
       delete undoMap.current[id]
       setPendingUndoId(prev => (prev === id ? null : prev))
 
@@ -186,9 +231,16 @@ export const CartPage: FC = () => {
         />
         <div className={styles.contentWrapper}>
           <div className={styles.contentHeader}>
-            <CartSelectAll items={items} onSelectAll={setAllSelected} />
+            <CartSelectAll
+              items={items.map(i => ({
+                id: i.id,
+                inStock: i.listing.state === "active",
+              }))}
+              selectedIds={selectedIds}
+              onSelectAll={setAllSelected}
+            />
             <span className={styles.totalPriceText}>
-              {totalValue}
+              {totalCartPrice}
               <Icon src={tonIcon} className={styles.iconTonBalance} />
             </span>
           </div>
@@ -217,7 +269,7 @@ export const CartPage: FC = () => {
               }
               inStock={item.listing.state === "active"}
               isDeleting={pendingUndoId === item.id}
-              selected={selectedItems.some(i => i.id === item.id)}
+              selected={selectedIds.has(item.id)}
               showCheckbox
               deletable
               onRemove={() => handleRemove(item.id)}

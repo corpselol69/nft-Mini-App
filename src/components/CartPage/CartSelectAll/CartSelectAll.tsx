@@ -1,25 +1,23 @@
 import { Checkbox } from "@/components/common/Checkbox/Checkbox"
 import styles from "./CartSelectAll.module.scss"
+import { CartSelectAllProps } from "./CartSelectAll.d"
 
 export function CartSelectAll({
   items,
+  selectedIds,
   onSelectAll,
-}: {
-  items: { selected: boolean; inStock: boolean }[]
-  onSelectAll: (checked: boolean) => void
-}) {
+}: CartSelectAllProps) {
   const inStockItems = items.filter(i => i.inStock)
-
   const allSelected =
-    inStockItems.length > 0 && inStockItems.every(i => i.selected)
-  const someSelected = items.some(i => i.selected)
+    inStockItems.length > 0 && inStockItems.every(i => selectedIds.has(i.id))
+  const someSelected = inStockItems.some(i => selectedIds.has(i.id))
 
   return (
     <div className={styles.contentHeader}>
       <Checkbox
-        checked={!!allSelected}
-        onChange={e => onSelectAll(someSelected ? false : e.target.checked)}
+        checked={allSelected}
         indeterminate={someSelected && !allSelected}
+        onChange={e => onSelectAll(e.target.checked)}
       />
     </div>
   )
