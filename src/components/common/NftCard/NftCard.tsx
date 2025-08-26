@@ -7,7 +7,7 @@ import styles from "./NftCard.module.scss"
 import { Button } from "@/components/common/Button/Button"
 import Icon from "../Icon/Icon"
 import { t } from "i18next"
-
+import bday from "@/static/placeholders/bday.png"
 import { NftCardProps } from "./NftCard.d"
 import SkeletonNode from "antd/es/skeleton/Node"
 import { NftPreview } from "../NftPreview/NftPreview"
@@ -26,7 +26,12 @@ export const NftCard: React.FC<NftCardProps> = ({
         <SkeletonNode
           active
           className={styles.patternSvg}
-          style={{ width: "100%", height: 163, borderRadius: 12 }}
+          style={{
+            width: "100%",
+            aspectRatio: "1/1",
+            borderRadius: 12,
+            height: "auto",
+          }}
         />
       ) : (
         <NftPreview
