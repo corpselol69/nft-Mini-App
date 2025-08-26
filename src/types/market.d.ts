@@ -48,6 +48,8 @@ export interface MarketCollectionRead {
   price_max: string
   listings_count: number
   last_listed_at: string
+  preview_url: string
+  background_url: string
   background_names_sample: string[]
   pattern_names_sample: string[]
 }
