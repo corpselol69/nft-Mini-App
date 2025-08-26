@@ -215,7 +215,7 @@ export const CartPage: FC = () => {
                   )
                 ) || null
               }
-              inStock={item.inStock}
+              inStock={item.listing.state === "active"}
               isDeleting={pendingUndoId === item.id}
               selected={selectedItems.some(i => i.id === item.id)}
               showCheckbox
