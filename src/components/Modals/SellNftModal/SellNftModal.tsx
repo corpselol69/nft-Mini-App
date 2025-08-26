@@ -109,14 +109,13 @@ export const SellNftModal: FC<Props> = ({ nfts }) => {
   const handleSubmit = async () => {
     if (invalid) return
 
-    // соберём payload'ы; price приведём к number | string как в ListingCreate
     const payloads = selectedIds.map(id => ({
       gift_id: id,
-      price: pricesById[id], // можно оставить number — тип допускает number | string
+      price: pricesById[id],
     }))
 
     try {
-      // Последовательно, чтобы не ловить лимиты (можно заменить на Promise.allSettled)
+      // заменить на Promise.allSettled
       let ok = 0
       for (const p of payloads) {
         await createListing(p).unwrap()
@@ -137,9 +136,6 @@ export const SellNftModal: FC<Props> = ({ nfts }) => {
         />,
         { bottomSheetTitle: t("success", "Успех") }
       )
-
-      // по желанию: закрыть текущую SellNftModal (верхняя уже заменена на Success)
-      // closeSheet()
     } catch (e) {
       console.error("Ошибка создания листинга", e)
       openSheet(
