@@ -13,7 +13,7 @@ export interface NFTCardSmallProps {
   selected?: boolean
 
   price: number
-  oldPrice?: number
+  oldPrice?: number | null
 
   editablePrice?: boolean // = true покажет инпут
   onPriceChange?: (next: number) => void
