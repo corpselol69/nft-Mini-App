@@ -69,8 +69,6 @@ export const SellNftModal: FC<Props> = ({ nfts }) => {
     setPricesById(prev => ({ ...prev, [id]: next }))
   }
 
-  useEffect(() => console.log("P state ->", selectedIds), [selectedIds])
-
   const handleAddClick = () => {
     openSheet(
       <AddNftsBottomSheet
