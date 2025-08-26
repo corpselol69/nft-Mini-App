@@ -103,11 +103,10 @@ export const AddNftsBottomSheet: FC<Props> = ({
                   title={g.model?.title || `#${g.id}`}
                   subtitle={`#${g.number}`}
                   price={Number(g.price ?? 0)}
-                  inStock={true} // можно связать с g.locked, если нужно
+                  checkbox_style="custom"
                   showCheckbox
                   selected={selectedIds.includes(id)}
                   onSelect={checked => toggle(id, checked)}
-                  editablePrice={false} // в этой модалке редакт цены не нужен
                 />
               </div>
             )
