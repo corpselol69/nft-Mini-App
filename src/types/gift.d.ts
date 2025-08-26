@@ -1,3 +1,5 @@
+import { ListingRead } from "./listing"
+
 export type AssetKind = "IMAGE" | "ANIMATION"
 export type MediaRole =
   | "PREVIEW"
@@ -70,4 +72,6 @@ export interface Gift {
   background_url: string
   preview_url: string
   animation_url: string
+
+  listings?: ListingRead[] | []
 }

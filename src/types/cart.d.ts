@@ -1,3 +1,5 @@
+import { ListingGiftRead } from "./listing"
+
 export type UUID = string
 
 export type MoneyString = string
@@ -17,11 +19,11 @@ export interface CartConfirmIn {
 
 type OrderState = "draft" | "paid" | "expired"
 
-type CartItem = {
+export type CartItem = {
   id: string
   listing_id: string
   snapshot_price: string
-  // ...возможны доп. поля
+  listing: ListingGiftRead
 }
 
 export interface OrderItem {
@@ -30,7 +32,7 @@ export interface OrderItem {
   [k: string]: unknown
 }
 
-type CartRead = {
+export type CartRead = {
   id: string
   buyer_id: string
   state: OrderState
@@ -47,9 +49,7 @@ export interface OrderRead {
   items: OrderItem[]
 }
 
-/** ===================== DIFFS / PREVIEW ===================== **/
-
-export type DiffKind = "unavailable" | "price_changed" // например: "price_changed" | "not_available" | ...
+export type DiffKind = "unavailable" | "price_changed"
 
 export interface CartDiff {
   kind: DiffKind
@@ -63,10 +63,6 @@ export interface CartPreview {
   diffs: CartDiff[]
 }
 
-/** ===================== CONFIRM RESULT ===================== **/
-
-// В контракте не видел, как возвращается confirm; беру тот же формат, что у preview.
-// Если у тебя иначе — просто поправь на нужный тип.
 export interface CartConfirmRead {
   order: OrderRead
   diffs: CartDiff[]
