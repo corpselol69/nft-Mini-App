@@ -58,7 +58,6 @@ export const GiftModal: FC = () => {
     }
   )
   const { data: listingData } = useGetListingByGiftIdQuery(id!, { skip: !id })
-  const [createListing, { isLoading: isCreating }] = useCreateListingMutation()
   const [cancelListing, { isLoading: isCanceling }] = useCancelListingMutation()
 
   const {
