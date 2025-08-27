@@ -6,12 +6,16 @@ export const api = createApi({
   baseQuery: axiosBaseQuery(),
   tagTypes: [
     "Me",
+    "Market",
     "Wallet",
     "Transactions",
     "Balance",
     "Cart",
     "CartPreview",
     "Orders",
+    "MyGifts",
+    "Gift",
+    "ListingByGift",
   ] as const,
 
   endpoints: () => ({}),
