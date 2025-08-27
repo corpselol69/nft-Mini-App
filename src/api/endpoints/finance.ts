@@ -1,5 +1,6 @@
 import { api } from "@/api/api"
 import type {
+  ActivityRead,
   BalanceRead,
   DepositPayload,
   DepositResponse,
@@ -35,6 +36,13 @@ export const financeApi = api.injectEndpoints({
       }),
       invalidatesTags: ["Balance", "Transactions"],
     }),
+    activity: builder.query<ActivityRead, { offset?: number; limit?: number }>({
+      query: ({ offset = 0, limit = 50 } = {}) => ({
+        url: `${endpoint}/activity?offset=${offset}&limit=${limit}`,
+        method: "GET",
+      }),
+      providesTags: ["Transactions"],
+    }),
   }),
 })
 
@@ -43,4 +51,5 @@ export const {
   useLazyGetBalanceQuery,
   useDepositMutation,
   useWithdrawMutation,
+  useActivityQuery,
 } = financeApi
