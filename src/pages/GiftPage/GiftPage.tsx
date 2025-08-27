@@ -1,4 +1,4 @@
-import { useMemo, useState, type FC } from "react"
+import { useEffect, useMemo, useState, type FC } from "react"
 
 import { Page } from "@/components/Page.tsx"
 
@@ -111,6 +111,8 @@ export const GiftPage: FC<IGiftPageProps> = () => {
     isError: myError,
   } = useGetMyGiftsQuery(undefined, {
     skip: isMarket,
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
   })
 
   const {
@@ -127,8 +129,14 @@ export const GiftPage: FC<IGiftPageProps> = () => {
     },
     {
       skip: !isMarket || !model_id,
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
     }
   )
+
+  useEffect(() => {
+    if (isMarket && model_id) refetchMarket()
+  }, [isMarket, model_id, refetchMarket])
 
   const marketItems: NftListItem[] = useMemo(() => {
     if (!marketCollectionRaw) return []
