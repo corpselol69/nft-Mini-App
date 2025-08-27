@@ -25,10 +25,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import { removeItem, addToCart } from "@/slices/cartSlice"
 import formatAmount from "@/helpers/formatAmount"
 import { BalanceTopUpBottomSheet } from "@/components/Modals/BalanceTopUpBottomSheet"
-import {
-  useGetGiftByIdPublicQuery,
-  useGetMyGiftsQuery,
-} from "@/api/endpoints/gifts"
+import { useGetGiftByIdPublicQuery } from "@/api/endpoints/gifts"
 import {
   useCancelListingMutation,
   useGetListingByGiftIdQuery,
