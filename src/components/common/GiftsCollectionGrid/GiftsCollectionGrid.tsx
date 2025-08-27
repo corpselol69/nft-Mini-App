@@ -14,11 +14,18 @@ import { useGetMarketListQuery } from "@/api/endpoints/market"
 export const GiftsCollectionGrid: FC<IGiftsCollectionGridProps> = () => {
   const [search, setSearch] = useState("")
 
-  const { data, isLoading, isError, refetch } = useGetMarketListQuery({
-    offset: 0,
-    limit: 1000,
-    sort: "newest",
-  })
+  const { data, isLoading, isError, refetch } = useGetMarketListQuery(
+    {
+      offset: 0,
+      limit: 1000,
+      sort: "newest",
+    },
+    {
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+      refetchOnMountOrArgChange: true,
+    }
+  )
 
   const handleSearch = (value: string) => setSearch(value)
 
