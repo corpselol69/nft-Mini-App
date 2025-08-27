@@ -69,7 +69,7 @@ export const cartApi = api.injectEndpoints({
         url: `${endpoint}/checkout`,
         method: "POST",
       }),
-      invalidatesTags: ["Cart", "Balance", "Transactions", "Orders"],
+      invalidatesTags: ["Cart", "Balance", "Transactions"],
     }),
   }),
   overrideExisting: false,

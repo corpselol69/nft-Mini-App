@@ -12,6 +12,7 @@ export const listingsApi = api.injectEndpoints({
         method: "POST",
         data: payload,
       }),
+      invalidatesTags: ["MyGifts", "ListingByGift", "Gift"],
     }),
 
     // GET /listings/me — мои листинги
@@ -28,6 +29,7 @@ export const listingsApi = api.injectEndpoints({
         url: `${endpoint}/${listingId}`,
         method: "GET",
       }),
+      providesTags: ["ListingByGift"],
     }),
 
     // GET /listings/gift/{giftId} — получить листинг
@@ -56,6 +58,7 @@ export const listingsApi = api.injectEndpoints({
         url: `${endpoint}/${listingId}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["MyGifts", "ListingByGift", "Gift"],
     }),
   }),
   overrideExisting: false,

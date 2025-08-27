@@ -12,6 +12,7 @@ export const giftsApi = api.injectEndpoints({
         url: `${endpoint}/`,
         method: "GET",
       }),
+      providesTags: ["MyGifts"],
     }),
 
     // GET /gifts/{gift_id} — один подарок
@@ -27,6 +28,7 @@ export const giftsApi = api.injectEndpoints({
         url: `${endpoint}/public/${giftId}`,
         method: "GET",
       }),
+      providesTags: ["Gift"],
     }),
 
     // POST /gifts/{gift_id}/lock?lock=true|false — залочить/разлочить подарок

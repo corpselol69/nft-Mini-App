@@ -46,6 +46,7 @@ export const marketApi = api.injectEndpoints({
           ...params,
         },
       }),
+      providesTags: ["Market"],
     }),
   }),
   // если нужны хуки в других файлах включить overrideExisting: false
