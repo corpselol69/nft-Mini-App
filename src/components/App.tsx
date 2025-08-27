@@ -39,6 +39,11 @@ export function App() {
       .catch(err => {
         console.error("Ошибка авторизации:", err)
       })
+
+    if (lp.tgWebAppStartParam?.startsWith("gift_")) {
+      const id = lp.tgWebAppStartParam?.slice("gift_".length)
+      router.navigate(`gift/${id}`, { replace: true })
+    }
   }, [initDataRaw, login, dispatch])
 
   useEffect(() => {
