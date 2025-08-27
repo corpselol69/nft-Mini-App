@@ -25,7 +25,10 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import { removeItem, addToCart } from "@/slices/cartSlice"
 import formatAmount from "@/helpers/formatAmount"
 import { BalanceTopUpBottomSheet } from "@/components/Modals/BalanceTopUpBottomSheet"
-import { useGetGiftByIdPublicQuery } from "@/api/endpoints/gifts"
+import {
+  useGetGiftByIdPublicQuery,
+  useGetMyGiftsQuery,
+} from "@/api/endpoints/gifts"
 import {
   useCancelListingMutation,
   useGetListingByGiftIdQuery,
@@ -55,7 +58,11 @@ export const GiftModal: FC = () => {
       // pollingInterval: 10_000,
     }
   )
-  const { data: listingData } = useGetListingByGiftIdQuery(id!, { skip: !id })
+  const { data: listingData } = useGetListingByGiftIdQuery(id!, {
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+    skip: !id,
+  })
   const [cancelListing, { isLoading: _isCanceling }] =
     useCancelListingMutation()
 
@@ -63,7 +70,11 @@ export const GiftModal: FC = () => {
     data: giftData,
     isLoading: _isGiftLoading,
     isError: _isGiftError,
-  } = useGetGiftByIdPublicQuery(id!, { skip: !id })
+  } = useGetGiftByIdPublicQuery(id!, {
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+    skip: !id,
+  })
 
   const gift = useMemo(() => {
     return {
@@ -116,7 +127,7 @@ export const GiftModal: FC = () => {
   }
 
   const shareEmodjiStatus = async () => {
-    const url = `https://t.me/d33sf0mebot/mytest/#/market/gifts/${id}?startapp=command` //заменить url из .env
+    const url = `https://t.me/d33sf0mebot/teleportnft?startapp=gift/${gift.id}` //заменить url из .env
     shareURL.ifAvailable(url, `Смотри этот гифт ${gift.tg_name}`)
   }
 
@@ -196,7 +207,14 @@ export const GiftModal: FC = () => {
         <SuccessBottomSheet
           title={"NFT успешно снят с продажи"}
           actionButtons={[
-            <Button type="primary" size="large">
+            <Button
+              type="primary"
+              size="large"
+              onClick={() => {
+                closeAll()
+                navigate(-1)
+              }}
+            >
               Готово
             </Button>,
           ]}
@@ -230,9 +248,17 @@ export const GiftModal: FC = () => {
       background: gift.background_url,
       number: String(gift.number || ""),
     }
-    openSheet(<SellNftModal nfts={Array(nft)} />, {
-      bottomSheetTitle: `${t("sell_nft", "Продажа NFT")}`,
-    })
+    openSheet(
+      <SellNftModal
+        nfts={Array(nft)}
+        onSuccess={() => {
+          navigate(-1)
+        }}
+      />,
+      {
+        bottomSheetTitle: `${t("sell_nft", "Продажа NFT")}`,
+      }
+    )
   }
 
   const handleEditPrice = () => {

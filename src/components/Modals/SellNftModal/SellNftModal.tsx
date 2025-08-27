@@ -23,10 +23,10 @@ type Nft = {
 }
 type Props = {
   nfts: Nft[]
-  onRemove?: (id: string) => void
+  onSuccess?: () => void
 }
 
-export const SellNftModal: FC<Props> = ({ nfts }) => {
+export const SellNftModal: FC<Props> = ({ nfts, onSuccess }) => {
   const { openSheet, closeAll } = useBottomSheet()
   const { data: myGifts } = useGetMyGiftsQuery()
   const [createListing, { isLoading: isCreating }] = useCreateListingMutation()
@@ -127,7 +127,14 @@ export const SellNftModal: FC<Props> = ({ nfts }) => {
             "NFT успешно выставлены на продажу"
           )}
           actionButtons={[
-            <Button type="primary" size="large" onClick={closeAll}>
+            <Button
+              type="primary"
+              size="large"
+              onClick={() => {
+                closeAll()
+                onSuccess?.()
+              }}
+            >
               {t("done", "Готово")}
             </Button>,
           ]}
