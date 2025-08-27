@@ -16,4 +16,9 @@ export interface OutgoingCreatePayload {
   tx_type?: TransactionType
 }
 
-export type TransactionType = "buy" | "sell" | "deposit" | "bonus" | "withdraw"
+export type TransactionType =
+  | "sale"
+  | "purchase"
+  | "deposit"
+  | "bonus"
+  | "withdraw"

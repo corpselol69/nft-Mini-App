@@ -62,3 +62,10 @@
 .negative {
   color: $colors-red;
 }
+
+.preview {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
