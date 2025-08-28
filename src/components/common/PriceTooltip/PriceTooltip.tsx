@@ -4,17 +4,19 @@ import { Tooltip } from "@/components/common/Tooltip/Tooltip"
 import questionMarkIcon from "@/static/icons/question_mark.svg"
 import Icon from "../Icon/Icon"
 import { PriceTooltipProps } from "./PriceTooltip.d"
+import { getCommissionValue, getNetValue } from "@/helpers/formatAmount"
 
-const commission = 0.5
 export const PriceTooltip: React.FC<PriceTooltipProps> = ({ price }) => {
-  const commissionValue = (price * commission) / 100
+  const commissionValue = getCommissionValue(price)
+  const netValue = getNetValue(price)
+
   return (
     <Tooltip
       content={
         <>
           <div className={styles.tooltipWrapper}>
             <div className={styles.tooltipLabel}>Базовая цена</div>
-            <div className={styles.tooltipValue}>{price} TON</div>
+            <div className={styles.tooltipValue}>{netValue} TON</div>
           </div>
           <div className={styles.tooltipWrapper}>
             <div className={styles.tooltipLabel}>Комиссия</div>
