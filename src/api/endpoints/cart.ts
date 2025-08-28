@@ -71,6 +71,14 @@ export const cartApi = api.injectEndpoints({
       }),
       invalidatesTags: ["Cart", "Balance", "Transactions"],
     }),
+    cartCheckoutSelected: builder.mutation<OrderRead, { item_ids: string[] }>({
+      query: payload => ({
+        url: `${endpoint}/checkout-selected`,
+        method: "POST",
+        data: payload,
+      }),
+      invalidatesTags: ["Cart", "Balance", "Transactions"],
+    }),
   }),
   overrideExisting: false,
 })
@@ -84,4 +92,5 @@ export const {
   useLazyRefreshCartQuery,
   useCartConfirmMutation,
   useCartCheckoutMutation,
+  useCartCheckoutSelectedMutation,
 } = cartApi
