@@ -36,10 +36,46 @@ export const NFTCardSmall: React.FC<NFTCardSmallProps> = ({
   endSlot,
 }) => {
   const id = useId()
-  const [editValue, setEditValue] = useState<number>(price)
+  const [editValue, setEditValue] = useState<string>(
+    price === 0 ? "" : String(price)
+  )
 
-  // форматирование (можете заменить на ваш форматтер)
   const fmt = (v: number) => String(v)
+
+  const normalize = (raw: string) => {
+    // запятая -> точка
+    let v = raw.replace(/,/g, ".")
+
+    // только цифры и точки
+    v = v.replace(/[^\d.]/g, "")
+
+    // оставить только первую точку
+    v = v.replace(/\.(?=.*\.)/g, "")
+
+    // если первый символ '0' и это единственный символ => заменяем на "."
+    if (v === "0") return "."
+
+    // если начинается с "0" и дальше цифра (не точка) — превращаем в десятичное: "05" -> ".5", "012" -> ".12"
+    if (/^0\d/.test(v)) v = "." + v.slice(1)
+
+    const parts = v.split(".")
+    if (parts[1] != null) {
+      parts[1] = parts[1].slice(0, 2)
+      v = parts.join(".")
+    }
+    return v
+  }
+
+  const clampOnBlur = (s: string) => {
+    // минималка 0.5, точку без цифр считаем 0
+    if (s === "" || s === ".") return ".1"
+
+    let n = parseFloat(s)
+    if (Number.isNaN(n)) n = 0
+
+    if (n > 0 && n < 0.1) n = 0.1
+    return String(n)
+  }
 
   const PriceIcon = useMemo(
     () => (
@@ -136,11 +172,34 @@ export const NFTCardSmall: React.FC<NFTCardSmallProps> = ({
           {editablePrice && inStock && (
             <Input
               id={id}
-              type="number"
-              min={0}
-              value={editValue}
-              onChange={e => setEditValue(Number(e.target.value))}
-              onBlur={() => onPriceChange?.(editValue)}
+              type="text"
+              inputMode="decimal"
+              value={editValue.toString()}
+              onChange={e => {
+                const val = normalize(e.target.value)
+                setEditValue(val)
+              }}
+              onKeyDown={e => {
+                const allowed =
+                  (e.key >= "0" && e.key <= "9") ||
+                  e.key === "." ||
+                  e.key === "," ||
+                  [
+                    "Backspace",
+                    "Delete",
+                    "ArrowLeft",
+                    "ArrowRight",
+                    "Home",
+                    "End",
+                    "Tab",
+                  ].includes(e.key)
+                if (!allowed) e.preventDefault()
+              }}
+              onBlur={() => {
+                const next = clampOnBlur(editValue)
+                setEditValue(next)
+                onPriceChange?.(parseFloat(next))
+              }}
               icon={PriceIcon}
               iconPosition="right"
               className={styles.priceInput}
