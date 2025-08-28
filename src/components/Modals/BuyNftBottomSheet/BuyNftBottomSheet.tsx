@@ -1,8 +1,9 @@
 import { FC } from "react"
 
 import styles from "./BuyNftBottomSheet.module.scss"
-import { AvailableBalance } from "@/components/common/AvailableBalance/AvailableBalance"
+import { ValueRow } from "@/components/common/ValueRow/ValueRow"
 import { NftListItem } from "@/types/market"
+import { t } from "i18next"
 
 type Props = {
   nft: NftListItem
@@ -27,7 +28,10 @@ export const BuyNftBottomSheet: FC<Props> = ({ availableBalance, nft }) => {
           <span className={styles.priceValue}>TON</span>
         </div>
       </div>
-      <AvailableBalance balance={availableBalance} />
+      <ValueRow
+        label={t("available_balance", "Доступный баланс")}
+        value={availableBalance}
+      />
     </div>
   )
 }

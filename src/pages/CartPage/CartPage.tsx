@@ -11,7 +11,7 @@ import { CartHeader } from "@/components/CartPage/CartHeader/CartHeader"
 import { CartSelectAll } from "@/components/CartPage/CartSelectAll/CartSelectAll"
 import { useAppDispatch } from "@/hooks/useRedux"
 import formatAmount from "@/helpers/formatAmount"
-import { AvailableBalance } from "@/components/common/AvailableBalance/AvailableBalance"
+import { ValueRow } from "@/components/common/ValueRow/ValueRow"
 import { BalanceTopUpBottomSheet } from "@/components/Modals/BalanceTopUpBottomSheet"
 import { useGetBalanceQuery } from "@/api/endpoints/finance"
 import {
@@ -276,7 +276,10 @@ export const CartPage: FC = () => {
           ))}
         </div>
         <div className={styles.footerWrapper}>
-          <AvailableBalance balance={formatAmount(balance?.available || "0")} />
+          <ValueRow
+            label={t("available_balance", "Доступный баланс")}
+            value={formatAmount(balance?.available || "0")}
+          />
           {!!selectedItemsLength && (
             <div className={styles.actionButton}>
               <Button type="primary" size="large" onClick={handleOnBuyClick}>

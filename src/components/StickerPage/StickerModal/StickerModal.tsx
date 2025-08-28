@@ -15,7 +15,7 @@ import monkeyImg from "@/static/placeholders/monkey.png"
 import { PriceTooltip } from "@/components/common/PriceTooltip/PriceTooltip"
 import { DetailsTable } from "@/components/common/DetailsTable/DetailsTable"
 import { ConfirmBuyNftBottomSheet } from "@/components/Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
-import { AvailableBalance } from "@/components/common/AvailableBalance/AvailableBalance"
+import { ValueRow } from "@/components/common/ValueRow/ValueRow"
 import { t } from "i18next"
 import { removeItem, addToCart } from "@/slices/cartSlice"
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
@@ -195,7 +195,12 @@ export const StickerModal: FC = () => {
 
       <DetailsTable rows={rows} />
 
-      {isMarket && <AvailableBalance balance={formatAmount(balance)} />}
+      {isMarket && (
+        <ValueRow
+          label={t("available_balance", "Доступный баланс")}
+          value={formatAmount(balance)}
+        />
+      )}
     </BottomSheet>
   )
 }

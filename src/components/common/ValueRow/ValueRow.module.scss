@@ -1,14 +1,21 @@
 @use "@/styles/variables" as *;
 @use "@/styles/typography";
 
-.availableBalanceWrapper {
+.row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   @include typography.caption-l-sf;
 }
 
-.availableBalanceValue {
+.left {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0; /* чтобы текст красиво усекался */
+}
+
+.right {
   display: flex;
   align-items: center;
   gap: 4px;

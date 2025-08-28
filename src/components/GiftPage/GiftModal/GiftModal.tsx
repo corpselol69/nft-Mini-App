@@ -20,7 +20,7 @@ import { Chip } from "@/components/common/Chip/Chip"
 import { DetailsTable } from "@/components/common/DetailsTable/DetailsTable"
 import { ModalButtonsWrapper } from "@/components/common/ModalButtonsWrapper/ModalButtonsWrapper"
 import { ConfirmBuyNftBottomSheet } from "@/components/Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
-import { AvailableBalance } from "@/components/common/AvailableBalance/AvailableBalance"
+import { ValueRow } from "@/components/common/ValueRow/ValueRow"
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
 import { removeItem, addToCart } from "@/slices/cartSlice"
 import formatAmount from "@/helpers/formatAmount"
@@ -415,7 +415,10 @@ export const GiftModal: FC = () => {
       <DetailsTable rows={rows} />
 
       {isMarket && (
-        <AvailableBalance balance={formatAmount(balance?.available || "0")} />
+        <ValueRow
+          label={t("available_balance", "Доступный баланс")}
+          value={formatAmount(balance?.available || "0")}
+        />
       )}
     </BottomSheet>
   )
