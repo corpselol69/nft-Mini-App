@@ -14,6 +14,11 @@ import { SuccessBottomSheet } from "../SuccessBottomSheet/SuccessBottomSheet"
 import { NftPreview } from "@/components/common/NftPreview/NftPreview"
 import Icon from "@/components/common/Icon/Icon"
 import AddIcon from "@/static/icons/icn-add.svg"
+import { ValueRow } from "@/components/common/ValueRow/ValueRow"
+import formatAmount, {
+  COMMISSION_PERCENT,
+  getNetValue,
+} from "@/helpers/formatAmount"
 
 type Nft = {
   id: string
@@ -158,6 +163,14 @@ export const SellNftModal: FC<Props> = ({ nfts, onSuccess }) => {
     }
   }
 
+  const total = useMemo(() => {
+    return Object.values(pricesById).reduce((a, b) => a + b, 0)
+  }, [pricesById])
+
+  const payout = useMemo(() => {
+    return getNetValue(total)
+  }, [total])
+
   return (
     <div className={styles.container}>
       {selectedGifts
@@ -190,6 +203,24 @@ export const SellNftModal: FC<Props> = ({ nfts, onSuccess }) => {
         >
           Добавить NFT
         </Button>
+      </div>
+
+      <div className={styles.summary}>
+        <ValueRow
+          label={t("nft_sum", "Сумма NFT")}
+          value={formatAmount(total.toString())}
+        />
+        <ValueRow
+          label={t("platform_fee", "Комиссия платформы")}
+          hint={`(${COMMISSION_PERCENT}%)`}
+          value={formatAmount((total - payout).toString())}
+        />
+        <div className={styles.divider} />
+        <ValueRow
+          className={styles.receiveRow}
+          label={t("you_will_receive", "Вы получите")}
+          value={formatAmount(payout.toString())}
+        />
       </div>
 
       <Button

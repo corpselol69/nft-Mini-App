@@ -12,6 +12,18 @@
   display: flex;
   justify-content: flex-start;
 }
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.divider {
+  border-bottom: 1px solid $stroke-10;
+}
+
 .actionButtonsWrapper {
   display: flex;
   gap: 8px;
