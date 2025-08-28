@@ -8,6 +8,7 @@ export const BalanceUpInput: FC<BalanceUpInputProps> = ({
   className,
   value,
   onChange,
+  autoFocus = true,
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -19,13 +20,13 @@ export const BalanceUpInput: FC<BalanceUpInputProps> = ({
 
   useEffect(() => {
     const input = inputRef.current
-    if (input) {
+    if (input && autoFocus) {
       input.focus()
 
       const event = new Event("touchstart", { bubbles: true })
       input.dispatchEvent(event)
     }
-  }, [])
+  }, [autoFocus])
 
   return (
     <div className={styles.wrapper}>
@@ -35,6 +36,7 @@ export const BalanceUpInput: FC<BalanceUpInputProps> = ({
         value={value || ""}
         onChange={handleChange}
         id={id}
+        autoFocus={autoFocus}
         {...rest}
       />
 
