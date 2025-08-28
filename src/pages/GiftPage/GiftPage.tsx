@@ -36,8 +36,8 @@ import {
   useGetMyCartQuery,
   useAddToCartMutation,
   useRemoveFromCartMutation,
-  useCartCheckoutMutation,
   useCartConfirmMutation,
+  useCartCheckoutSelectedMutation,
 } from "@/api/endpoints/cart"
 import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
 import { ConfirmBuyNftBottomSheet } from "@/components/Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
@@ -64,7 +64,8 @@ export const GiftPage: FC<IGiftPageProps> = () => {
   const { data: cart } = useGetMyCartQuery()
   const [addToCart, { isLoading: _adding }] = useAddToCartMutation()
   const [cartConfirm, { isLoading: _confirming }] = useCartConfirmMutation()
-  const [cartCheckout, { isLoading: _checkingOut }] = useCartCheckoutMutation()
+  const [cartCheckoutSelected] = useCartCheckoutSelectedMutation()
+
   const [removeFromCart] = useRemoveFromCartMutation()
 
   // const isProcessing = adding || confirming || checkingOut
@@ -110,6 +111,7 @@ export const GiftPage: FC<IGiftPageProps> = () => {
     data: myGifts,
     isLoading: myLoading,
     isError: myError,
+    refetch: refetchMyGifts,
   } = useGetMyGiftsQuery(undefined, {
     skip: isMarket,
     refetchOnFocus: true,
@@ -213,10 +215,12 @@ export const GiftPage: FC<IGiftPageProps> = () => {
         accept_all: true, // принять изменения для выбранных item_ids
         remove_unavailable: true, // если внезапно пропал — сервер удалит, а checkout не пройдет
       }).unwrap()
-      await cartCheckout().unwrap()
+      await cartCheckoutSelected({ item_ids: [cartItemId] }).unwrap()
 
       if (isMarket && model_id) {
         await refetchMarket()
+      } else {
+        await refetchMyGifts()
       }
 
       openSheet(
