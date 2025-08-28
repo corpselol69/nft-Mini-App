@@ -21,8 +21,6 @@ import { DetailsTable } from "@/components/common/DetailsTable/DetailsTable"
 import { ModalButtonsWrapper } from "@/components/common/ModalButtonsWrapper/ModalButtonsWrapper"
 import { ConfirmBuyNftBottomSheet } from "@/components/Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
 import { ValueRow } from "@/components/common/ValueRow/ValueRow"
-import { useAppDispatch, useAppSelector } from "@/hooks/useRedux"
-import { removeItem, addToCart } from "@/slices/cartSlice"
 import formatAmount from "@/helpers/formatAmount"
 import { BalanceTopUpBottomSheet } from "@/components/Modals/BalanceTopUpBottomSheet"
 import { useGetGiftByIdPublicQuery } from "@/api/endpoints/gifts"
@@ -34,18 +32,28 @@ import { SuccessBottomSheet } from "@/components/Modals/SuccessBottomSheet/Succe
 import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
 import { SellNftModal } from "@/components/Modals/SellNftModal/SellNftModal"
 import { useGetBalanceQuery } from "@/api/endpoints/finance"
+import {
+  useAddToCartMutation,
+  useGetMyCartQuery,
+  useRemoveFromCartMutation,
+} from "@/api/endpoints/cart"
 
 export const GiftModal: FC = () => {
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
 
-  const { openSheet, closeAll } = useBottomSheet()
+  const { openSheet, closeAll, closeSheet } = useBottomSheet()
   const { id } = useParams<{ id: string }>()
 
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
 
-  const cartItems = useAppSelector(state => state.cart.items)
-  const isInCart = cartItems.some(item => item.id === id)
+  const { data: cart } = useGetMyCartQuery()
+  const isInCart = (listingId: string) =>
+    !!cart?.items?.some(
+      (it: any) => it.listing_id === listingId || it.id === listingId
+    )
+
+  const [addToCart] = useAddToCartMutation()
+  const [removeFromCart] = useRemoveFromCartMutation()
 
   const { data: balance, isLoading: _isBalLoading } = useGetBalanceQuery(
     undefined,
@@ -130,60 +138,76 @@ export const GiftModal: FC = () => {
     shareURL.ifAvailable(url, `Смотри этот гифт ${gift.tg_name}`)
   }
 
-  const handleBuy = () => {
-    setIsClosing(true)
-    const isBalanceEnough =
-      Number(balance?.available) >= Number(listingData?.price)
-    if (!isBalanceEnough) {
-      openSheet(
-        <BalanceTopUpBottomSheet
-          onClose={closeAll}
-          purchasePrice={Number(formatAmount(listingData?.price || ""))}
-          availableBalance={formatAmount(balance?.available || "0")}
-        />,
-        {
-          bottomSheetTitle: `${t("top_up_balance")}`,
-        }
-      )
-    } else {
+  const confirmBuy = (opts: { price: number; quantity?: string }) =>
+    new Promise<boolean>(resolve => {
       openSheet(
         <ConfirmBuyNftBottomSheet
-          nftPrice={Number(formatAmount(listingData?.price || ""))}
-          onBuy={async () => {
-            closeAll()
+          nftPrice={Number(formatAmount(String(opts.price)))}
+          quantity={opts.quantity ?? "1"}
+          onBuy={() => {
+            closeSheet()
+            resolve(true)
           }}
-          onCancel={closeAll}
-          quantity="1"
+          onCancel={() => {
+            closeSheet()
+            resolve(false)
+          }}
         />,
         {
           bottomSheetTitle: `${t("buy_nft")}`,
         }
       )
-    }
+    })
+
+  const handleBuy = async () => {
+    setIsClosing(true)
+    if (!listingData) return
+    try {
+      const confirmed = await confirmBuy({
+        price: Number(listingData.price),
+        quantity: "1",
+      })
+      if (!confirmed) return
+
+      const isBalanceEnough =
+        Number(balance?.available) >= Number(listingData.price)
+      if (!isBalanceEnough) {
+        openSheet(
+          <BalanceTopUpBottomSheet
+            onClose={closeAll}
+            purchasePrice={Number(listingData.price)}
+            availableBalance={formatAmount(balance?.available || "0")}
+          />,
+          {
+            bottomSheetTitle: `${t("top_up_balance")}`,
+          }
+        )
+        return
+      }
+    } catch (e) {}
   }
 
-  const handleToggleCart = (nft: {
-    id: string
-    title: string
-    price: number
-    url: string
-  }) => {
-    if (isInCart) {
-      dispatch(removeItem(nft.id))
-    } else {
-      dispatch(
-        addToCart({
-          id: nft.id,
-          title: nft.title,
-          number: `#${nft.id}`,
-          price: nft.price,
-          inStock: true,
-          selected: true,
-        })
-      )
+  const handleToggleCart = async (listing_id: string) => {
+    if (!listing_id) return
+    try {
+      if (isInCart(listing_id)) {
+        try {
+          await removeFromCart(listing_id).unwrap()
+        } catch (e) {
+          throw e
+        }
+      } else {
+        try {
+          await addToCart({ listing_id }).unwrap()
+        } catch (e) {
+          throw e
+        }
+      }
+      closeAll()
+    } catch (e) {
+      console.error("cart toggle failed", e)
+      // снэкбар
     }
-
-    setIsClosing(true)
   }
 
   const handleViewCart = () => {
@@ -379,7 +403,7 @@ export const GiftModal: FC = () => {
           variant={isMarket ? "buy" : gift.locked ? "withdraw" : "sell"}
           price={formatAmount(listingData?.price || "")}
           balance={formatAmount(balance?.available || "0")}
-          isInCart={isInCart}
+          isInCart={listingData?.id ? isInCart(listingData?.id) : false}
           onMainClick={
             isMarket
               ? handleBuy
@@ -388,9 +412,11 @@ export const GiftModal: FC = () => {
               : handleWithdraw
           }
           onSecondaryClick={
-            isMarket && isInCart ? handleViewCart : handlePutOnSale
+            isMarket && listingData?.id && isInCart(listingData?.id)
+              ? handleViewCart
+              : handlePutOnSale
           }
-          onCartClick={() => handleToggleCart(gift)}
+          onCartClick={() => handleToggleCart(listingData?.id || "")}
         />
       }
     >
