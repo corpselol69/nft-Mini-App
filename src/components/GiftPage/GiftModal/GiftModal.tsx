@@ -105,7 +105,9 @@ export const GiftModal: FC = () => {
         <span className={styles.price}>
           {formatAmount(listingData?.price || "")} TON
           {isMarket && (
-            <PriceTooltip price={formatAmount(listingData?.price || "")} />
+            <PriceTooltip
+              price={Number(formatAmount(listingData?.price || ""))}
+            />
           )}
         </span>
       </span>
@@ -313,7 +315,9 @@ export const GiftModal: FC = () => {
         <span className={styles.priceRow}>
           <span className={styles.price}>
             {formatAmount(listingData?.price || "")} TON{" "}
-            <PriceTooltip price={formatAmount(listingData?.price || "")} />
+            <PriceTooltip
+              price={Number(formatAmount(listingData?.price || ""))}
+            />
           </span>
 
           <Button
