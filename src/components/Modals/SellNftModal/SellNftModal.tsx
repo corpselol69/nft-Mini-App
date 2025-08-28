@@ -20,7 +20,7 @@ import formatAmount, {
   getNetValue,
 } from "@/helpers/formatAmount"
 
-type Nft = {
+export type Nft = {
   id: string
   title: string
   number: string
