@@ -30,9 +30,9 @@ export const AddNftsBottomSheet: FC<Props> = ({
     ...initiallySelected,
   ])
 
-  useEffect(() => {
-    setSelectedIds([...initiallySelected])
-  }, [initiallySelected])
+  // useEffect(() => {
+  //   setSelectedIds([...initiallySelected])
+  // }, [initiallySelected])
 
   const { data: myGifts, isLoading, isError } = useGetMyGiftsQuery()
 
