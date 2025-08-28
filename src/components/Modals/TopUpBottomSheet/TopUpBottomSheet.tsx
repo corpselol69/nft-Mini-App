@@ -62,6 +62,7 @@ export const TopUpBottomSheet: FC<Props> = ({
         className={error ? styles.error : undefined}
         value={withdrawValue}
         onChange={handleChange}
+        autoFocus={false}
       />
 
       <div className={styles.withdrawAllSumButtonWrapper}>

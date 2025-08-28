@@ -7,6 +7,7 @@ import Icon from "@/components/common/Icon/Icon"
 import { formatAddress } from "@/helpers/formatAddress"
 import { Button } from "@/components/common/Button/Button"
 import { BalanceUpInput } from "@/components/common/InputWithUnit/BalanceUpInput"
+import { t } from "i18next"
 
 type Props = {
   withdrawValue: string
@@ -43,7 +44,11 @@ export const WithdrawBottomSheet: FC<Props> = ({
     if (withdrawValue.trim() !== "") {
       const numValue = parseFloat(withdrawValue)
       if (isNaN(numValue) || numValue < MIN_WITHDRAW_AMOUNT) {
-        setError(`Введите сумму более ${MIN_WITHDRAW_AMOUNT} TON`)
+        setError(
+          t("enter_amount_more_than", "Введите сумму более {{amount}} TON", {
+            amount: MIN_WITHDRAW_AMOUNT,
+          })
+        )
       } else if (numValue > Number(availableWithdrawValue)) {
         setError("Недостаточно средств для вывода")
       } else {
@@ -69,18 +74,19 @@ export const WithdrawBottomSheet: FC<Props> = ({
           className={error ? styles.error : undefined}
           value={withdrawValue}
           onChange={handleChange}
+          autoFocus={false}
         />
       </div>
 
       <div className={styles.withdrawAllSumButtonWrapper}>
         <Button type="text" onClick={handleAllSumClick}>
-          Вся сумма
+          {t("buttons.all_sum", "Вся сумма")}
         </Button>
         {error && <div className={styles.errorMessage}>{error}</div>}
       </div>
 
       <div className={styles.availableWithdrawValueWrapper}>
-        <span>Доступно к выводу</span>
+        <span>{t("available_to_withdraw", "Доступно к выводу")}</span>
         <div>
           <span className={styles.availableWithdrawValue}>
             {availableWithdrawValue}
@@ -96,7 +102,7 @@ export const WithdrawBottomSheet: FC<Props> = ({
           size="large"
           onClick={handleWithdraw}
         >
-          Вывести {withdrawValue} TON
+          {t("buttons.withdraw")} {withdrawValue} TON
         </Button>
       </div>
     </div>
