@@ -11,8 +11,12 @@
 .left {
   display: inline-flex;
   align-items: baseline;
-  gap: 8px;
+  gap: 4px;
   min-width: 0; /* чтобы текст красиво усекался */
+
+  .hint {
+    color: $typography-secondary;
+  }
 }
 
 .right {
