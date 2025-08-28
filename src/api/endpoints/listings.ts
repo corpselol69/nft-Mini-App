@@ -50,6 +50,7 @@ export const listingsApi = api.injectEndpoints({
         method: "PATCH",
         data,
       }),
+      invalidatesTags: ["MyGifts", "ListingByGift", "Gift"],
     }),
 
     // DELETE /listings/{listing_id} — отменить листинг
