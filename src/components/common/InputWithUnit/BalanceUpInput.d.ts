@@ -6,4 +6,5 @@ export interface BalanceUpInputProps
   className?: string
   value?: string
   onChange: (value: string) => void
+  minValue?: number // минимальное значение при блюре (по умолчанию 0.1)
 }

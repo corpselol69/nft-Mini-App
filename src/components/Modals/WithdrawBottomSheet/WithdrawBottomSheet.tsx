@@ -75,6 +75,7 @@ export const WithdrawBottomSheet: FC<Props> = ({
           value={withdrawValue}
           onChange={handleChange}
           autoFocus={false}
+          minValue={MIN_WITHDRAW_AMOUNT}
         />
       </div>
 
