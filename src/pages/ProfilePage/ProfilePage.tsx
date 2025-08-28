@@ -44,7 +44,7 @@ import { useGetMeQuery } from "@/api/endpoints/users"
 
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
-  const { openSheet, closeAll } = useBottomSheet()
+  const { openSheet, closeAll, closeSheet } = useBottomSheet()
   const dispatch = useAppDispatch()
 
   const [value, setValue] = useState("")
@@ -230,7 +230,14 @@ export const ProfilePage: FC = () => {
             >
               {t("buttons.contact_support")}
             </Button>,
-            <Button type="primary" size="large" onClick={handleOpenTopUpModal}>
+            <Button
+              type="primary"
+              size="large"
+              onClick={() => {
+                closeSheet()
+                // handleOpenTopUpModal()
+              }}
+            >
               {t("buttons.retry")}
             </Button>,
           ]}
@@ -294,6 +301,7 @@ export const ProfilePage: FC = () => {
         bottomSheetTitle: t("top_up_balance"),
         onClose() {
           setValue("")
+          closeAll()
         },
       }
     )
