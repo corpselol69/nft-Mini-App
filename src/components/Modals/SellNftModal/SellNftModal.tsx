@@ -146,7 +146,7 @@ export const SellNftModal: FC<Props> = ({ nfts, onSuccess }) => {
             </Button>,
           ]}
         />,
-        { bottomSheetTitle: t("success", "Успех") }
+        { bottomSheetTitle: t("sell_nft") }
       )
     } catch (e) {
       console.error("Ошибка создания листинга", e)
