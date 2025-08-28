@@ -107,22 +107,6 @@ export const GiftModal: FC = () => {
 
   const [isClosing, setIsClosing] = useState(false)
 
-  const priceContent = useMemo(
-    () => (
-      <span className={styles.priceRow}>
-        <span className={styles.price}>
-          {formatAmount(listingData?.price || "")} TON
-          {isMarket && (
-            <PriceTooltip
-              price={Number(formatAmount(listingData?.price || ""))}
-            />
-          )}
-        </span>
-      </span>
-    ),
-    [listingData]
-  )
-
   const showEmodjiStatus = async () => {
     openTelegramLink.ifAvailable(`https://t.me/nft/${gift.tg_name}`)
   }
@@ -289,109 +273,85 @@ export const GiftModal: FC = () => {
   }
 
   const rows = useMemo(() => {
+    const baseFields = [
+      {
+        key: "variant",
+        label: "Модель",
+        name: gift.variant_name,
+        rarity: gift.variant_rarity,
+      },
+      {
+        key: "pattern",
+        label: "Узор",
+        name: gift.pattern_name,
+        rarity: gift.pattern_rarity,
+      },
+      {
+        key: "background",
+        label: "Фон",
+        name: gift.background_name,
+        rarity: gift.background_rarity,
+      },
+    ].map(({ key, label, name, rarity }) => ({
+      label,
+      value: (
+        <div className={styles.detailTableValueWrapper} key={key}>
+          <span className={styles.detailTableValueText}>{name}</span>
+          <Chip>{rarity}%</Chip>
+        </div>
+      ),
+    }))
+
+    const marketPriceContent = (
+      <span className={styles.priceRow}>
+        <span className={styles.price}>
+          {formatAmount(listingData?.price || "")} TON
+        </span>
+      </span>
+    )
+
+    const yourPriceContent = (
+      <span className={styles.priceRow}>
+        <span className={styles.price}>
+          {formatAmount(listingData?.price || "")} TON
+        </span>
+        <Button
+          size="small"
+          className={styles.editButton}
+          onClick={handleEditPrice}
+        >
+          {t("edit", "Изменить")}
+        </Button>
+      </span>
+    )
+
+    const finalPriceContent = (
+      <span className={styles.priceRow}>
+        <span className={styles.price}>
+          {formatAmount(listingData?.price || "")} TON{" "}
+          <PriceTooltip
+            price={Number(formatAmount(listingData?.price || ""))}
+          />
+        </span>
+      </span>
+    )
+
     if (isMarket) {
       return [
-        {
-          label: "Модель",
-          value: (
-            <div className={styles.detailTableValueWrapper}>
-              <span className={styles.detailTableValueText}>
-                {gift.variant_name}
-              </span>{" "}
-              <Chip>{gift.variant_rarity}%</Chip>
-            </div>
-          ),
-        },
-        {
-          label: "Символ",
-          value: (
-            <div className={styles.detailTableValueWrapper}>
-              <span className={styles.detailTableValueText}>
-                {gift.pattern_name}
-              </span>{" "}
-              <Chip>{gift.pattern_rarity}%</Chip>
-            </div>
-          ),
-        },
-        {
-          label: "Фон",
-          value: (
-            <div className={styles.detailTableValueWrapper}>
-              <span className={styles.detailTableValueText}>
-                {gift.background_name}
-              </span>{" "}
-              <Chip>{gift.background_rarity}%</Chip>
-            </div>
-          ),
-        },
-        {
-          label: "Рыночная цена",
-          value: (
-            <span className={styles.priceRow}>
-              {formatAmount(listingData?.price || "")} TON
-            </span>
-          ),
-        },
-        { label: "Цена", value: priceContent },
+        ...baseFields,
+        { label: "Рыночная цена", value: marketPriceContent },
+        { label: "Цена", value: finalPriceContent }, // тултип только здесь
       ]
     } else {
-      const yourPriceContent = (
-        <span className={styles.priceRow}>
-          <span className={styles.price}>
-            {formatAmount(listingData?.price || "")} TON{" "}
-            <PriceTooltip
-              price={Number(formatAmount(listingData?.price || ""))}
-            />
-          </span>
-
-          <Button
-            size="small"
-            className={styles.editButton}
-            onClick={handleEditPrice}
-          >
-            {t("edit", "Изменить")}
-          </Button>
-        </span>
-      )
-
       return [
-        {
-          label: "Модель",
-          value: (
-            <div className={styles.detailTableValueWrapper}>
-              <span className={styles.detailTableValueText}>
-                {gift.variant_name}
-              </span>
-            </div>
-          ),
-        },
-        {
-          label: "Символ",
-          value: (
-            <div className={styles.detailTableValueWrapper}>
-              <span className={styles.detailTableValueText}>
-                {gift.pattern_name}
-              </span>
-            </div>
-          ),
-        },
-        {
-          label: "Фон",
-          value: (
-            <div className={styles.detailTableValueWrapper}>
-              <span className={styles.detailTableValueText}>
-                {gift.background_name}
-              </span>
-            </div>
-          ),
-        },
-        { label: "Рыночная цена", value: priceContent },
+        ...baseFields,
+        { label: "Рыночная цена", value: marketPriceContent },
         ...(gift.locked
           ? [{ label: "Ваша цена", value: yourPriceContent }]
           : []),
       ]
     }
-  }, [isMarket, gift, listingData])
+  }, [isMarket, gift, listingData, handleEditPrice, t])
 
   return (
     <BottomSheet
