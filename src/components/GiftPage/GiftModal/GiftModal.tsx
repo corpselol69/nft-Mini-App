@@ -325,7 +325,7 @@ export const GiftModal: FC = () => {
           ),
         },
         {
-          label: "Нижняя цена",
+          label: "Рыночная цена",
           value: (
             <span className={styles.priceRow}>
               {formatAmount(listingData?.price || "")} TON
