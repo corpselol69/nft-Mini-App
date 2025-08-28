@@ -19,10 +19,14 @@ import {
   useGetMyCartQuery,
   useLazyRefreshCartQuery,
   cartApi,
+  useCartCheckoutSelectedMutation,
+  useCartConfirmMutation,
 } from "@/api/endpoints/cart"
 import { NFTCardSmall } from "@/components/common/NFTCardSmall/NFTCardSmall"
 import { NftPreview } from "@/components/common/NftPreview/NftPreview"
 import { CartDiff } from "@/types/cart"
+import { SuccessBottomSheet } from "@/components/Modals/SuccessBottomSheet/SuccessBottomSheet"
+import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
 
 type UndoHandle = {
   undo: () => void
@@ -35,8 +39,9 @@ export const CartPage: FC = () => {
   const dispatch = useAppDispatch()
 
   const [removeFromCart] = useRemoveFromCartMutation()
-  // const [cartConfirm] = useCartConfirmMutation()
+  const [cartConfirm] = useCartConfirmMutation()
   // const [cartCheckout] = useCartCheckoutMutation()
+  const [cartCheckoutSelected] = useCartCheckoutSelectedMutation()
 
   const { data: balance, isFetching: _isBalFetching } = useGetBalanceQuery(
     undefined,
@@ -45,7 +50,7 @@ export const CartPage: FC = () => {
       refetchOnReconnect: true,
     }
   )
-  console.log("")
+
   const {
     data: cart,
     isFetching: _isCartFetching,
@@ -189,6 +194,49 @@ export const CartPage: FC = () => {
 
   // покупка
   const handleBuyNft = async () => {
+    if (!selectedItemsLength) return
+    closeAll()
+    try {
+      await cartConfirm({ item_ids: Array.from(selectedIds) }).unwrap()
+      const order = await cartCheckoutSelected({
+        item_ids: Array.from(selectedIds),
+      }).unwrap()
+      dispatch(
+        cartApi.util.updateQueryData("getMyCart", undefined, draft => {
+          if (!draft) return
+          draft.items = draft.items.filter((i: any) => !selectedIds.has(i.id))
+        })
+      )
+      setSelectedIds(new Set())
+      openSheet(
+        <SuccessBottomSheet
+          title={"NFT успешно куплены"}
+          subTitle="Мы уже отправили NFT к вам в профиль"
+          actionButtons={[
+            <Button type="primary" size="large" onClick={closeAll}>
+              {t("buttons.done")}
+            </Button>,
+          ]}
+        />,
+        {
+          bottomSheetTitle: `${t("buy_nft")}`,
+        }
+      )
+    } catch (e) {
+      console.error("Failed to buy nft", e)
+      openSheet(
+        <ErrorBottomSheet
+          errorTitle={t("buy_error")}
+          errorText={t("buy_error_text")}
+          actionButtons={[
+            <Button type="primary" size="large" onClick={closeAll}>
+              {t("buttons.ok")}
+            </Button>,
+          ]}
+        />,
+        { bottomSheetTitle: t("buy_nft") }
+      )
+    }
     //api.buyNft(id)
   }
 
