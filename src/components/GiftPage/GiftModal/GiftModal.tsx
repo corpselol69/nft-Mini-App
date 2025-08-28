@@ -31,6 +31,7 @@ import {
 import { SuccessBottomSheet } from "@/components/Modals/SuccessBottomSheet/SuccessBottomSheet"
 import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
 import { SellNftModal } from "@/components/Modals/SellNftModal/SellNftModal"
+import { EditPriceModal } from "@/components/Modals/EditPriceModal/EditPriceModal"
 import { useGetBalanceQuery } from "@/api/endpoints/finance"
 import {
   useAddToCartMutation,
@@ -269,7 +270,27 @@ export const GiftModal: FC = () => {
   }
 
   const handleEditPrice = () => {
-    // логика снятия с продажи
+    if (!listingData) return
+    const nft = {
+      id: gift.id,
+      title: gift.title,
+      price: Number(listingData.price) || 0,
+      preview: gift.preview,
+      background: gift.background_url,
+      number: String(gift.number || ""),
+    }
+    openSheet(
+      <EditPriceModal
+        listingId={listingData.id}
+        nft={nft}
+        onSuccess={() => {
+          navigate(-1)
+        }}
+      />,
+      {
+        bottomSheetTitle: `${t("price_change", "Изменение цены")}`,
+      }
+    )
   }
 
   const rows = useMemo(() => {
