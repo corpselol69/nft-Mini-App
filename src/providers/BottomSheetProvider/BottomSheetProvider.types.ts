@@ -7,4 +7,5 @@ export type SheetEntry = {
   leftButton?: React.ReactNode
   buttons?: React.ReactNode
   onClose?: () => void
+  closing?: boolean
 }

@@ -1,5 +1,11 @@
 // BottomSheetProvider.tsx
-import React, { createContext, useContext, useState, useCallback } from "react"
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useRef,
+} from "react"
 import type { SheetEntry } from "./BottomSheetProvider.types"
 import { BottomSheet } from "@/components/common/BottomSheet/BottomSheet"
 
@@ -33,6 +39,7 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [stack, setStack] = useState<SheetEntry[]>([])
+  const clearingAllRef = useRef(false)
 
   const openSheet = useCallback(
     (
@@ -52,6 +59,7 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         leftButton: opts?.leftButton,
         buttons: opts?.buttons,
         onClose: opts?.onClose,
+        closing: false,
       }
       setStack(prev => [...prev, entry])
     },
@@ -59,10 +67,26 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
   )
 
   const closeSheet = useCallback(() => {
-    setStack(prev => prev.slice(0, -1))
+    setStack(prev => {
+      if (prev.length === 0) return prev
+      const next = [...prev]
+      const last = next[next.length - 1]
+      if (last?.closing) return prev
+      next[next.length - 1] = { ...last, closing: true }
+      return next
+    })
   }, [])
 
-  const closeAll = useCallback(() => setStack([]), [])
+  const closeAll = useCallback(() => {
+    clearingAllRef.current = true
+    setStack(prev => {
+      if (prev.length === 0) return prev
+      const next = [...prev]
+      const last = next[next.length - 1]
+      next[next.length - 1] = { ...last, closing: true }
+      return next
+    })
+  }, [])
 
   return (
     <BottomSheetContext.Provider value={{ openSheet, closeSheet, closeAll }}>
@@ -72,12 +96,27 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
           key={sheet.key}
           open={idx === stack.length - 1}
           onClose={() => {
+            // вызывается ПОСЛЕ завершения анимации внутри BottomSheet
             sheet.onClose?.()
-            closeSheet()
+            setStack(prev => {
+              const i = prev.findIndex(s => s.key === sheet.key)
+              if (i === -1) return prev
+              if (clearingAllRef.current) {
+                // вариант 1А: после закрытия верхнего — очистить весь стек
+                return []
+              }
+              const next = [...prev]
+              next.splice(i, 1)
+              return next
+            })
+            if (clearingAllRef.current) {
+              clearingAllRef.current = false
+            }
           }}
           title={sheet.bottomSheetTitle}
           leftButton={sheet.leftButton}
           buttons={sheet.buttons}
+          doCloseAnimation={!!sheet.closing}
         >
           {sheet.content}
         </BottomSheet>
