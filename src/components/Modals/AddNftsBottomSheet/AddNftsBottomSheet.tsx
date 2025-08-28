@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from "react"
+import { FC, useMemo, useState } from "react"
 
 import styles from "./AddNftsBottomSheet.module.scss"
 // import { Tabs } from "@/components/common/Tabs/Tabs"

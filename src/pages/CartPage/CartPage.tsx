@@ -198,7 +198,7 @@ export const CartPage: FC = () => {
     closeAll()
     try {
       await cartConfirm({ item_ids: Array.from(selectedIds) }).unwrap()
-      const order = await cartCheckoutSelected({
+      await cartCheckoutSelected({
         item_ids: Array.from(selectedIds),
       }).unwrap()
       dispatch(

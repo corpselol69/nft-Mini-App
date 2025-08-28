@@ -36,9 +36,11 @@ const groupActivitiesByDate = (items: ActivityItem[]) => {
   return groups
 }
 
-export const TransactionBlock: FC<TransactionHistoryProps> = ({
-  onTransactionClick,
-}) => {
+export const TransactionBlock: FC<TransactionHistoryProps> = (
+  {
+    // onTransactionClick,
+  }
+) => {
   const didFetch = useRef(false)
 
   const { data, isLoading, refetch } = useActivityQuery(
