@@ -12,6 +12,8 @@ import { useCreateListingMutation } from "@/api/endpoints/listings"
 import { ErrorBottomSheet } from "../ErrorBottomSheet/ErrorBottomSheet"
 import { SuccessBottomSheet } from "../SuccessBottomSheet/SuccessBottomSheet"
 import { NftPreview } from "@/components/common/NftPreview/NftPreview"
+import Icon from "@/components/common/Icon/Icon"
+import AddIcon from "@/static/icons/icn-add.svg"
 
 type Nft = {
   id: string
@@ -180,9 +182,15 @@ export const SellNftModal: FC<Props> = ({ nfts, onSuccess }) => {
           />
         ))}
 
-      <Button type="text" onClick={handleAddClick}>
-        Добавить NFT
-      </Button>
+      <div className={styles.addBtnWrapper}>
+        <Button
+          type="text"
+          onClick={handleAddClick}
+          rightIcon={<Icon color="active" src={AddIcon} />}
+        >
+          Добавить NFT
+        </Button>
+      </div>
 
       <Button
         type="primary"
