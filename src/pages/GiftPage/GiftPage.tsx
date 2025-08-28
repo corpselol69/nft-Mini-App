@@ -40,6 +40,7 @@ import {
   useCartConfirmMutation,
 } from "@/api/endpoints/cart"
 import { ErrorBottomSheet } from "@/components/Modals/ErrorBottomSheet/ErrorBottomSheet"
+import { ConfirmBuyNftBottomSheet } from "@/components/Modals/ConfirmBuyNftBottomSheet/ConfirmBuyNftBottomSheet"
 
 type Filters = {
   search?: string
@@ -57,7 +58,7 @@ export const GiftPage: FC<IGiftPageProps> = () => {
 
   const { model_id } = useParams<{ model_id: string }>()
 
-  const { openSheet, closeAll } = useBottomSheet()
+  const { openSheet, closeAll, closeSheet } = useBottomSheet()
   const { isMarket } = useOutletContext<{ isMarket: boolean }>()
 
   const { data: cart } = useGetMyCartQuery()
@@ -152,6 +153,27 @@ export const GiftPage: FC<IGiftPageProps> = () => {
     navigate(`${cardId}`)
   }
 
+  const confirmBuy = (opts: { price: number; quantity?: string }) =>
+    new Promise<boolean>(resolve => {
+      openSheet(
+        <ConfirmBuyNftBottomSheet
+          nftPrice={Number(formatAmount(String(opts.price)))}
+          quantity={opts.quantity ?? "1"}
+          onBuy={() => {
+            closeAll()
+            resolve(true)
+          }}
+          onCancel={() => {
+            closeSheet()
+            resolve(false)
+          }}
+        />,
+        {
+          bottomSheetTitle: `${t("buy_nft")}`,
+        }
+      )
+    })
+
   const handleBuy = async ({
     listing_id,
     price,
@@ -160,6 +182,9 @@ export const GiftPage: FC<IGiftPageProps> = () => {
     price: number
   }) => {
     try {
+      const confirmed = await confirmBuy({ price, quantity: "1" })
+      if (!confirmed) return
+
       const isBalanceEnough = Number(balance?.available) >= price
       if (!isBalanceEnough) {
         openSheet(
